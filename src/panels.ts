@@ -1,7 +1,7 @@
 import type { Box } from './box.ts';
 import type { Choice } from './brushes.ts';
 import { PALETTE, RED } from './colors.ts';
-import type { Tongue } from './desk.ts';
+import type { Ears, Tongue } from './desk.ts';
 import { button, connected, dock, element, size, titled } from './elements.ts';
 import { ICONS } from './icons.ts';
 import { Layout } from './layout.ts';
@@ -23,6 +23,8 @@ export interface Acts {
   equip(tool: Tool): void;
   dye(color: string): void;
   thick(width: number): void;
+  listens(): Promise<Ears>;
+  film(ears: Ears): void;
   languages(): Promise<ReadonlyArray<Tongue>>;
   speak(code: string): void;
 }
@@ -58,6 +60,9 @@ export class Panels {
   private readonly colors = element('div', 'sheet');
   private readonly widths = element('div', 'sheet widths');
   private readonly tongues = element('div', 'sheet tongues');
+  private readonly filming = element('div', 'sheet filming');
+  private readonly sound = element('input', '');
+  private readonly voice = element('input', '');
   private readonly dot = element('span', 'dot');
   private readonly slider = element('input', 'slider');
   private readonly width = element('span', 'width');
@@ -65,6 +70,7 @@ export class Panels {
   private readonly drop = button(ICONS.drop);
   private readonly gauge = button(ICONS.thickness);
   private readonly signs: Sign[] = [];
+  private readonly texts: Sign[] = [];
   private readonly kit: Tool[];
   private words: Words;
 
@@ -108,6 +114,9 @@ export class Panels {
     this.words = words;
     this.hint.textContent = words.hint;
     this.signs.forEach((sign) => titled(sign.node, words[sign.title] + sign.tail));
+    this.texts.forEach((text) => {
+      text.node.textContent = words[text.title];
+    });
   }
 
   /** Shows the state of the session and moves the panels next to the selection. */
@@ -129,7 +138,9 @@ export class Panels {
   /** Removes everything temporary: what the buttons have opened, and the last error. */
   hush(): void {
     this.alarm.classList.add('hidden');
-    [this.colors, this.widths, this.tongues].forEach((sheet) => sheet.classList.remove('open'));
+    [this.colors, this.widths, this.tongues, this.filming].forEach((sheet) =>
+      sheet.classList.remove('open'),
+    );
   }
 
   complain(error: unknown): void {
@@ -194,6 +205,49 @@ export class Panels {
     return this.well(this.signed(this.gauge, 'thickness', ''), this.widths);
   }
 
+  private filmWell(acts: Acts): HTMLElement {
+    const open = connected(button(ICONS.film), () => {
+      acts
+        .listens()
+        .then((ears) => {
+          this.sound.checked = ears.sound;
+          this.sound.disabled = !ears.hears;
+          this.voice.checked = ears.voice;
+          this.unfold(this.filming);
+        })
+        .catch((error: unknown) => this.complain(error));
+    });
+    const start = connected(button(''), () =>
+      acts.film({
+        hears: !this.sound.disabled,
+        sound: this.sound.checked,
+        voice: this.voice.checked,
+      }),
+    );
+    start.className = 'start';
+    this.filming.appendChild(this.tick(this.sound, 'film.sound'));
+    this.filming.appendChild(this.tick(this.voice, 'film.voice'));
+    this.filming.appendChild(this.said(start, 'film.start'));
+    return this.well(this.signed(open, 'film', ''), this.filming);
+  }
+
+  /** A box to tick, with its text. */
+  private tick(box: HTMLInputElement, title: keyof Words): HTMLElement {
+    const row = element('label', 'tick');
+    box.type = 'checkbox';
+    row.dir = 'auto';
+    row.appendChild(box);
+    row.appendChild(this.said(element('span', ''), title));
+    return row;
+  }
+
+  /** The element with the text in the current language. */
+  private said<T extends HTMLElement>(node: T, title: keyof Words): T {
+    node.dir = 'auto';
+    this.texts.push({ node, title, tail: '' });
+    return node;
+  }
+
   private tongueWell(acts: Acts): HTMLElement {
     const open = connected(button(ICONS.language), () => {
       acts
@@ -217,10 +271,14 @@ export class Panels {
       row.textContent = tongue.title;
       this.tongues.appendChild(row);
     });
-    this.toggle(this.tongues);
-    // Upwards from the button; downwards if there is no room above.
+    this.unfold(this.tongues);
+  }
+
+  /** Shows the sheet above the buttons, or below them if there is no room; hides a shown one. */
+  private unfold(sheet: HTMLElement): void {
+    this.toggle(sheet);
     const floor = this.actions.getBoundingClientRect().top;
-    this.tongues.classList.toggle('below', floor < this.tongues.offsetHeight + 16);
+    sheet.classList.toggle('below', floor < sheet.offsetHeight + 16);
   }
 
   private well(key: HTMLElement, sheet: HTMLElement): HTMLElement {
@@ -259,6 +317,7 @@ export class Panels {
       );
     }
     keys.push(
+      this.filmWell(acts),
       this.tongueWell(acts),
       this.signed(
         connected(button(ICONS.close), () => acts.leave()),

@@ -35,6 +35,24 @@ impl Folder {
         Ok(&self.root)
     }
 
+    /// The path to a file that does not exist yet, for what begins at the moment.
+    ///
+    /// # Errors
+    ///
+    /// The folder cannot be created.
+    pub fn vacant(&self, kind: &str, moment: DateTime<Local>) -> Result<PathBuf, Failure> {
+        let stem = self.stem(moment);
+        let root = self.path()?;
+        let mut file = root.join(format!("{stem}.{kind}"));
+        for copy in 2.. {
+            if !file.exists() {
+                break;
+            }
+            file = root.join(format!("{stem} ({copy}).{kind}"));
+        }
+        Ok(file)
+    }
+
     /// Writes the screenshot taken at the moment to a new file and returns the path to it.
     /// Never overwrites existing files.
     ///
@@ -45,7 +63,7 @@ impl Folder {
         if !png.starts_with(SIGNATURE) {
             return Err(Phrase::new("error.picture").into());
         }
-        let stem = format!("{} {}", self.word, moment.format("%Y-%m-%d %H-%M-%S"));
+        let stem = self.stem(moment);
         let root = self.path()?;
         let mut name = format!("{stem}.png");
         for copy in 2.. {
@@ -63,6 +81,11 @@ impl Folder {
             }
         }
         Err("There is no free name for the file".into())
+    }
+
+    /// How names of files begin.
+    fn stem(&self, moment: DateTime<Local>) -> String {
+        format!("{} {}", self.word, moment.format("%Y-%m-%d %H-%M-%S"))
     }
 }
 
@@ -119,6 +142,26 @@ mod tests {
     fn refuses_bytes_that_are_not_png() {
         let root = TempDir::new().unwrap();
         assert!(folder(root.path().to_owned()).store(b"", noon()).is_err());
+    }
+
+    #[test]
+    fn names_film_after_the_moment() {
+        let root = TempDir::new().unwrap();
+        assert!(folder(root.path().to_owned())
+            .vacant("mp4", noon())
+            .unwrap()
+            .ends_with("Screenshot 2026-11-23 12-00-00.mp4"));
+    }
+
+    #[test]
+    fn gives_film_a_name_nobody_has() {
+        let root = TempDir::new().unwrap();
+        let folder = folder(root.path().to_owned());
+        fs::write(folder.vacant("mp4", noon()).unwrap(), "").unwrap();
+        assert!(folder
+            .vacant("mp4", noon())
+            .unwrap()
+            .ends_with("Screenshot 2026-11-23 12-00-00 (2).mp4"));
     }
 
     #[test]

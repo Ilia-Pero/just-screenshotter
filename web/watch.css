@@ -1,0 +1,67 @@
+/* The window with the time of the film and the button that stops it. */
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 7px 8px 7px 14px;
+  border: 1px solid #444;
+  background: #23262d;
+  color: #fff;
+  font: 15px/28px -apple-system, "Segoe UI", Ubuntu, sans-serif;
+  white-space: nowrap;
+  cursor: move;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.spot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: 9px;
+  border-radius: 50%;
+  background: #e5332a;
+}
+
+/* There is no sound device: a ring in place of the spot. */
+.spot.deaf {
+  width: 8px;
+  height: 8px;
+  border: 2px solid #f28c28;
+  background: none;
+}
+
+.time {
+  display: inline-block;
+  min-width: 46px;
+}
+
+button {
+  float: right;
+  height: 28px;
+  margin: 0;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 4px;
+  background: #e5332a;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  line-height: 28px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #c62820;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}

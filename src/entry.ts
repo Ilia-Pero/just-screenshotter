@@ -25,8 +25,15 @@ export class Entry implements Typing {
       const finish = (typed: string): void => {
         if (open) {
           open = false;
+          document.removeEventListener('mousedown', outside, true);
           resolve(typed);
           field.remove();
+        }
+      };
+      // Besides blur: a window without the focus does not fire it.
+      const outside = (event: MouseEvent): void => {
+        if (event.target !== field) {
+          finish(field.value);
         }
       };
       field.type = 'text';
@@ -46,6 +53,7 @@ export class Entry implements Typing {
         }
       });
       field.addEventListener('blur', () => finish(field.value));
+      document.addEventListener('mousedown', outside, true);
       this.layer.appendChild(field);
       field.focus();
       field.select();

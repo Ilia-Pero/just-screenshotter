@@ -139,17 +139,52 @@ body {
   vertical-align: top;
 }
 
-.tongues {
+.actions .sheet {
   top: auto;
   right: -3px;
   bottom: 100%;
   margin: 0 0 8px;
 }
 
-.tongues.below {
+.actions .sheet.below {
   top: 100%;
   bottom: auto;
   margin: 8px 0 0;
+}
+
+.filming {
+  padding: 8px 10px;
+  color: #222;
+  line-height: 1.4;
+}
+
+.tick {
+  display: block;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.tick input {
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+.start {
+  display: block;
+  width: 100%;
+  margin: 4px 0 0;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 4px;
+  background: #e5332a;
+  color: #fff;
+  font: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.start:hover {
+  background: #c62820;
 }
 
 .tongue {

@@ -14,14 +14,16 @@
 
 ![The editor over a sample screen: a marker, a frame, an arrow and a label](docs/editor.png)
 
-Press Print Screen, select an area, draw on it, then copy, save or upload the picture. Between screenshots the program only waits for the key: it has no windows, no timers, and takes no processor time.
+Press Print Screen, select an area, draw on it, then copy, save or upload the picture, or record the area as video. Between screenshots the program only waits for the key: it has no windows, no timers, and takes no processor time.
 
 ## What it does
 
 - Takes a screenshot of all monitors and opens the editor over them.
 - Draws with a pencil, a line, an arrow, a frame, a marker and text in eight colors.
+- Changes what is already drawn: a click picks a mark, and then you drag it or its ends, set its thickness and color, type its text anew or delete it.
 - Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
-- Speaks 12 languages. At first it speaks the language of the system; another one is chosen in the menu.
+- Records the area as video with sound: MP4 on Windows, MOV on macOS, WebM on Linux. You choose whether to record the sound of the computer and the microphone; on macOS, only the microphone for now. The button Stop, the shortcut or the icon in the tray ends the recording.
+- Speaks 12 languages. The language is chosen in the editor, in the menu of the icon and in the installer for Windows; until then it is the language of the system.
 - Sends nothing anywhere by itself: there is no account, no telemetry and no update check. It uses the network only to upload a picture to the server you have set.
 
 ## Keys in the editor
@@ -32,9 +34,12 @@ Press Print Screen, select an area, draw on it, then copy, save or upload the pi
 | Ctrl+S | saves the area to `Pictures/Screenshots` |
 | Ctrl+U | uploads the area, the link goes to the clipboard |
 | Ctrl+Z | undoes the last drawing |
+| Delete | deletes the picked mark |
 | Esc | closes the editor |
 
 On macOS, ⌘ takes the place of Ctrl.
+
+Marks are picked when no tool is chosen. A double click or Enter changes a text. The mouse wheel changes the thickness.
 
 The menu of the tray icon has the shortcut, the folder, the language, the server address and starting with the system. Starting the program for the second time also takes a screenshot.
 
@@ -48,15 +53,17 @@ Measured on 2026-11-24 on Windows Server 2022, a 1920 × 1080 screen, the releas
 | Memory at rest | 14 MB before the first screenshot, 25 MB after seven |
 | Processes at rest | 1 |
 | From the key press to the editor | 0.61–0.75 s in seven runs |
-| Size of the program | 5.0 MB |
+| Size of the program | 5.2 MB |
 
 The editor takes this long to open because its window is created for every screenshot and destroyed after it. This is the price of zero load at rest.
+
+Video is recorded by a separate process, which is gone with all its memory when the recording ends. On this server, which has no video card, 30 frames a second of 1920 × 1080 take one processor core and 207 MB, of 800 × 600 take 0.4 of a core and 78 MB. A video card that encodes H.264 takes this work over; that has not been measured yet.
 
 ## Status
 
 | System | State |
 | --- | --- |
-| Windows | Works on Windows Server 2022 with one monitor. Not checked on Windows 10 and 11 yet. |
+| Windows | Works on Windows Server 2022 with one monitor. Video is checked there too; recording of sound from devices is not, because the server has none. Not checked on Windows 10 and 11 yet. |
 | macOS 10.13+ | Builds, passes the tests. Nobody has run it yet. |
 | Ubuntu 24.04+ | Builds, passes the tests. Nobody has run it yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
 

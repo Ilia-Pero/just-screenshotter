@@ -14,14 +14,16 @@
 
 ![Der Editor über einem Beispielbildschirm: Marker, Rahmen, Pfeil und Text](editor.png)
 
-Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und kopieren, speichern oder senden Sie das Bild. Zwischen den Aufnahmen wartet das Programm nur auf die Taste: Es hat keine Fenster, keine Timer und belegt den Prozessor nicht.
+Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und kopieren, speichern oder senden Sie das Bild oder nehmen Sie den Bereich als Video auf. Zwischen den Aufnahmen wartet das Programm nur auf die Taste: Es hat keine Fenster, keine Timer und belegt den Prozessor nicht.
 
 ## Was es kann
 
 - Nimmt alle Bildschirme auf und öffnet den Editor darüber.
 - Zeichnet mit Stift, Linie, Pfeil, Rahmen, Marker und Text in acht Farben.
+- Ändert bereits Gezeichnetes: Ein Klick wählt eine Markierung, dann ziehen Sie sie oder ihre Enden, ändern Stärke und Farbe, tippen den Text neu oder löschen sie.
 - Kopiert das Bild, speichert es als PNG oder lädt es auf [Ihren eigenen Server](../server/README.md) und kopiert den Link.
-- Spricht 12 Sprachen. Zuerst die Sprache des Systems; eine andere wird im Menü gewählt.
+- Nimmt den Bereich als Video mit Ton auf: MP4 unter Windows, MOV unter macOS, WebM unter Linux. Sie wählen, ob der Ton des Computers und das Mikrofon aufgenommen werden; unter macOS vorerst nur das Mikrofon. Die Schaltfläche „Beenden“, die Tastenkombination oder das Symbol beendet die Aufnahme.
+- Spricht 12 Sprachen. Die Sprache wird im Editor, im Menü des Symbols und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
 - Sendet von sich aus nichts: kein Konto, keine Telemetrie, keine Suche nach Updates. Das Netz wird nur genutzt, um ein Bild auf den von Ihnen angegebenen Server zu laden.
 
 ## Tasten im Editor
@@ -32,9 +34,12 @@ Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und ko
 | Ctrl+S | speichert den Bereich in `Bilder/Screenshots` |
 | Ctrl+U | lädt den Bereich hoch, der Link kommt in die Zwischenablage |
 | Ctrl+Z | macht die letzte Zeichnung rückgängig |
+| Delete | löscht die gewählte Markierung |
 | Esc | schließt den Editor |
 
 Unter macOS ⌘ statt Strg.
+
+Markierungen werden gewählt, wenn kein Werkzeug aktiv ist. Ein Doppelklick oder Enter ändert einen Text. Das Mausrad ändert die Stärke.
 
 Im Menü des Symbols in der Taskleiste stehen die Tastenkombination, der Ordner, die Sprache, die Serveradresse und der Start mit dem System. Auch ein zweiter Start des Programms macht einen Screenshot.
 
@@ -48,15 +53,17 @@ Gemessen am 24.11.2026 unter Windows Server 2022, Bildschirm 1920 × 1080, optim
 | Speicher im Ruhezustand | 14 MB vor der ersten Aufnahme, 25 MB nach sieben |
 | Prozesse im Ruhezustand | 1 |
 | Vom Tastendruck bis zum Editor | 0,61–0,75 s in sieben Läufen |
-| Größe des Programms | 5,0 MB |
+| Größe des Programms | 5,2 MB |
 
 Der Editor braucht diese Zeit, weil sein Fenster für jede Aufnahme erstellt und danach zerstört wird. Das ist der Preis für null Last im Ruhezustand.
+
+Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher verschwindet. Auf diesem Server ohne Grafikkarte belegen 30 Bilder pro Sekunde bei 1920 × 1080 einen Prozessorkern und 207 MB, bei 800 × 600 0,4 Kerne und 78 MB. Eine Grafikkarte, die H.264 kodiert, übernimmt diese Arbeit; das ist noch nicht gemessen.
 
 ## Stand
 
 | System | Stand |
 | --- | --- |
-| Windows | Funktioniert unter Windows Server 2022 mit einem Bildschirm. Unter Windows 10 und 11 noch nicht geprüft. |
+| Windows | Funktioniert unter Windows Server 2022 mit einem Bildschirm. Auch Video wurde dort geprüft; die Tonaufnahme von Geräten nicht, weil der Server keine hat. Unter Windows 10 und 11 noch nicht geprüft. |
 | macOS 10.13+ | Lässt sich bauen und besteht die Tests. Noch niemand hat es gestartet. |
 | Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests. Noch niemand hat es gestartet. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
 

@@ -183,6 +183,11 @@ export class Session {
     return this.box;
   }
 
+  /** The whole screenshot. */
+  sheet(): Box {
+    return this.shot.bounds();
+  }
+
   /** The movement that starts when the mouse button is pressed at the point. */
   press(at: Point): Gesture {
     if (this.box.blank()) {

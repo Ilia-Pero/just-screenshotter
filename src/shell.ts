@@ -1,5 +1,6 @@
+import type { Box } from './box.ts';
 import type { Bridge } from './bridge.ts';
-import type { Desk, Tongue } from './desk.ts';
+import type { Desk, Ears, Tongue } from './desk.ts';
 import { developed } from './photo.ts';
 import type { Shot } from './shot.ts';
 import type { Words } from './words.ts';
@@ -32,6 +33,26 @@ export class Shell implements Desk {
 
   share(png: Blob): Promise<void> {
     return this.bytes(png).then((data) => this.bridge.invoke<void>('share', data));
+  }
+
+  listens(): Promise<Ears> {
+    return this.bridge.invoke<Ears>('listens');
+  }
+
+  film(area: Box, sheet: Box, ears: Ears): Promise<void> {
+    return this.bridge.invoke<void>('film', {
+      wish: {
+        area: {
+          left: Math.round(area.left()),
+          top: Math.round(area.top()),
+          width: Math.round(area.width()),
+          height: Math.round(area.height()),
+        },
+        sheet: [sheet.width(), sheet.height()],
+        sound: ears.sound,
+        voice: ears.voice,
+      },
+    });
   }
 
   languages(): Promise<ReadonlyArray<Tongue>> {

@@ -1,4 +1,4 @@
-import type { Desk, Tongue } from './desk.ts';
+import type { Desk, Ears, Tongue } from './desk.ts';
 import type { Gesture } from './gesture.ts';
 import { Rest } from './gesture.ts';
 import {
@@ -102,6 +102,22 @@ export class Overlay implements Acts {
 
   thick(width: number): void {
     this.alter((session) => session.thick(width));
+  }
+
+  listens(): Promise<Ears> {
+    return this.desk.listens();
+  }
+
+  film(ears: Ears): void {
+    const session = this.gesture.now();
+    if (this.mode !== 'idle' || session.place().blank()) {
+      return;
+    }
+    this.mode = 'busy';
+    this.desk.film(session.place(), session.sheet(), ears).catch((error: unknown) => {
+      this.mode = 'idle';
+      this.panels.complain(error);
+    });
   }
 
   languages(): Promise<ReadonlyArray<Tongue>> {

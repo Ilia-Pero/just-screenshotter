@@ -8,14 +8,33 @@ use serde::{Deserialize, Serialize};
 
 use crate::Failure;
 
-/// The key that takes a screenshot, as Tauri spells it, the folder for screenshots,
-/// and the code of the language. An empty code means the language of the system.
+/// The key that takes a screenshot, as Tauri spells it, the folder for screenshots, the code of
+/// the language, which is empty for the language of the system, and what to record with video.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Settings {
     pub hotkey: String,
     pub folder: PathBuf,
     #[serde(default)]
     pub language: String,
+    #[serde(default)]
+    pub ears: Listened,
+}
+
+/// What is recorded together with video: the sound of the computer, and the microphone.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct Listened {
+    pub sound: bool,
+    pub voice: bool,
+}
+
+/// The microphone is off until a person turns it on.
+impl Default for Listened {
+    fn default() -> Self {
+        Self {
+            sound: true,
+            voice: false,
+        }
+    }
 }
 
 impl Settings {
@@ -33,6 +52,15 @@ impl Settings {
     pub fn with_folder(&self, folder: PathBuf) -> Settings {
         Settings {
             folder,
+            ..self.clone()
+        }
+    }
+
+    /// The same settings with something else recorded together with video.
+    #[must_use]
+    pub fn with_ears(&self, ears: Listened) -> Settings {
+        Settings {
+            ears,
             ..self.clone()
         }
     }
@@ -96,13 +124,14 @@ mod tests {
 
     use tempfile::TempDir;
 
-    use super::{Settings, SettingsFile};
+    use super::{Listened, Settings, SettingsFile};
 
     fn initial() -> Settings {
         Settings {
             hotkey: "PrintScreen".to_owned(),
             folder: PathBuf::from("shots"),
             language: String::new(),
+            ears: Listened::default(),
         }
     }
 
@@ -121,6 +150,22 @@ mod tests {
         let root = TempDir::new().unwrap();
         file(&root).write(&initial().with_hotkey("F9")).unwrap();
         assert_eq!(file(&root).read().unwrap().hotkey, "F9");
+    }
+
+    #[test]
+    fn does_not_record_the_microphone_at_first() {
+        assert!(!initial().ears.voice);
+    }
+
+    #[test]
+    fn remembers_what_to_record() {
+        let root = TempDir::new().unwrap();
+        let ears = Listened {
+            sound: false,
+            voice: true,
+        };
+        file(&root).write(&initial().with_ears(ears)).unwrap();
+        assert_eq!(file(&root).read().unwrap().ears, ears);
     }
 
     #[test]

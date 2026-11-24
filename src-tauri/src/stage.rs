@@ -6,7 +6,7 @@ use std::thread;
 use std::time::{Duration, Instant};
 
 use screenshotter_capture::{Failure, Native, Patch, Screen};
-use tauri::{AppHandle, Manager, Monitor, WebviewUrl, WebviewWindow, WebviewWindowBuilder};
+use tauri::{AppHandle, Manager, Monitor, WebviewUrl, WebviewWindow, WebviewWindowBuilder, Wry};
 
 use crate::album::Album;
 
@@ -130,18 +130,31 @@ fn overlay(app: &AppHandle, label: &str, monitor: &Monitor) -> Result<(), Failur
         .skip_taskbar(true)
         .always_on_top(true)
         .visible(false);
-    // Debug builds only: a port through which a test drives the editor without touching
-    // the mouse and the keyboard. The first argument repeats what Tauri sets by itself.
-    #[cfg(all(debug_assertions, target_os = "windows"))]
-    let builder = match std::env::var("SCREENSHOTTER_DEBUG_PORT") {
+    let window = observed(builder).build()?;
+    cover(&window, monitor)
+}
+
+/// The window through which a test drives the program without touching the mouse and the keyboard.
+/// Debug builds only. The first argument repeats what Tauri sets by itself.
+#[cfg(all(debug_assertions, target_os = "windows"))]
+pub fn observed(
+    builder: WebviewWindowBuilder<'_, Wry, AppHandle>,
+) -> WebviewWindowBuilder<'_, Wry, AppHandle> {
+    match std::env::var("SCREENSHOTTER_DEBUG_PORT") {
         Ok(port) => builder.additional_browser_args(&format!(
             "--disable-features=msWebOOUI,msPdfOOUI,msSmartScreenProtection \
              --remote-debugging-port={port}"
         )),
         Err(_) => builder,
-    };
-    let window = builder.build()?;
-    cover(&window, monitor)
+    }
+}
+
+/// The window as it is: tests drive debug builds only.
+#[cfg(not(all(debug_assertions, target_os = "windows")))]
+pub fn observed(
+    builder: WebviewWindowBuilder<'_, Wry, AppHandle>,
+) -> WebviewWindowBuilder<'_, Wry, AppHandle> {
+    builder
 }
 
 /// Stretches the window over the monitor.

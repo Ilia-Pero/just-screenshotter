@@ -1,17 +1,20 @@
 //! Commands that windows of the program call.
 
 use std::collections::HashMap;
+use std::thread;
 
 use chrono::Local;
+use screenshotter_film::{Area, Order};
 use screenshotter_phrase::{Language, Phrase, LANGUAGES};
-use screenshotter_store::Failure;
+use screenshotter_store::{Failure, Listened};
 use screenshotter_upload::Server;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use tauri::ipc::{InvokeBody, Request, Response};
-use tauri::{AppHandle, State, WebviewWindow};
+use tauri::{AppHandle, Manager, State, WebviewWindow};
 
 use crate::album::Album;
-use crate::{clipboard, files, stage, tray};
+use crate::studio::{Progress, Studio, KIND};
+use crate::{clipboard, files, stage, tell, tray};
 
 /// The picture sent by the editor. Old `WebKit` does not pass the body of a request,
 /// and then Tauri sends the bytes as a list of numbers.
@@ -83,6 +86,110 @@ pub fn share(app: AppHandle, window: WebviewWindow, request: Request<'_>) -> Res
 #[tauri::command]
 pub fn words() -> HashMap<String, String> {
     Language::current().texts()
+}
+
+/// What can be recorded together with video, and what was chosen the last time.
+#[derive(Serialize)]
+pub struct Listens {
+    /// Whether the sound of the computer can be recorded.
+    hears: bool,
+    sound: bool,
+    voice: bool,
+}
+
+/// What to offer before filming.
+///
+/// @todo #1 On macOS only the microphone is recorded. Since macOS 13 `ScreenCaptureKit` gives
+///  the sound of the computer too: film through it there, and offer the sound.
+#[tauri::command]
+pub fn listens(app: AppHandle) -> Result<Listens, String> {
+    let ears = files::settings(&app)
+        .and_then(|file| file.read())
+        .map_err(|failure| failure.to_string())?
+        .ears;
+    let hears = !cfg!(target_os = "macos");
+    Ok(Listens {
+        hears,
+        sound: hears && ears.sound,
+        voice: ears.voice,
+    })
+}
+
+/// What a person wants to film.
+#[derive(Deserialize)]
+pub struct Wish {
+    /// The area on the screenshot.
+    area: Area,
+    /// The size of the screenshot.
+    sheet: (u32, u32),
+    sound: bool,
+    voice: bool,
+}
+
+/// Closes the editor and films the area. What goes wrong is told by the program itself, because
+/// there is no editor any more.
+#[tauri::command(async)]
+pub fn film(app: AppHandle, window: WebviewWindow, wish: Wish) -> Result<(), String> {
+    let order = order(&app, &window, &wish).map_err(|failure| failure.to_string())?;
+    thread::spawn(move || {
+        let started = stage::close(&app).and_then(|()| app.state::<Studio>().start(&app, &order));
+        // There is nothing to tell if a person has changed their mind.
+        if let Some(text) = started
+            .err()
+            .map(|failure| failure.to_string())
+            .filter(|text| !text.is_empty())
+        {
+            tell(&app, &text);
+        }
+    });
+    Ok(())
+}
+
+/// The order for filming on the monitor where the window is. Remembers what to record.
+fn order(app: &AppHandle, window: &WebviewWindow, wish: &Wish) -> Result<Order, Failure> {
+    let file = files::settings(app)?;
+    file.write(&file.read()?.with_ears(Listened {
+        sound: wish.sound,
+        voice: wish.voice,
+    }))?;
+    let monitor = window.current_monitor()?.ok_or("There is no monitor")?;
+    let size = (monitor.size().width, monitor.size().height);
+    Ok(Order {
+        monitor: Area {
+            left: monitor.position().x,
+            top: monitor.position().y,
+            width: size.0,
+            height: size.1,
+        },
+        scale: monitor.scale_factor(),
+        area: wish.area.scaled(wish.sheet, size),
+        sound: wish.sound,
+        voice: wish.voice,
+        file: files::films(app)?.vacant(KIND, Local::now())?,
+    })
+}
+
+/// How filming is going.
+#[tauri::command]
+pub fn progress(app: AppHandle, studio: State<'_, Studio>) -> Progress {
+    let sound = files::settings(&app)
+        .and_then(|file| file.read())
+        .is_ok_and(|settings| settings.ears.sound);
+    studio.progress(sound && !cfg!(target_os = "macos"))
+}
+
+/// Stops filming.
+#[tauri::command]
+pub fn cease(studio: State<'_, Studio>) {
+    studio.stop();
+}
+
+/// Lets a person drag the window.
+#[tauri::command]
+pub fn drag(window: WebviewWindow) -> Result<(), String> {
+    window
+        .start_dragging()
+        .map_err(|failure| failure.to_string())
 }
 
 /// A language as the editor sees it. An empty code means the language of the system.

@@ -9,11 +9,16 @@ mod commands;
 mod files;
 mod hotkey;
 mod stage;
+mod studio;
 mod tray;
 
+use std::env;
 use std::error::Error;
+use std::ffi::OsString;
+use std::process::ExitCode;
 use std::thread;
 
+use screenshotter_film::Native;
 use screenshotter_phrase::{Language, Phrase};
 use screenshotter_store::Failure;
 use tauri::{AppHandle, Builder, Manager, RunEvent, Wry};
@@ -23,6 +28,7 @@ use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
 
 use crate::album::Album;
 use crate::stage::Stage;
+use crate::studio::Studio;
 
 /// Shows a person what has gone wrong.
 fn tell(app: &AppHandle, text: &str) {
@@ -34,8 +40,11 @@ fn tell(app: &AppHandle, text: &str) {
 }
 
 /// Takes a screenshot in a thread of its own: on Windows a window cannot be created
-/// from an event handler.
+/// from an event handler. If a film is being made, stops it instead.
 fn snap(app: &AppHandle) {
+    if app.state::<Studio>().stop() {
+        return;
+    }
     let app = app.clone();
     thread::spawn(move || {
         if let Err(failure) = app.state::<Stage>().open(&app) {
@@ -87,7 +96,22 @@ fn with_clipboard(builder: Builder<Wry>) -> Builder<Wry> {
     builder.plugin(tauri_plugin_clipboard_manager::init())
 }
 
-fn main() -> Result<(), Box<dyn Error>> {
+fn main() -> ExitCode {
+    let arguments: Vec<OsString> = env::args_os().skip(1).collect();
+    if let Some(code) = screenshotter_film::called(&arguments, &Native, Language::choose) {
+        return code;
+    }
+    match run() {
+        Ok(()) => ExitCode::SUCCESS,
+        Err(failure) => {
+            eprintln!("{failure}");
+            ExitCode::FAILURE
+        }
+    }
+}
+
+/// Runs the program until a person quits.
+fn run() -> Result<(), Box<dyn Error>> {
     with_clipboard(Builder::default())
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
             snap(app);
@@ -109,6 +133,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         )
         .manage(Album::default())
         .manage(Stage::default())
+        .manage(Studio::default())
         .invoke_handler(tauri::generate_handler![
             commands::shot,
             commands::reveal,
@@ -118,6 +143,11 @@ fn main() -> Result<(), Box<dyn Error>> {
             commands::share,
             commands::leave,
             commands::words,
+            commands::listens,
+            commands::film,
+            commands::progress,
+            commands::cease,
+            commands::drag,
             commands::languages,
             commands::speak,
             commands::server,

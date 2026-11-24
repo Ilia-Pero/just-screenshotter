@@ -1,3 +1,4 @@
+import type { Box } from './box.ts';
 import type { Shot } from './shot.ts';
 import type { Words } from './words.ts';
 
@@ -8,6 +9,14 @@ export interface Tongue {
   readonly title: string;
   /** True if the program speaks it because a person has chosen so. */
   readonly on: boolean;
+}
+
+/** What is recorded together with video. */
+export interface Ears {
+  /** Whether the sound of the computer can be recorded at all. */
+  readonly hears: boolean;
+  readonly sound: boolean;
+  readonly voice: boolean;
 }
 
 /**
@@ -25,6 +34,10 @@ export interface Desk {
   shares(): Promise<boolean>;
   /** Uploads the picture and puts the link on the clipboard. */
   share(png: Blob): Promise<void>;
+  /** What can be recorded together with video, and what was recorded the last time. */
+  listens(): Promise<Ears>;
+  /** Closes the editor and films the area of the screen. The sheet is the whole screenshot. */
+  film(area: Box, sheet: Box, ears: Ears): Promise<void>;
   /** Languages to choose from. */
   languages(): Promise<ReadonlyArray<Tongue>>;
   /** Makes the whole program speak the language with the code. Returns its words. */

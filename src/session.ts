@@ -85,21 +85,16 @@ export class Session {
     );
   }
 
-  /** The session with another thickness: of the picked mark, or of the tool if none is picked. */
+  /** The session with another thickness: of the picked mark and of the tool. */
   thick(width: number): Session {
-    return this.picked()
-      ? this.with(
-          this.box,
-          this.sketch.changed((mark) => mark.tinted(mark.tint().thick(width)), 'thick'),
-        )
-      : new Session(
-          this.shot,
-          this.box,
-          this.sketch,
-          this.tool.thick(width),
-          this.color,
-          this.unit,
-        );
+    return new Session(
+      this.shot,
+      this.box,
+      this.sketch.changed((mark) => mark.tinted(mark.tint().thick(width)), 'thick'),
+      this.tool.thick(width),
+      this.color,
+      this.unit,
+    );
   }
 
   /** The session where no mark is picked. */
@@ -173,6 +168,11 @@ export class Session {
       .reduce((_, mark) => mark.tint().times(1), this.tool.thickness());
   }
 
+  /** The thickness of what the tool draws. Zero if it does not draw. */
+  strength(): number {
+    return this.tool.thickness();
+  }
+
   /** The colour of the picked mark, or of the marks to come if none is picked. */
   hue(): string {
     return this.sketch.picked().reduce((_, mark) => mark.tint().css(), this.color);
@@ -217,6 +217,11 @@ export class Session {
   reword(at: Point, otherwise: Gesture): Gesture {
     const next = this.picking(at);
     return next.worded() ? new Retyping(next) : otherwise;
+  }
+
+  /** What a double click at the point leads to: without a tool, a text is typed anew. */
+  twice(at: Point): Gesture {
+    return this.strength() > 0 ? new Rest(this) : this.reword(at, new Rest(this));
   }
 
   /** Typing the text of the picked mark anew, if it has a text. */

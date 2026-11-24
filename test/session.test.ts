@@ -191,8 +191,12 @@ test('the thickness of the picked mark changes', async () => {
   assert.equal((await pointed()).thick(9).thickness(), 9);
 });
 
-test('a change of the picked mark leaves the tool as it was', async () => {
-  assert.equal((await pointed()).thick(9).released().thickness(), 3);
+test('the next mark is as thick as the picked one has become', async () => {
+  assert.equal((await pointed()).thick(9).released().thickness(), 9);
+});
+
+test('a mark picked without a tool does not bring the thickness back', async () => {
+  assert.equal((await handed()).thick(9).thickness(), 0);
 });
 
 test('without a picked mark, the thickness of the tool changes', async () => {
@@ -241,6 +245,16 @@ test('a picked text is typed anew by a key', async () => {
     (await (await labelled()).rewrite().ended(new Script(''))).marked(),
     false,
   );
+});
+
+test('a double click on a text types it anew when there is no tool', async () => {
+  const bare = (await labelled()).equipped(new Hand());
+  assert.equal((await bare.twice(point(25, 25)).ended(new Script(''))).marked(), false);
+});
+
+test('a double click with the pencil does not touch a text', async () => {
+  const drawing = (await labelled()).equipped(pencil);
+  assert.equal((await drawing.twice(point(25, 25)).ended(new Script(''))).marked(), true);
 });
 
 test('a key does nothing to a picked arrow', async () => {

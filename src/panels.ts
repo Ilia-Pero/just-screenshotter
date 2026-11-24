@@ -338,14 +338,12 @@ export class Panels {
       this.slider.value = String(width);
       this.width.textContent = String(Math.round(width));
     }
-    if (!session.picked()) {
-      this.kit.forEach((tool, index) => {
-        const key = this.tools.children[index];
-        if (key !== undefined && key.classList.contains('on')) {
-          this.kit[index] = tool.thick(width * this.unit);
-        }
-      });
-    }
+    this.kit.forEach((tool, index) => {
+      const key = this.tools.children[index];
+      if (key !== undefined && key.classList.contains('on')) {
+        this.kit[index] = tool.thick(session.strength());
+      }
+    });
   }
 
   private arrange(area: Box): void {

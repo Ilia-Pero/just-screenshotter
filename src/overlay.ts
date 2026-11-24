@@ -163,8 +163,7 @@ export class Overlay implements Acts {
   /** A double click on a text starts typing it anew. */
   private reword(event: MouseEvent): void {
     if (this.mode === 'idle') {
-      const session = this.gesture.now();
-      this.end(session.reword(this.spot(event), new Rest(session)));
+      this.end(this.gesture.now().twice(this.spot(event)));
     }
   }
 
@@ -194,7 +193,12 @@ export class Overlay implements Acts {
       this.undo();
     } else if (DELETE.struck(event) || BACKSPACE.struck(event)) {
       this.drop();
-    } else if (this.mode === 'idle' && (ENTER.struck(event) || PAD_ENTER.struck(event))) {
+    } else if (
+      this.mode === 'idle' &&
+      event.target === document.body &&
+      (ENTER.struck(event) || PAD_ENTER.struck(event))
+    ) {
+      // With the focus on a button, Enter presses the button.
       this.end(this.gesture.now().rewrite());
     } else {
       return;

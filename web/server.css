@@ -1,0 +1,78 @@
+html,
+body {
+  margin: 0;
+}
+
+body {
+  padding: 20px 24px;
+  background: #f4f5f7;
+  color: #1f2328;
+  font: 14px/1.45 -apple-system, "Segoe UI", Ubuntu, sans-serif;
+}
+
+p {
+  margin: 0 0 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 600;
+}
+
+input {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 8px 10px;
+  border: 1px solid #b9bfc8;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+button {
+  padding: 8px 16px;
+  border: 1px solid #2f6fdf;
+  border-radius: 6px;
+  background: #2f6fdf;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #245bbb;
+}
+
+button:focus,
+input:focus {
+  outline: 2px solid #2f6fdf;
+  outline-offset: 1px;
+}
+
+#outcome {
+  margin: 14px 0 0;
+}
+
+#outcome.bad {
+  color: #b3261e;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1b1d21;
+    color: #e6e8eb;
+  }
+
+  input {
+    border-color: #3a3f47;
+    background: #25282d;
+  }
+
+  #outcome.bad {
+    color: #ff8a80;
+  }
+}

@@ -1,0 +1,16 @@
+name: Translation
+description: A mistake in a translation
+labels: [translation]
+body:
+  - type: input
+    id: language
+    attributes:
+      label: Language
+    validations:
+      required: true
+  - type: textarea
+    id: text
+    attributes:
+      label: What is written, and what should be written
+    validations:
+      required: true

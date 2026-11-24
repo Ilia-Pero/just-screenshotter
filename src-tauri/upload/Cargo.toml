@@ -1,0 +1,19 @@
+[package]
+name = "screenshotter-upload"
+version = "0.1.0"
+edition = "2021"
+description = "Uploading a screenshot to a server of one's own"
+license = "MIT"
+publish = false
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+screenshotter-phrase = { path = "../phrase" }
+ureq = { version = "3", default-features = false, features = ["rustls"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints]
+workspace = true

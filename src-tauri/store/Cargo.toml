@@ -1,0 +1,19 @@
+[package]
+name = "screenshotter-store"
+version = "0.1.0"
+edition = "2021"
+description = "What the program keeps on the disk: screenshots and settings"
+license = "MIT"
+publish = false
+
+[dependencies]
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+screenshotter-phrase = { path = "../phrase" }
+
+[dev-dependencies]
+tempfile = "3"
+
+[lints]
+workspace = true

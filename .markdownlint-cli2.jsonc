@@ -1,0 +1,10 @@
+{
+  "config": {
+    "line-length": false,
+    "no-inline-html": false,
+    "first-line-heading": false,
+    "no-duplicate-heading": { "siblings_only": true }
+  },
+  "globs": ["**/*.md"],
+  "ignores": ["**/node_modules/**", "**/target/**", ".github/pull_request_template.md"]
+}

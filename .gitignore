@@ -1,0 +1,6 @@
+node_modules/
+target/
+src-tauri/gen/
+web/*.js
+*.map
+__pycache__/

@@ -1,0 +1,45 @@
+import { Box } from './box.ts';
+import { RED } from './colors.ts';
+import type { Desk } from './desk.ts';
+import { Entry } from './entry.ts';
+import { Rest } from './gesture.ts';
+import { Overlay } from './overlay.ts';
+import { Panels } from './panels.ts';
+import { Point } from './point.ts';
+import { Session } from './session.ts';
+import { Sketch } from './sketch.ts';
+import { Hand } from './tool.ts';
+import type { Words } from './words.ts';
+
+/** A canvas of the given size that covers the window. */
+function easel(root: HTMLElement, sheet: Box): CanvasRenderingContext2D {
+  const canvas = document.createElement('canvas');
+  canvas.className = 'view';
+  canvas.width = sheet.width();
+  canvas.height = sheet.height();
+  root.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  if (ctx === null) {
+    throw new Error('The window has no canvas to draw on');
+  }
+  return ctx;
+}
+
+/** Takes the screenshot from the desktop and opens the editor over it. */
+export function start(desk: Desk, root: HTMLElement, words: Words): Promise<void> {
+  return Promise.all([desk.shot(), desk.shares()]).then((ready) => {
+    const shot = ready[0];
+    const sheet = shot.bounds();
+    const unit = sheet.width() / root.clientWidth;
+    const nothing = new Box(new Point(0, 0), new Point(0, 0));
+    new Overlay(
+      desk,
+      words,
+      easel(root, sheet),
+      unit,
+      new Panels(root, words, unit, ready[1]),
+      new Entry(root, unit),
+      new Rest(new Session(shot, nothing, new Sketch([]), new Hand(), RED, unit)),
+    ).open();
+  });
+}

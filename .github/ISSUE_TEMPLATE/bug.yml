@@ -1,0 +1,28 @@
+name: Bug
+description: Something does not work as it should
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens, and what should happen
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to see it
+      description: Steps, one per line
+    validations:
+      required: true
+  - type: input
+    id: system
+    attributes:
+      label: System
+      placeholder: Windows 11, two monitors, 150% scale
+    validations:
+      required: true
+  - type: input
+    id: commit
+    attributes:
+      label: Commit the program was built from

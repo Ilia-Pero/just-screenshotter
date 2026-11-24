@@ -1,0 +1,69 @@
+[workspace]
+members = ["capture", "phrase", "store", "upload"]
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+
+[workspace.lints.clippy]
+all = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+# Tauri commands take AppHandle, State and windows by value: its macro requires so.
+needless_pass_by_value = "allow"
+
+[package]
+name = "just-screenshotter"
+version = "0.1.0"
+edition = "2021"
+description = "A screenshot tool with zero idle load"
+license = "MIT"
+repository = "https://github.com/Ilia-Pero/just-screenshotter"
+publish = false
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+screenshotter-capture = { path = "capture" }
+screenshotter-phrase = { path = "phrase" }
+screenshotter-store = { path = "store" }
+screenshotter-upload = { path = "upload" }
+serde = { version = "1", features = ["derive"] }
+tauri = { version = "2", features = ["tray-icon", "image-png"] }
+tauri-plugin-autostart = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-global-shortcut = "2"
+tauri-plugin-opener = "2"
+tauri-plugin-single-instance = "2"
+
+[target.'cfg(target_os = "windows")'.dependencies]
+clipboard-win = "5"
+
+[target.'cfg(not(target_os = "windows"))'.dependencies]
+tauri-plugin-clipboard-manager = "2"
+
+[lints]
+workspace = true
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = "s"
+panic = "abort"
+strip = true
+
+# The program is optimised for size, but a person waits for these crates.
+[profile.release.package.screenshotter-capture]
+opt-level = 3
+
+[profile.release.package.png]
+opt-level = 3
+
+[profile.release.package.fdeflate]
+opt-level = 3
+
+[profile.release.package.simd-adler32]
+opt-level = 3
+
+[profile.release.package.crc32fast]
+opt-level = 3

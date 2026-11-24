@@ -1,0 +1,82 @@
+<p align="center"><img src="src-tauri/icons/128x128.png" width="96" height="96" alt=""></p>
+
+<h1 align="center">Just Screenshotter</h1>
+
+<p align="center">A screenshot tool with zero idle load for Windows, macOS and Linux</p>
+
+<p align="center">
+<a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
+<a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+</p>
+
+**English** · [Русский](docs/README.ru.md) · [Español](docs/README.es.md) · [Ελληνικά](docs/README.el.md) · [עברית](docs/README.he.md) · [简体中文](docs/README.zh.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Српски](docs/README.sr.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md)
+
+![The editor over a sample screen: a marker, a frame, an arrow and a label](docs/editor.png)
+
+Press Print Screen, select an area, draw on it, then copy, save or upload the picture. Between screenshots the program only waits for the key: it has no windows, no timers, and takes no processor time.
+
+## What it does
+
+- Takes a screenshot of all monitors and opens the editor over them.
+- Draws with a pencil, a line, an arrow, a frame, a marker and text in eight colors.
+- Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
+- Speaks 12 languages. At first it speaks the language of the system; another one is chosen in the menu.
+- Sends nothing anywhere by itself: there is no account, no telemetry and no update check. It uses the network only to upload a picture to the server you have set.
+
+## Keys in the editor
+
+| Key | What it does |
+| --- | --- |
+| Ctrl+C | copies the area |
+| Ctrl+S | saves the area to `Pictures/Screenshots` |
+| Ctrl+U | uploads the area, the link goes to the clipboard |
+| Ctrl+Z | undoes the last drawing |
+| Esc | closes the editor |
+
+On macOS, ⌘ takes the place of Ctrl.
+
+The menu of the tray icon has the shortcut, the folder, the language, the server address and starting with the system. Starting the program for the second time also takes a screenshot.
+
+## How light it is
+
+Measured on 2026-11-24 on Windows Server 2022, a 1920 × 1080 screen, the release build:
+
+| What | Result |
+| --- | --- |
+| Processor time at rest | 0 ms in 10 s |
+| Memory at rest | 14 MB before the first screenshot, 25 MB after seven |
+| Processes at rest | 1 |
+| From the key press to the editor | 0.61–0.75 s in seven runs |
+| Size of the program | 5.0 MB |
+
+The editor takes this long to open because its window is created for every screenshot and destroyed after it. This is the price of zero load at rest.
+
+## Status
+
+| System | State |
+| --- | --- |
+| Windows | Works on Windows Server 2022 with one monitor. Not checked on Windows 10 and 11 yet. |
+| macOS 10.13+ | Builds, passes the tests. Nobody has run it yet. |
+| Ubuntu 24.04+ | Builds, passes the tests. Nobody has run it yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
+
+## Install
+
+There are no ready-made downloads yet, so the program has to be built. You need Node.js 24 or newer, Rust, on Windows also the Microsoft C++ Build Tools, on Ubuntu also `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+
+```sh
+git clone https://github.com/Ilia-Pero/just-screenshotter
+cd just-screenshotter
+npm ci
+npm run tauri build
+```
+
+The installer appears in `src-tauri/target/release/bundle`. It is not signed, so Windows and macOS will ask whether you trust it.
+
+## Translations
+
+The translations are machine-made and have not been checked by native speakers. If you see a mistake, please correct it in `locales` or in `docs`.
+
+## Contributing and license
+
+How to build, test and change the program: [CONTRIBUTING.md](CONTRIBUTING.md). The license is [MIT](LICENSE).

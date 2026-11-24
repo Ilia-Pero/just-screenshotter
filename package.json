@@ -1,0 +1,26 @@
+{
+  "name": "just-screenshotter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A screenshot tool with zero idle load",
+  "license": "MIT",
+  "repository": "github:Ilia-Pero/just-screenshotter",
+  "scripts": {
+    "lint": "oxlint --deny-warnings src test",
+    "types": "tsc --noEmit",
+    "test": "node --test \"test/**/*.test.ts\"",
+    "bundle": "esbuild app=src/main.ts server=src/server.ts --bundle --minify --charset=utf8 --format=iife --target=safari11 --outdir=web",
+    "rust": "cargo fmt --manifest-path src-tauri/Cargo.toml --all --check && cargo clippy --manifest-path src-tauri/Cargo.toml --workspace --all-targets --locked && cargo test --manifest-path src-tauri/Cargo.toml --locked -p screenshotter-capture -p screenshotter-phrase -p screenshotter-store -p screenshotter-upload",
+    "build": "npm run lint && npm run types && npm test && npm run bundle && npm run rust",
+    "dev": "esbuild app=src/demo.ts --bundle --format=iife --target=safari11 --charset=utf8 --sourcemap --outdir=web --servedir=web --serve=127.0.0.1:5391",
+    "tauri": "tauri"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.12.6",
+    "@types/node": "^26.6.6",
+    "esbuild": "^0.28.2",
+    "oxlint": "^1.95.0",
+    "typescript": "^7.0.2"
+  }
+}

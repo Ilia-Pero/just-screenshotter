@@ -1,6 +1,8 @@
 //! A language the program speaks.
 
 use std::collections::HashMap;
+use std::fs;
+use std::path::Path;
 use std::sync::{PoisonError, RwLock};
 
 /// A language: its code and the text of its file with translations.
@@ -97,6 +99,19 @@ impl Language {
         }
     }
 
+    /// The code of the language chosen in the installer, which leaves it in a file next to
+    /// the program. Empty if there was no choice: only the installer for Windows asks.
+    #[must_use]
+    pub fn installed(folder: &Path) -> String {
+        let code = fs::read_to_string(folder.join("language")).unwrap_or_default();
+        LANGUAGES
+            .iter()
+            .map(|language| language.code)
+            .find(|known| *known == code.trim())
+            .unwrap_or_default()
+            .to_owned()
+    }
+
     /// Makes the whole program speak the language with the code. An empty code returns
     /// the choice to the system.
     pub fn choose(code: &str) {
@@ -119,8 +134,18 @@ impl Language {
 #[cfg(test)]
 mod tests {
     use std::collections::BTreeSet;
+    use std::fs;
+
+    use tempfile::TempDir;
 
     use super::{Language, LANGUAGES};
+
+    /// The language of a program next to which the installer has left the text.
+    fn installed(text: &str) -> String {
+        let folder = TempDir::new().unwrap();
+        fs::write(folder.path().join("language"), text).unwrap();
+        Language::installed(folder.path())
+    }
 
     fn holes(text: &str) -> BTreeSet<&str> {
         text.split('{')
@@ -188,6 +213,21 @@ mod tests {
     #[test]
     fn understands_former_code_of_hebrew() {
         assert_eq!(Language::tagged("iw-IL").code, "he");
+    }
+
+    #[test]
+    fn remembers_what_was_chosen_in_the_installer() {
+        assert_eq!(installed("el\r\n"), "el");
+    }
+
+    #[test]
+    fn does_not_take_an_unknown_language_from_the_installer() {
+        assert_eq!(installed("xx"), "");
+    }
+
+    #[test]
+    fn leaves_the_choice_to_the_system_without_an_installer() {
+        assert_eq!(Language::installed(TempDir::new().unwrap().path()), "");
     }
 
     #[test]

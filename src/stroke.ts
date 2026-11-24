@@ -1,9 +1,11 @@
+import { Box } from './box.ts';
 import type { Ink } from './ink.ts';
-import type { Point } from './point.ts';
-import type { Draft, Shape } from './shape.ts';
+import { Point } from './point.ts';
+import type { Draft, Mark } from './shape.ts';
+import { Span } from './span.ts';
 
 /** A freehand line: pencil or marker. */
-export class Stroke implements Draft {
+export class Stroke implements Draft, Mark {
   private readonly points: ReadonlyArray<Point>;
   private readonly ink: Ink;
 
@@ -34,7 +36,56 @@ export class Stroke implements Draft {
     return new Stroke([...this.points, to], this.ink);
   }
 
-  settled(): Promise<Shape> {
+  settled(): Promise<Mark> {
+    return Promise.resolve(this);
+  }
+
+  touched(at: Point, reach: number): boolean {
+    return this.points.some(
+      (point, index) =>
+        new Span(this.points[index - 1] || point, point).distance(at) <=
+        reach + this.ink.times(0.5),
+    );
+  }
+
+  bounds(): Box {
+    const across = this.points.map((point) => point.x);
+    const down = this.points.map((point) => point.y);
+    return new Box(
+      new Point(Math.min(...across), Math.min(...down)),
+      new Point(Math.max(...across), Math.max(...down)),
+    );
+  }
+
+  /** A freehand line keeps its form, so there is nothing to pull it by. */
+  handles(): ReadonlyArray<Point> {
+    return [];
+  }
+
+  pulled(): Mark {
+    return this;
+  }
+
+  shifted(by: Point): Mark {
+    return new Stroke(
+      this.points.map((point) => point.plus(by)),
+      this.ink,
+    );
+  }
+
+  tint(): Ink {
+    return this.ink;
+  }
+
+  tinted(ink: Ink): Mark {
+    return new Stroke(this.points, ink);
+  }
+
+  worded(): boolean {
+    return false;
+  }
+
+  retyped(): Promise<Mark> {
     return Promise.resolve(this);
   }
 }

@@ -118,6 +118,8 @@ fn main() -> Result<(), Box<dyn Error>> {
             commands::share,
             commands::leave,
             commands::words,
+            commands::languages,
+            commands::speak,
             commands::server,
             commands::appoint
         ])

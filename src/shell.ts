@@ -1,7 +1,8 @@
 import type { Bridge } from './bridge.ts';
-import type { Desk } from './desk.ts';
+import type { Desk, Tongue } from './desk.ts';
 import { developed } from './photo.ts';
 import type { Shot } from './shot.ts';
+import type { Words } from './words.ts';
 
 /** The desktop of the real program: the shell written in Rust owns the screen and the clipboard. */
 export class Shell implements Desk {
@@ -31,6 +32,14 @@ export class Shell implements Desk {
 
   share(png: Blob): Promise<void> {
     return this.bytes(png).then((data) => this.bridge.invoke<void>('share', data));
+  }
+
+  languages(): Promise<ReadonlyArray<Tongue>> {
+    return this.bridge.invoke<ReadonlyArray<Tongue>>('languages');
+  }
+
+  speak(code: string): Promise<Words> {
+    return this.bridge.invoke<Words>('speak', { code });
   }
 
   leave(): Promise<void> {

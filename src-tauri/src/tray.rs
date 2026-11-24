@@ -264,9 +264,11 @@ fn assign(app: &AppHandle, code: &str) -> Result<(), Failure> {
     file.write(&before.with_hotkey(code))
 }
 
-fn speak(app: &AppHandle, code: &str) -> Result<(), Failure> {
+/// Makes the whole program speak the language with the code. An empty code returns the choice
+/// to the system.
+pub fn speak(app: &AppHandle, code: &str) -> Result<(), Failure> {
     let file = settings(app)?;
     file.write(&file.read()?.with_language(code))?;
     Language::choose(code);
-    Ok(())
+    refresh(app)
 }

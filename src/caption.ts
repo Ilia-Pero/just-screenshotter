@@ -1,18 +1,19 @@
 import type { Ink } from './ink.ts';
 import { Label } from './label.ts';
 import type { Point } from './point.ts';
-import type { Draft, Shape, Typing } from './shape.ts';
+import type { Ruler } from './ruler.ts';
+import type { Draft, Mark, Typing } from './shape.ts';
 
 /** The place for a label: there is no text yet, it is typed after the click. */
 export class Caption implements Draft {
   private readonly at: Point;
   private readonly ink: Ink;
-  private readonly size: number;
+  private readonly ruler: Ruler;
 
-  constructor(at: Point, ink: Ink, size: number) {
+  constructor(at: Point, ink: Ink, ruler: Ruler) {
     this.at = at;
     this.ink = ink;
-    this.size = size;
+    this.ruler = ruler;
   }
 
   blank(): boolean {
@@ -27,9 +28,7 @@ export class Caption implements Draft {
     return this;
   }
 
-  settled(typing: Typing): Promise<Shape> {
-    return typing
-      .words(this.at, this.ink, this.size)
-      .then((text) => new Label(this.at, text, this.ink, this.size));
+  settled(typing: Typing): Promise<Mark> {
+    return new Label(this.at, '', this.ink, this.ruler).retyped(typing);
   }
 }

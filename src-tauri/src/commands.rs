@@ -3,7 +3,7 @@
 use std::collections::HashMap;
 
 use chrono::Local;
-use screenshotter_phrase::Language;
+use screenshotter_phrase::{Language, Phrase, LANGUAGES};
 use screenshotter_store::Failure;
 use screenshotter_upload::Server;
 use serde::Serialize;
@@ -11,7 +11,7 @@ use tauri::ipc::{InvokeBody, Request, Response};
 use tauri::{AppHandle, State, WebviewWindow};
 
 use crate::album::Album;
-use crate::{clipboard, files, stage};
+use crate::{clipboard, files, stage, tray};
 
 /// The picture sent by the editor. Old `WebKit` does not pass the body of a request,
 /// and then Tauri sends the bytes as a list of numbers.
@@ -83,6 +83,42 @@ pub fn share(app: AppHandle, window: WebviewWindow, request: Request<'_>) -> Res
 #[tauri::command]
 pub fn words() -> HashMap<String, String> {
     Language::current().texts()
+}
+
+/// A language as the editor sees it. An empty code means the language of the system.
+#[derive(Serialize)]
+pub struct Tongue {
+    code: &'static str,
+    title: String,
+    on: bool,
+}
+
+/// Languages to choose from.
+#[tauri::command]
+pub fn languages(app: AppHandle) -> Result<Vec<Tongue>, String> {
+    let chosen = files::settings(&app)
+        .and_then(|file| file.read())
+        .map_err(|failure| failure.to_string())?
+        .language;
+    let system = Tongue {
+        code: "",
+        title: Phrase::new("menu.system").to_string(),
+        on: chosen.is_empty(),
+    };
+    Ok(std::iter::once(system)
+        .chain(LANGUAGES.iter().map(|language| Tongue {
+            code: language.code,
+            title: language.text("language"),
+            on: language.code == chosen,
+        }))
+        .collect())
+}
+
+/// Makes the whole program speak the language. Returns its words.
+#[tauri::command]
+pub fn speak(app: AppHandle, code: String) -> Result<HashMap<String, String>, String> {
+    tray::speak(&app, &code).map_err(|failure| failure.to_string())?;
+    Ok(words())
 }
 
 /// Closes the editor on all monitors.

@@ -2,7 +2,7 @@ import { Box } from './box.ts';
 import { Point } from './point.ts';
 
 /**
- * A handle on the border of the selection, used to resize it.
+ * A handle on the border of a rectangle, used to resize it.
  * across: -1 is the left side, 0 the middle, 1 the right side.
  * down: -1 is the top side, 0 the middle, 1 the bottom side.
  */
@@ -45,3 +45,15 @@ export class Grip {
     return this.across === this.down ? 'nwse-resize' : 'nesw-resize';
   }
 }
+
+/** All handles of a rectangle. */
+export const GRIPS: ReadonlyArray<Grip> = [
+  new Grip(-1, -1),
+  new Grip(0, -1),
+  new Grip(1, -1),
+  new Grip(-1, 0),
+  new Grip(1, 0),
+  new Grip(-1, 1),
+  new Grip(0, 1),
+  new Grip(1, 1),
+];

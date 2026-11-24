@@ -1,6 +1,6 @@
 //! Where the program keeps its files.
 
-use screenshotter_phrase::Phrase;
+use screenshotter_phrase::{Language, Phrase};
 use screenshotter_store::{Failure, Folder, Settings, SettingsFile};
 use screenshotter_upload::ServerFile;
 use tauri::{AppHandle, Manager};
@@ -9,10 +9,11 @@ use crate::hotkey;
 
 /// Settings until a person changes them.
 pub fn initial(app: &AppHandle) -> Result<Settings, Failure> {
+    let program = std::env::current_exe()?;
     Ok(Settings {
         hotkey: hotkey::INITIAL.to_owned(),
         folder: app.path().picture_dir()?.join("Screenshots"),
-        language: String::new(),
+        language: program.parent().map_or_default(Language::installed),
     })
 }
 

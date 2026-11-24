@@ -1,6 +1,7 @@
 //! Filming: the process that does it, and the window with the time and the button that stops it.
 
 use std::path::{Path, PathBuf};
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Mutex, PoisonError};
 use std::thread;
 use std::time::Instant;
@@ -55,22 +56,24 @@ pub struct Progress {
 #[derive(Default)]
 pub struct Studio {
     film: Mutex<Option<Film>>,
+    /// Filming begins: the system may be asking a person to allow it, and that takes a while.
+    beginning: AtomicBool,
 }
 
 impl Studio {
     /// Starts filming. Does nothing if a film is already being made.
     pub fn start(&self, app: &AppHandle, order: &Order) -> Result<(), Failure> {
-        let mut film = self.film.lock().unwrap_or_else(PoisonError::into_inner);
-        if film.is_some() {
+        if self.busy() || self.beginning.swap(true, Ordering::Relaxed) {
             return Ok(());
         }
-        let (reel, ending, ears) = Reel::start(order, Language::current().code)?;
-        *film = Some(Film {
+        let started = Reel::start(order, Language::current().code);
+        self.beginning.store(false, Ordering::Relaxed);
+        let (reel, ending, ears) = started?;
+        *self.film.lock().unwrap_or_else(PoisonError::into_inner) = Some(Film {
             reel,
             ears,
             began: Instant::now(),
         });
-        drop(film);
         await_ending(app, ending, order.file.clone());
         tray::refresh(app)?;
         watch(app, order)

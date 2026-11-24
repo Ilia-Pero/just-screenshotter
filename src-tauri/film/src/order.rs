@@ -4,6 +4,10 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
+/// The shortest side of a film: the encoder of Windows does not take pictures smaller than 48
+/// pixels, and encoders of video cards want more.
+const LEAST: i64 = 160;
+
 /// A rectangle on the screen, in physical pixels.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct Area {
@@ -14,8 +18,8 @@ pub struct Area {
 }
 
 impl Area {
-    /// The part of the area that lies within a screen of the given size, with even sides:
-    /// video encoders accept no others.
+    /// The part of the area that lies within a screen of the given size. It has even sides,
+    /// because video encoders accept no others, and it grows if it is too small for them.
     #[must_use]
     pub fn within(&self, width: u32, height: u32) -> Area {
         let (left, wide) = cut(self.left, self.width, width);
@@ -75,10 +79,20 @@ impl Area {
 }
 
 /// The beginning and the even length of the part of a segment that lies from zero to the limit.
+/// If the part is too short, it grows, but not beyond the limit.
 fn cut(from: i32, length: u32, limit: u32) -> (i32, u32) {
-    let start = i64::from(from).clamp(0, i64::from(limit));
-    let end = (i64::from(from) + i64::from(length)).clamp(start, i64::from(limit));
-    (i32::try_from(start).unwrap_or(0), span(start, end) / 2 * 2)
+    let limit = i64::from(limit);
+    let start = i64::from(from).clamp(0, limit);
+    let end = (i64::from(from) + i64::from(length)).clamp(start, limit);
+    let long = if start == end {
+        0
+    } else {
+        (end - start).max(LEAST.min(limit)) / 2 * 2
+    };
+    (
+        i32::try_from(start.min(limit - long)).unwrap_or(0),
+        span(0, long),
+    )
 }
 
 /// The length of a segment.
@@ -134,6 +148,30 @@ mod tests {
                 ..AREA
             }
         );
+    }
+
+    #[test]
+    fn grows_if_it_is_too_small_for_video() {
+        assert_eq!(Area { height: 20, ..AREA }.within(1920, 1080).height, 160);
+    }
+
+    #[test]
+    fn grows_away_from_the_edge_of_the_screen() {
+        assert_eq!(
+            Area {
+                left: 1900,
+                width: 20,
+                ..AREA
+            }
+            .within(1920, 1080)
+            .left,
+            1760
+        );
+    }
+
+    #[test]
+    fn does_not_grow_beyond_a_small_screen() {
+        assert_eq!(Area { width: 20, ..AREA }.within(101, 1080).width, 100);
     }
 
     #[test]

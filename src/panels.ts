@@ -152,6 +152,11 @@ export class Panels {
     this.arrange(box.scaled(1 / this.unit));
   }
 
+  /** Whether there is a button that uploads. */
+  uploads(): boolean {
+    return this.shares;
+  }
+
   /** Removes everything temporary: what the buttons have opened, and the last error. */
   hush(): void {
     this.alarm.classList.add('hidden');

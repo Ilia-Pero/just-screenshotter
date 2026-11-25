@@ -20,13 +20,17 @@ const KNOWN = /^(?:Key[A-Z]|Digit\d|Numpad\d|F\d{1,2}|PrintScreen|Pause|ScrollLo
 /**
  * Keys pressed together that a person wants to start an action with.
  * The name of the key does not depend on the layout, except when it is empty: programs, remote
- * desktops and on-screen keyboards send such presses.
+ * desktops and on-screen keyboards send such presses. Windows and X11 know a letter by what is
+ * written on the key, and macOS knows it by the place of the key.
  */
 export class Chord {
   private readonly struck: Struck;
+  private readonly placed: boolean;
 
-  constructor(struck: Struck) {
+  /** placed tells whether the system knows letters by their places. */
+  constructor(struck: Struck, placed: boolean) {
     this.struck = struck;
+    this.placed = placed;
   }
 
   /** True while only keys that are held have been pressed. */
@@ -55,6 +59,9 @@ export class Chord {
   }
 
   private name(): string {
+    if (!this.placed && /^[a-z]$/iu.test(this.struck.key)) {
+      return `Key${this.struck.key.toUpperCase()}`;
+    }
     return this.struck.code === '' ? this.struck.key : this.struck.code;
   }
 }

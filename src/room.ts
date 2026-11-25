@@ -235,7 +235,7 @@ export class Room {
   ): void {
     this.hush();
     const struck = (event: KeyboardEvent): void => {
-      const chord = new Chord(event);
+      const chord = new Chord(event, /Mac/.test(navigator.platform));
       event.preventDefault();
       event.stopPropagation();
       if (event.code === 'Escape') {

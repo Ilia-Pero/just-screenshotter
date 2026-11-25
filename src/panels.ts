@@ -61,6 +61,7 @@ export class Panels {
   private readonly widths = element('div', 'sheet widths');
   private readonly tongues = element('div', 'sheet tongues');
   private readonly filming = element('div', 'sheet filming');
+  private readonly reel = button(ICONS.film);
   private readonly sound = element('input', '');
   private readonly voice = element('input', '');
   private readonly dot = element('span', 'dot');
@@ -206,7 +207,7 @@ export class Panels {
   }
 
   private filmWell(acts: Acts): HTMLElement {
-    const open = connected(button(ICONS.film), () => {
+    connected(this.reel, () => {
       acts
         .listens()
         .then((ears) => {
@@ -228,7 +229,12 @@ export class Panels {
     this.filming.appendChild(this.tick(this.sound, 'film.sound'));
     this.filming.appendChild(this.tick(this.voice, 'film.voice'));
     this.filming.appendChild(this.said(start, 'film.start'));
-    return this.well(this.signed(open, 'film', ''), this.filming);
+    return this.well(this.signed(this.reel, 'film', ''), this.filming);
+  }
+
+  /** Proposes to film the area, as the button does. */
+  propose(): void {
+    this.reel.click();
   }
 
   /** A box to tick, with its text. */

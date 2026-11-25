@@ -1,7 +1,8 @@
-import type { Box } from './box.ts';
-import type { Desk, Ears, Tongue } from './desk.ts';
+import { Box } from './box.ts';
+import type { Desk, Ears, Opening, Tongue } from './desk.ts';
 import { LANGUAGES, spoken } from './languages.ts';
 import { developed } from './photo.ts';
+import { Point } from './point.ts';
 import type { Shot } from './shot.ts';
 import type { Words } from './words.ts';
 
@@ -47,6 +48,11 @@ export class Sandbox implements Desk {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     PANES.forEach((pane) => this.pane(ctx, pane, ratio));
     return developed(canvas.toDataURL('image/png'));
+  }
+
+  opening(): Promise<Opening> {
+    const corner = new Point(0, 0);
+    return Promise.resolve({ area: new Box(corner, corner), film: false });
   }
 
   copy(png: Blob): Promise<void> {

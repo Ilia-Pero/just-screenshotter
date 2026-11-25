@@ -13,12 +13,18 @@ const ACTS: Readonly<Record<string, keyof Words>> = {
 };
 
 /** Names of what the mouse can do. */
-const MICE: ReadonlyArray<readonly [string, keyof Words]> = [
-  ['', 'settings.none'],
-  ['both', 'mouse.both'],
-  ['shift+both', 'mouse.shift'],
-  ['ctrl+both', 'mouse.control'],
+const MICE: ReadonlyArray<{ readonly code: string; readonly title: keyof Words }> = [
+  { code: '', title: 'settings.none' },
+  { code: 'both', title: 'mouse.both' },
+  { code: 'shift+both', title: 'mouse.shift' },
+  { code: 'ctrl+both', title: 'mouse.control' },
 ];
+
+/** A line of a list to choose from. */
+interface Line {
+  readonly code: string;
+  readonly title: string;
+}
 
 function made<K extends keyof HTMLElementTagNameMap>(
   tag: K,
@@ -224,7 +230,7 @@ export class Room {
     show: (after: Promise<State>) => void,
   ): HTMLElement {
     const select = this.select(
-      MICE.map(([code, title]) => [code, words[title]]),
+      MICE.map((line) => ({ code: line.code, title: words[line.title] })),
       row.mouse,
       (mouse) => show(this.cabinet.arrange(chosen(state.acts, row.code, { mouse }))),
     );
@@ -235,7 +241,7 @@ export class Room {
   private tongue(tongues: ReadonlyArray<Tongue>): HTMLElement {
     const on = tongues.filter((tongue) => tongue.on).map((tongue) => tongue.code);
     const select = this.select(
-      tongues.map((tongue) => [tongue.code, tongue.title]),
+      tongues,
       on[0] ?? '',
       (code) => {
         this.cabinet
@@ -249,14 +255,14 @@ export class Room {
   }
 
   private select(
-    options: ReadonlyArray<readonly [string, string]>,
+    options: ReadonlyArray<Line>,
     value: string,
     choose: (value: string) => void,
   ): HTMLSelectElement {
     const select = made('select', '', '');
-    options.forEach(([code, title]) => {
-      const option = made('option', '', title);
-      option.value = code;
+    options.forEach((line) => {
+      const option = made('option', '', line.title);
+      option.value = line.code;
       select.appendChild(option);
     });
     select.value = value;

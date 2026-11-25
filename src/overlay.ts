@@ -34,6 +34,8 @@ export class Overlay implements Acts {
   private readonly panels: Panels;
   private readonly typing: Typing;
   private gesture: Gesture;
+  /** Whether a film is wanted and has not been proposed yet. */
+  private wanted: boolean;
   private mode: 'idle' | 'dragging' | 'busy' = 'idle';
   private queued = false;
   private rolled = 0;
@@ -45,6 +47,7 @@ export class Overlay implements Acts {
     panels: Panels,
     typing: Typing,
     gesture: Gesture,
+    wanted: boolean,
   ) {
     this.desk = desk;
     this.ctx = ctx;
@@ -52,6 +55,7 @@ export class Overlay implements Acts {
     this.panels = panels;
     this.typing = typing;
     this.gesture = gesture;
+    this.wanted = wanted;
   }
 
   open(): void {
@@ -66,6 +70,7 @@ export class Overlay implements Acts {
     window.addEventListener('resize', () => this.refresh());
     window.addEventListener('contextmenu', (event) => event.preventDefault());
     this.paint();
+    this.propose();
   }
 
   copy(): void {
@@ -234,6 +239,15 @@ export class Overlay implements Acts {
     this.gesture = new Rest(session);
     this.mode = 'idle';
     this.paint();
+    this.propose();
+  }
+
+  /** Proposes to film as soon as there is an area, if a person has come for that. */
+  private propose(): void {
+    if (this.wanted && !this.gesture.now().place().blank()) {
+      this.wanted = false;
+      this.panels.propose();
+    }
   }
 
   /** Hands the selected part over and closes the editor. After a failure the editor stays. */

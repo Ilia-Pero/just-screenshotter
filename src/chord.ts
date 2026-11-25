@@ -37,18 +37,17 @@ export class Chord {
   /** True if an action can be started with these keys without getting in the way of typing. */
   fit(): boolean {
     const name = this.name();
-    const { ctrlKey, altKey, metaKey } = this.struck;
-    return KNOWN.test(name) && (ALONE.test(name) || ctrlKey || altKey || metaKey);
+    const held = this.struck.ctrlKey || this.struck.altKey || this.struck.metaKey;
+    return KNOWN.test(name) && (ALONE.test(name) || held);
   }
 
   /** The keys as the shell spells them. */
   spelled(): string {
-    const { ctrlKey, altKey, shiftKey, metaKey } = this.struck;
     return [
-      ctrlKey ? 'Ctrl' : '',
-      altKey ? 'Alt' : '',
-      shiftKey ? 'Shift' : '',
-      metaKey ? 'Cmd' : '',
+      this.struck.ctrlKey ? 'Ctrl' : '',
+      this.struck.altKey ? 'Alt' : '',
+      this.struck.shiftKey ? 'Shift' : '',
+      this.struck.metaKey ? 'Cmd' : '',
       this.name().replace(/^(?:Key|Digit)/u, ''),
     ]
       .filter((part) => part !== '')

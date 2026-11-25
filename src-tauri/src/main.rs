@@ -33,6 +33,9 @@ use crate::mice::Mice;
 use crate::stage::Stage;
 use crate::studio::Studio;
 
+/// The argument that opens the settings. Not every desktop of Linux has a place for the icon.
+const SETTINGS: &str = "--settings";
+
 /// Shows a person what has gone wrong.
 fn tell(app: &AppHandle, text: &str) {
     app.dialog()
@@ -71,12 +74,20 @@ fn setup(app: &AppHandle) -> Result<(), Failure> {
             &Phrase::new("error.key").with("key", title).to_string(),
         );
     }
+    if env::args().any(|word| word == SETTINGS) {
+        panel::open(app);
+    }
     app.state::<Mice>().follow(app, &chosen.triggers)
 }
 
-/// Makes the program start with the system. It does so once, and then a person decides.
+/// Makes the program start with the system. It does so once, and then a person decides. On macOS
+/// it waits until the program is moved from the disk image to where programs are.
 fn settle(app: &AppHandle, chosen: &Settings) -> Result<(), Failure> {
-    if chosen.settled || cfg!(debug_assertions) {
+    let placed = !cfg!(target_os = "macos")
+        || env::current_exe()?
+            .to_string_lossy()
+            .contains("/Applications/");
+    if chosen.settled || !placed || cfg!(debug_assertions) {
         return Ok(());
     }
     app.autolaunch().enable()?;
@@ -112,8 +123,12 @@ fn main() -> ExitCode {
 /// Runs the program until a person quits.
 fn run() -> Result<(), Box<dyn Error>> {
     with_clipboard(Builder::default())
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            Act::Area.start(app);
+        .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+            if args.iter().any(|word| word == SETTINGS) {
+                panel::open(app);
+            } else {
+                Act::Area.start(app);
+            }
         }))
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,

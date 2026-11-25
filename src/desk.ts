@@ -19,6 +19,14 @@ export interface Ears {
   readonly voice: boolean;
 }
 
+/** What the editor begins with. */
+export interface Opening {
+  /** The area that is selected already, in pixels of the screenshot. It may be blank. */
+  readonly area: Box;
+  /** Whether a film of the area is wanted. */
+  readonly film: boolean;
+}
+
 /**
  * The desktop the tool runs on. The editor does not know where it is:
  * in a Tauri window (Shell) or in a browser tab (Sandbox).
@@ -26,6 +34,8 @@ export interface Ears {
 export interface Desk {
   /** The screen at the moment the tool was called. */
   shot(): Promise<Shot>;
+  /** What to begin with. */
+  opening(): Promise<Opening>;
   /** Puts the picture on the clipboard. */
   copy(png: Blob): Promise<void>;
   /** Saves the picture to a file. */

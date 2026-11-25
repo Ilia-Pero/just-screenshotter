@@ -10,10 +10,10 @@ use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager, State, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_autostart::ManagerExt;
 use tauri_plugin_dialog::DialogExt;
-use tauri_plugin_global_shortcut::GlobalShortcutExt;
 
 use crate::act::Act;
 use crate::commands::Listens;
+use crate::hotkey::Keyboard;
 use crate::mice::Mice;
 use crate::{files, hotkey, stage, tell, tray};
 
@@ -83,8 +83,7 @@ pub struct Chosen {
 
 fn state(app: &AppHandle) -> Result<Panel, Failure> {
     let settings = files::settings(app)?.read()?;
-    let shortcuts = app.global_shortcut();
-    let assignable = hotkey::assignable();
+    let keyboard = app.state::<Keyboard>();
     let acts = Act::ALL
         .into_iter()
         .zip(settings.triggers.all())
@@ -94,14 +93,12 @@ fn state(app: &AppHandle) -> Result<Panel, Failure> {
             key: trigger.key.clone(),
             title: trigger.title(cfg!(target_os = "macos")),
             mouse: trigger.mouse.clone(),
-            busy: assignable
-                && !trigger.key.is_empty()
-                && !shortcuts.is_registered(trigger.key.as_str()),
+            busy: keyboard.busy(act),
         })
         .collect();
     Ok(Panel {
         acts,
-        assignable,
+        assignable: hotkey::assignable(),
         mice: available(),
         folder: settings.folder,
         ears: Listens::to(settings.ears),
@@ -132,7 +129,7 @@ pub fn arrange(
     let arranged = rearranged(&app, &chosen);
     let triggers = files::settings(&app).and_then(|file| file.read());
     let resumed = triggers.and_then(|settings| {
-        hotkey::assign(&app, &settings.triggers);
+        app.state::<Keyboard>().assign(&app, &settings.triggers);
         mice.follow(&app, &settings.triggers)
     });
     let shown = tray::refresh(&app);
@@ -162,7 +159,7 @@ fn rearranged(app: &AppHandle, chosen: &[Chosen]) -> Result<(), Failure> {
     if triggers.clash() {
         return Err(Phrase::new("error.clash").into());
     }
-    let busy = hotkey::assign(app, &triggers);
+    let busy = app.state::<Keyboard>().assign(app, &triggers);
     let taken = Act::ALL
         .into_iter()
         .zip(triggers.all().into_iter().zip(before.triggers.all()))
@@ -179,14 +176,14 @@ fn rearranged(app: &AppHandle, chosen: &[Chosen]) -> Result<(), Failure> {
 #[tauri::command(async)]
 pub fn hold(app: AppHandle, mice: State<'_, Mice>, on: bool) -> Result<(), String> {
     if on {
-        hotkey::release(&app);
+        app.state::<Keyboard>().release(&app);
         mice.rest();
         return Ok(());
     }
     files::settings(&app)
         .and_then(|file| file.read())
         .and_then(|settings| {
-            hotkey::assign(&app, &settings.triggers);
+            app.state::<Keyboard>().assign(&app, &settings.triggers);
             mice.follow(&app, &settings.triggers)
         })
         .map_err(|failure| failure.to_string())

@@ -37,6 +37,7 @@ cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p sc
 | `src-tauri/src` | the program: the tray icon, the shortcut, the windows of the editor |
 | `src-tauri/capture` | taking screenshots: GDI on Windows, `screencapture` on macOS, the portal on Linux |
 | `src-tauri/film` | filming in a process of its own: Media Foundation on Windows, ScreenCaptureKit and AVFoundation on macOS, the portal and GStreamer on Linux |
+| `src-tauri/keys` | keys that start actions on X11, without asking the server all the time |
 | `src-tauri/mouse` | both buttons of the mouse pressed together, Windows |
 | `src-tauri/store` | the settings and the folder with screenshots |
 | `src-tauri/upload` | uploading to the server |

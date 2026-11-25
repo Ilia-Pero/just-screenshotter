@@ -29,6 +29,7 @@ use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
 
 use crate::act::Act;
 use crate::album::Album;
+use crate::hotkey::Keyboard;
 use crate::mice::Mice;
 use crate::stage::Stage;
 use crate::studio::Studio;
@@ -67,7 +68,11 @@ fn setup(app: &AppHandle) -> Result<(), Failure> {
     Language::choose(&chosen.language);
     tray::install(app, &chosen)?;
     // The other keys are extra: if they are taken, the window with the settings shows it.
-    if hotkey::assign(app, &chosen.triggers).contains(&Act::Area) {
+    if app
+        .state::<Keyboard>()
+        .assign(app, &chosen.triggers)
+        .contains(&Act::Area)
+    {
         let title = chosen.triggers.area.title(cfg!(target_os = "macos"));
         tell(
             app,
@@ -122,7 +127,7 @@ fn main() -> ExitCode {
 
 /// Runs the program until a person quits.
 fn run() -> Result<(), Box<dyn Error>> {
-    with_clipboard(Builder::default())
+    hotkey::with_keys(with_clipboard(Builder::default()))
         .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
             if args.iter().any(|word| word == SETTINGS) {
                 panel::open(app);
@@ -136,8 +141,8 @@ fn run() -> Result<(), Box<dyn Error>> {
         ))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
-        .plugin(tauri_plugin_global_shortcut::Builder::new().build())
         .manage(Album::default())
+        .manage(Keyboard::default())
         .manage(Mice::default())
         .manage(Stage::default())
         .manage(Studio::default())

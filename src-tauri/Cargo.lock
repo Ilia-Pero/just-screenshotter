@@ -2204,6 +2204,7 @@ dependencies = [
  "clipboard-win",
  "screenshotter-capture",
  "screenshotter-film",
+ "screenshotter-keys",
  "screenshotter-mouse",
  "screenshotter-phrase",
  "screenshotter-store",
@@ -3583,6 +3584,13 @@ dependencies = [
  "tempfile",
  "tokio",
  "windows",
+]
+
+[[package]]
+name = "screenshotter-keys"
+version = "0.1.0"
+dependencies = [
+ "x11rb",
 ]
 
 [[package]]

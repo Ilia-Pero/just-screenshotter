@@ -56,7 +56,7 @@ th + th {
 }
 
 td:nth-child(2) {
-  width: 220px;
+  width: 250px;
   white-space: nowrap;
 }
 
@@ -97,7 +97,7 @@ input:focus {
 }
 
 .key {
-  width: 178px;
+  width: 208px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: start;

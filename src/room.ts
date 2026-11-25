@@ -166,7 +166,7 @@ export class Room {
     const button = this.button(row.title === '' ? words['settings.none'] : row.title, () =>
       this.listen(button, words, take, () => show(this.cabinet.state())),
     );
-    const clear = this.button('✕', () => take(''));
+    const clear = this.button('×', () => take(''));
     button.classList.add('key');
     button.classList.toggle('empty', row.key === '');
     button.classList.toggle('busy', row.busy);

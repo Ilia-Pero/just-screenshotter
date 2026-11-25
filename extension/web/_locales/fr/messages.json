@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Capture une page et ouvre un éditeur par-dessus. N’envoie rien."
+    "message": "Capture une page et ouvre l’éditeur. Les images restent sur votre ordinateur."
   },
   "visible": {
     "message": "Partie visible de la page"

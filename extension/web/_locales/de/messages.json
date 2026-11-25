@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Nimmt eine Seite auf und öffnet darüber einen Editor. Sendet nichts."
+    "message": "Nimmt eine Seite auf und öffnet den Editor. Die Bilder bleiben auf Ihrem Computer."
   },
   "visible": {
     "message": "Sichtbarer Teil der Seite"

@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Takes a picture of a page and opens an editor over it. Sends nothing anywhere."
+    "message": "Takes a picture of a page and opens an editor to draw on it. Pictures stay on your computer."
   },
   "visible": {
     "message": "Visible part of the page"

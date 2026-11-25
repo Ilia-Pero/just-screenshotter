@@ -1,6 +1,6 @@
 {
   "description": {
-    "message": "Cattura una pagina e vi apre sopra un editor. Non invia nulla."
+    "message": "Cattura una pagina e apre l’editor. Le immagini restano sul tuo computer."
   },
   "visible": {
     "message": "Parte visibile della pagina"

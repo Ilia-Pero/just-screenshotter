@@ -1,5 +1,6 @@
 //! What to film.
 
+use std::fs;
 use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
@@ -144,9 +145,51 @@ pub struct Order {
     pub file: PathBuf,
 }
 
+impl Order {
+    /// Leaves no empty file where there is no film.
+    pub fn discard(&self) {
+        if fs::metadata(&self.file).is_ok_and(|empty| empty.len() == 0) {
+            // It is not worth telling: what has gone wrong before is told.
+            let _ = fs::remove_file(&self.file);
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
-    use super::Area;
+    use std::fs;
+    use std::path::PathBuf;
+
+    use tempfile::TempDir;
+
+    use super::{Area, Order};
+
+    /// An order that is given up, with a file where there are such bytes.
+    fn given_up(folder: &TempDir, bytes: &str) -> PathBuf {
+        let file = folder.path().join("film");
+        fs::write(&file, bytes).unwrap();
+        Order {
+            monitor: AREA,
+            scale: 1.0,
+            area: AREA,
+            sound: false,
+            voice: false,
+            file: file.clone(),
+        }
+        .discard();
+        file
+    }
+
+    #[test]
+    fn leaves_no_empty_file_when_it_is_given_up() {
+        assert!(!given_up(&TempDir::new().unwrap(), "").exists());
+    }
+
+    #[test]
+    fn keeps_what_is_filmed_when_it_is_given_up() {
+        let folder = TempDir::new().unwrap();
+        assert!(given_up(&folder, "film").exists());
+    }
 
     const AREA: Area = Area {
         left: 10,

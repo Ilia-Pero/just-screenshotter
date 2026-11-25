@@ -6,10 +6,14 @@ use std::error::Error;
 #[cfg(target_os = "linux")]
 mod grab;
 mod key;
+#[cfg(any(test, target_os = "linux"))]
+mod repeats;
 
 #[cfg(target_os = "linux")]
 pub use grab::Grab;
 pub use key::Key;
+#[cfg(target_os = "linux")]
+use repeats::Repeats;
 
 /// A failure to take keys. It travels between threads, hence `Send + Sync`.
 pub type Failure = Box<dyn Error + Send + Sync>;

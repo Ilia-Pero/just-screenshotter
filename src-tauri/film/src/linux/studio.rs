@@ -51,6 +51,7 @@ impl Camera for Studio {
             launched = Launch::start(&pipeline.words());
         }
         let launch = launched.map_err(|failure| -> Failure {
+            order.discard();
             if order.voice && failure.to_string().contains("pulse") {
                 Phrase::new("error.voice").with("reason", failure).into()
             } else {

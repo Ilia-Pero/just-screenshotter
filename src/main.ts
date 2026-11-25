@@ -1,5 +1,5 @@
 import './bridge.ts';
-import { ESCAPE } from './key.ts';
+import { ESCAPE, browsing } from './key.ts';
 import { Shell } from './shell.ts';
 import { start } from './start.ts';
 import type { Words } from './words.ts';
@@ -17,6 +17,17 @@ function apologise(words: Words, error: unknown): void {
     }
   });
 }
+
+// A web view is a browser after all, and what is drawn would be lost with the page.
+window.addEventListener(
+  'keydown',
+  (event) => {
+    if (browsing(event)) {
+      event.preventDefault();
+    }
+  },
+  true,
+);
 
 // The window is created hidden. The shell shows it on "reveal", when the editor is already drawn.
 bridge

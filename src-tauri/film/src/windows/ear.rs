@@ -9,7 +9,7 @@ use windows::Win32::Media::Audio::{
     AUDCLNT_SHAREMODE_SHARED, AUDCLNT_STREAMFLAGS_AUTOCONVERTPCM, AUDCLNT_STREAMFLAGS_LOOPBACK,
     AUDCLNT_STREAMFLAGS_SRC_DEFAULT_QUALITY, WAVEFORMATEX, WAVE_FORMAT_PCM,
 };
-use windows::Win32::System::Com::{CoCreateInstance, CLSCTX_ALL};
+use windows::Win32::System::Com::{CoCreateInstance, CoTaskMemFree, CLSCTX_ALL};
 
 use crate::mix::{CHANNELS, RATE};
 use crate::Failure;
@@ -177,7 +177,11 @@ fn endpoint(source: Source) -> Result<IMMDevice, Failure> {
 }
 
 fn name(device: &IMMDevice) -> Result<String, Failure> {
-    // SAFETY: the system gives a string that ends with zero. The process is too short-lived for
-    // the few bytes of its name to be worth returning.
-    Ok(unsafe { device.GetId()?.to_string()? })
+    // SAFETY: the system gives a string that ends with zero, and it is freed once.
+    unsafe {
+        let id = device.GetId()?;
+        let name = id.to_string();
+        CoTaskMemFree(Some(id.0.cast()));
+        Ok(name?)
+    }
 }

@@ -2,7 +2,7 @@
 
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, Ordering};
-use std::sync::{Mutex, PoisonError};
+use std::sync::{Mutex, MutexGuard, PoisonError};
 use std::thread;
 use std::time::Instant;
 
@@ -41,6 +41,7 @@ struct Film {
     reel: Reel,
     ears: Ears,
     began: Instant,
+    file: PathBuf,
 }
 
 /// What the window with the time shows.
@@ -69,48 +70,62 @@ impl Studio {
         let started = Reel::start(order, Language::current().code);
         self.beginning.store(false, Ordering::Relaxed);
         let (reel, ending, ears) = started?;
-        *self.film.lock().unwrap_or_else(PoisonError::into_inner) = Some(Film {
+        *self.now() = Some(Film {
             reel,
             ears,
             began: Instant::now(),
+            file: order.file.clone(),
         });
         await_ending(app, ending, order.file.clone());
         tray::refresh(app)?;
-        watch(app, order)
+        watch(app, order)?;
+        if self.busy() {
+            Ok(())
+        } else {
+            // Filming has ended while the window was being created.
+            close(app)
+        }
     }
 
-    /// Stops filming. False if there was nothing to stop.
-    pub fn stop(&self) -> bool {
-        let film = self
-            .film
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
-            .take();
+    /// Stops filming and closes the window with the time: the next film may begin before the file
+    /// of this one is ready. False if there was nothing to stop.
+    pub fn stop(&self, app: &AppHandle) -> bool {
+        let film = self.now().take();
         let filmed = film.is_some();
         if let Some(film) = film {
             film.reel.stop();
+            // If it does not close now, it does when the file is ready.
+            let _ = close(app);
         }
         filmed
     }
 
+    /// Forgets the film that has come to its end. False if another one is being made.
+    fn ended(&self, file: &Path) -> bool {
+        let mut current = self.now();
+        if current.as_ref().is_some_and(|film| film.file == file) {
+            *current = None;
+        }
+        current.is_none()
+    }
+
     /// Whether a film is being made.
     pub fn busy(&self) -> bool {
-        self.film
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
-            .is_some()
+        self.now().is_some()
     }
 
     /// How filming is going.
     pub fn progress(&self, sound: bool) -> Progress {
-        self.film
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
+        self.now()
             .as_ref()
             .map_or_else(Progress::default, |film| Progress {
                 time: u64::try_from(film.began.elapsed().as_millis()).unwrap_or(u64::MAX),
                 deaf: sound && !film.ears.sound,
             })
+    }
+
+    fn now(&self) -> MutexGuard<'_, Option<Film>> {
+        self.film.lock().unwrap_or_else(PoisonError::into_inner)
     }
 }
 
@@ -119,10 +134,14 @@ fn await_ending(app: &AppHandle, ending: Ending, file: PathBuf) {
     let app = app.clone();
     thread::spawn(move || {
         let ended = ending.wait();
-        app.state::<Studio>().stop();
+        let closed = if app.state::<Studio>().ended(&file) {
+            close(&app)
+        } else {
+            Ok(())
+        };
         let shown = ended
             .map_err(|reason| Phrase::new("error.film").with("reason", reason).into())
-            .and(close(&app))
+            .and(closed)
             .and(tray::refresh(&app))
             .and_then(|()| reveal(&app, &file));
         if let Err(failure) = shown {

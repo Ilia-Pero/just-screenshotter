@@ -1,44 +1,63 @@
 # Changes
 
+## 0.5.1 (2026-11-25)
+
+Fixed:
+
+- Closing the settings while they waited for a key left all shortcuts disabled until the program was restarted.
+- Opening the settings from the tray did nothing if their window was minimized.
+- F5 and Ctrl+R reloaded the editor, and the drawings were lost.
+- On keyboards where Z is not in its American place, such as German and French ones, Ctrl+Z did not undo, and a letter chosen for a shortcut could turn into another one.
+- A recording that was still being saved could stop the next one.
+- On Linux in a language other than English, errors of video recording were not reported. A failed recording left an empty file.
+- On macOS and Linux, the key of the server could be read by other users of the computer for an instant while it was being saved.
+- On Windows, system audio was opened before a recording even when it was turned off in the settings.
+- In the browser extension Ctrl+U showed an error.
+
+Changed:
+
+- The extension builds its icons without `innerHTML`, as Mozilla recommends.
+- On X11, repeats of a key that is being held are ignored.
+
 ## 0.5.0 (2026-11-25)
 
-- Enter begins a new line in a text. A click elsewhere, Esc, or Ctrl+Enter ends it.
-- The wheel changes the size of the letters while a text is typed.
-- Ctrl+S and Ctrl+U end the text that is being typed and do their work; Ctrl+C and Ctrl+Z do so in an empty field.
-- The system underlines mistakes in Russian and English, and the right button of the mouse offers corrections. The program has no dictionaries of its own and sends nothing. On Linux the dictionaries come with the packages hunspell-ru and hunspell-en-us.
-- An oval. With Shift, an oval is a circle and a frame is a square.
-- The wheel over a mark picked by a click changes this mark only. In 0.4.0 it changed the tool too.
-- A button in the settings looks for a newer version. The program does not do this by itself.
-- The extension for Chrome, Yandex Browser, Edge and Opera. Its window names the keys.
-- The settings are laid out in parts and fit a narrow window. Lines of controls and letters on buttons have enough contrast, what is pressed is never smaller than 24 pixels, a key taken by another program is marked with a sign and not with a color alone, and screen readers are told which tool and which color are on.
+- In a text, Enter starts a new line. A click elsewhere, Esc or Ctrl+Enter ends typing.
+- The wheel changes the size of letters while a text is being typed.
+- While a text is being typed, Ctrl+S and Ctrl+U finish it and then save or upload the area. Ctrl+C and Ctrl+Z do the same if the field is empty.
+- The spell checker of the system underlines mistakes in Russian and English, and the context menu offers corrections. On Linux it needs the packages hunspell-ru and hunspell-en-us.
+- Ovals. With Shift an oval becomes a circle and a frame becomes a square.
+- Turning the wheel over a selected drawing changes only that drawing. In 0.4.0 the tool changed as well.
+- “Check for updates” in the settings.
+- The extension for Chrome, Edge, Opera and Yandex Browser. Its window shows the shortcuts.
+- The settings are divided into sections and fit a narrow window. Contrast, the size of controls and labels for screen readers were improved.
 
 ## 0.4.0 (2026-11-25)
 
-- A mark can be changed at any moment: a click picks it with any tool, whatever has been drawn after it. A double click types a text anew with any tool.
-- Kazakh and Belarusian: 14 languages. The installer for Windows does not know Kazakh; it is chosen in the settings.
-- The language is chosen in the settings and no longer in the editor.
-- On Linux the editor fits the screen: it took the size of its window before the window was shown, and nothing could be selected.
+- A drawing can be changed at any time: a click selects it with any tool, and a double click edits a text.
+- Kazakh and Belarusian, 14 languages in total. The Windows installer does not support Kazakh; choose it in the settings.
+- The language moved from the editor to the settings.
+- On Linux the editor fits the screen. It used to measure its window before the window was shown, and nothing could be selected.
 
 ## 0.3.0 (2026-11-25)
 
-- A window with the settings. The menu of the icon has become shorter.
-- Keys for four actions: a screenshot of an area, of the whole screen, of the active window (Windows), and video. Any keys can be chosen.
-- On Windows, both buttons of the mouse pressed at once can start an action, alone, with Shift or with Ctrl. Off at first.
-- The program starts with the system until a person turns this off.
-- On Linux the program takes no processor time at rest: it asked the server for keys twenty times a second, and now the server tells it.
-- The Firefox extension: a picture of the visible part of a page or of the whole page, and the same editor in a tab.
+- A window with the settings; the tray menu became shorter.
+- Configurable shortcuts for four actions: a screenshot of an area, of the whole screen, of the active window (Windows) and a video.
+- On Windows both mouse buttons pressed at once can start an action, alone or with Shift or Ctrl. Off by default.
+- The program starts with the system. This can be turned off.
+- On Linux the program no longer uses processor time at rest. Before, it checked the keyboard twenty times a second.
+- The Firefox extension, which captures the visible part of a page or the whole page.
 
 ## 0.2.0 (2026-11-25)
 
-- Video on macOS 13 and newer has the sound of the computer.
-- Video on older macOS begins at once, and a film with the microphone alone does not fail.
+- System audio in video on macOS 13 and later.
+- On older macOS recording starts without a delay, and recording with the microphone alone works.
 
 ## 0.1.0 (2026-11-25)
 
 - Screenshots of all monitors on Windows, macOS and Linux.
 - The editor: selection, pencil, line, arrow, frame, marker, text, eight colors, undo.
-- Marks can be changed after they are drawn: moved, pulled by their ends, made thicker or thinner, recolored, typed anew, deleted.
-- Video of an area with the sound of the computer and the microphone. On macOS, the microphone only.
-- Copying, saving as PNG, uploading to a server of one's own.
+- Drawings can be moved, resized, recolored, retyped and deleted.
+- Video of an area with system audio and the microphone; on macOS with the microphone only.
+- Copying, saving as PNG, uploading to your own server.
 - The server for uploaded screenshots.
-- 12 languages. The language is chosen in the editor, in the menu of the icon and in the installer for Windows.
+- 12 languages.

@@ -1,15 +1,15 @@
-# The extension in catalogs
+# Publishing the extension
 
-What to write and what to upload when the extension is published. The files come from a [release](https://github.com/Ilia-Pero/just-screenshotter/releases/latest).
+Texts and files for extension stores. The packages come from a [release](https://github.com/Ilia-Pero/just-screenshotter/releases/latest). Firefox Add-ons receives them from the release workflow together with the texts of [firefox.json](firefox.json).
 
-| Catalog | Browsers | File | Registration |
+| Store | Browsers | File | Registration |
 | --- | --- | --- | --- |
 | [Firefox Add-ons](https://addons.mozilla.org/developers/) | Firefox | `just-screenshotter-firefox.zip` | a Mozilla account |
 | [Microsoft Edge Add-ons](https://partner.microsoft.com/dashboard/microsoftedge) | Edge | `just-screenshotter-chrome.zip` | free, a Microsoft or GitHub account |
 | [Opera Add-ons](https://addons.opera.com/developer/) | Opera, Yandex Browser | `just-screenshotter-chrome.zip` | an Opera account |
-| [Chrome Web Store](https://chrome.google.com/webstore/devconsole) | Chrome, Yandex Browser, Edge, Opera | `just-screenshotter-chrome.zip` | a fee, once |
+| [Chrome Web Store](https://chrome.google.com/webstore/devconsole) | Chrome, Edge, Opera, Yandex Browser | `just-screenshotter-chrome.zip` | a one-time fee |
 
-Pictures: `logo.png` is 300 × 300, `screen.png` is 1280 × 800.
+Images: `logo.png` is 300 × 300, `screen.png` is 1280 × 800.
 
 ## Name
 
@@ -17,38 +17,42 @@ Just Screenshotter
 
 ## Summary
 
-Takes a picture of a page and opens an editor over it. Sends nothing anywhere.
+Takes a picture of a page and opens an editor to draw on it. Pictures stay on your computer.
 
 ## Description
 
-Takes a picture of the visible part of a page or of the whole page and opens an editor in a new tab. Select an area, draw on it with a pencil, a line, an arrow, a frame, an oval, a marker or a text, and copy the picture or save it as PNG. Everything drawn can be moved, recolored, resized or deleted later.
+Captures the visible part of a page or the whole page and opens an editor in a new tab. Select an area, draw on it with a pencil, a line, an arrow, a frame, an oval, a marker or text, then copy the picture or save it as PNG. A drawing can be moved, recolored, resized or deleted at any time.
 
-The keys are Alt+Shift+S for the visible part and Alt+Shift+P for the whole page. A whole page is put together from pieces while it is scrolled; parts that stay in their place on the screen are left on the first piece only. A picture is no taller than 32,000 pixels.
+Shortcuts: Alt+Shift+S for the visible part, Alt+Shift+P for the whole page. The page is scrolled and captured in pieces; elements that stay fixed on the screen are kept on the first piece only. One picture holds up to 32,000 pixels of a page in height.
 
-The extension looks at a page only when you ask it to. It has no account, no telemetry and no server, and it remembers only the language you have chosen. It speaks 14 languages. The code is open, under MIT: <https://github.com/Ilia-Pero/just-screenshotter>
+The extension looks at a page after you press its button or shortcut. Pictures stay on your computer: the extension makes no network requests and stores only the language you choose. 14 languages. The source code is open under the MIT license.
+
+<https://github.com/Ilia-Pero/just-screenshotter>
 
 ## Описание
 
-Снимает видимую часть страницы или страницу целиком и открывает редактор в новой вкладке. Выделите область, порисуйте на ней карандашом, линией, стрелкой, рамкой, овалом, маркером или напишите текст и скопируйте снимок или сохраните его в PNG. Всё нарисованное можно потом передвинуть, перекрасить, изменить в размере или удалить.
+Снимает видимую часть страницы или страницу целиком и открывает редактор в новой вкладке. Выделите область, порисуйте на ней карандашом, линией, стрелкой, рамкой, овалом, маркером или напишите текст, затем скопируйте снимок или сохраните его в PNG. Нарисованное можно в любой момент передвинуть, перекрасить, изменить в размере или удалить.
 
-Клавиши: Alt+Shift+S для видимой части и Alt+Shift+P для всей страницы. Страница целиком собирается из кусков, пока она прокручивается; то, что стоит на экране на месте, остаётся только на первом куске. Высота снимка до 32 000 пикселей.
+Клавиши: Alt+Shift+S снимает видимую часть, Alt+Shift+P всю страницу. Страница прокручивается и снимается по частям; элементы, закреплённые на экране, остаются только на первой части. В один снимок помещается до 32 000 пикселей страницы по высоте.
 
-Расширение смотрит на страницу, только когда вы попросите. У него нет учётной записи, телеметрии и сервера, а помнит оно только выбранный язык. Говорит на 14 языках. Код открыт, лицензия MIT: <https://github.com/Ilia-Pero/just-screenshotter>
+Расширение обращается к странице после нажатия его кнопки или клавиш. Снимки остаются на вашем компьютере: сетевых запросов расширение не делает и хранит только выбранный язык. 14 языков. Исходный код открыт, лицензия MIT.
+
+<https://github.com/Ilia-Pero/just-screenshotter>
 
 ## Single purpose
 
-Taking a picture of the page a person is looking at and drawing on it.
+Taking a picture of the current page and drawing on it.
 
-## Why the permissions
+## Permissions
 
-| Permission | What for |
+| Permission | Purpose |
 | --- | --- |
-| `activeTab` | to take a picture of the page after a person presses the button or the key; no other page is seen |
-| `scripting` | to measure the page, to scroll it while the whole of it is taken, and to return it to where it was |
+| `activeTab` | to capture the current page after the button or the shortcut is pressed |
+| `scripting` | to measure the page, scroll it while the whole page is being captured, and return it to where it was |
 | `storage` | to remember the language |
-| `clipboardWrite` | to put the picture on the clipboard when a person presses Copy |
+| `clipboardWrite` | to copy the picture when Copy is pressed |
 
-No data is collected, and no code is loaded from anywhere: everything is in the package.
+The extension collects no data. All its code is in the package.
 
 ## For reviewers
 

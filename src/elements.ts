@@ -13,7 +13,7 @@ export function element<K extends keyof HTMLElementTagNameMap>(
 export function button(icon: string): HTMLButtonElement {
   const node = element('button', 'key');
   node.type = 'button';
-  node.innerHTML = icon;
+  node.append(...Array.from(new DOMParser().parseFromString(icon, 'text/html').body.childNodes));
   return node;
 }
 

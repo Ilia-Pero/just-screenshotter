@@ -48,7 +48,7 @@ impl Act {
     pub fn start(self, app: &AppHandle) {
         let app = app.clone();
         thread::spawn(move || {
-            if app.state::<Studio>().stop() {
+            if app.state::<Studio>().stop(&app) {
                 return;
             }
             if let Err(failure) = app.state::<Stage>().open(&app, self) {

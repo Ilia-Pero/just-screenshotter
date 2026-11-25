@@ -1,6 +1,5 @@
 //! The file with the film.
 
-use std::fs;
 use std::path::Path;
 use std::slice;
 
@@ -47,17 +46,8 @@ unsafe impl Send for Movie {}
 unsafe impl Sync for Movie {}
 
 impl Movie {
-    /// Creates the file. If it cannot be a film, an empty file does not stay.
+    /// Creates the file.
     pub fn create(file: &Path, area: &Area, sound: bool) -> Result<Movie, Failure> {
-        Self::begin(file, area, sound).inspect_err(|_| {
-            if fs::metadata(file).is_ok_and(|empty| empty.len() == 0) {
-                // It is not worth telling: the failure itself is told.
-                let _ = fs::remove_file(file);
-            }
-        })
-    }
-
-    fn begin(file: &Path, area: &Area, sound: bool) -> Result<Movie, Failure> {
         // SAFETY: the calls get live objects and return owned ones.
         unsafe {
             let mut wishes = None;
@@ -326,16 +316,14 @@ mod tests {
     }
 
     #[test]
-    fn leaves_no_empty_file_when_the_area_is_too_small() {
+    fn is_not_created_when_the_area_is_too_small() {
         let folder = TempDir::new().unwrap();
-        let file = folder.path().join("film.mp4");
         let tiny = Area {
             width: 2,
             height: 2,
             ..AREA
         };
         prepare();
-        Movie::create(&file, &tiny, false).err().unwrap();
-        assert!(!file.exists());
+        assert!(Movie::create(&folder.path().join("film.mp4"), &tiny, false).is_err());
     }
 }

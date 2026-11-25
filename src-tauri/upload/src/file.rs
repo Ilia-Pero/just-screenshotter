@@ -1,8 +1,8 @@
 //! The file with the server address and the key.
 
-use std::fs;
-use std::io::ErrorKind;
-use std::path::PathBuf;
+use std::fs::{self, File, OpenOptions};
+use std::io::{self, ErrorKind, Write};
+use std::path::{Path, PathBuf};
 
 use screenshotter_phrase::Phrase;
 
@@ -47,15 +47,38 @@ impl ServerFile {
             fs::create_dir_all(folder)?;
         }
         let draft = self.file.with_extension("new");
-        fs::write(&draft, serde_json::to_vec_pretty(server)?)?;
-        #[cfg(unix)]
-        {
-            use std::os::unix::fs::PermissionsExt;
-            fs::set_permissions(&draft, fs::Permissions::from_mode(0o600))?;
-        }
+        let mut secret = closed(&draft)?;
+        secret.write_all(&serde_json::to_vec_pretty(server)?)?;
+        secret.sync_all()?;
+        drop(secret);
         fs::rename(&draft, &self.file)?;
         Ok(())
     }
+}
+
+/// An empty file that nobody but the owner can read, even if it was there and could be read.
+#[cfg(unix)]
+fn closed(file: &Path) -> io::Result<File> {
+    use std::os::unix::fs::{OpenOptionsExt, PermissionsExt};
+
+    let opened = OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .mode(0o600)
+        .open(file)?;
+    opened.set_permissions(fs::Permissions::from_mode(0o600))?;
+    Ok(opened)
+}
+
+/// An empty file.
+#[cfg(not(unix))]
+fn closed(file: &Path) -> io::Result<File> {
+    OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(true)
+        .open(file)
 }
 
 #[cfg(test)]
@@ -89,6 +112,24 @@ mod tests {
         let file = ServerFile::new(root.path().join("server.json"));
         file.write(&server("https://shots.example/")).unwrap();
         assert_eq!(file.read().unwrap(), server("https://shots.example/"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn closes_the_key_to_other_people() {
+        use std::fs;
+        use std::os::unix::fs::PermissionsExt;
+
+        let root = TempDir::new().unwrap();
+        let path = root.path().join("server.json");
+        fs::write(path.with_extension("new"), "an old draft").unwrap();
+        ServerFile::new(path.clone())
+            .write(&server("https://shots.example/"))
+            .unwrap();
+        assert_eq!(
+            fs::metadata(path).unwrap().permissions().mode() & 0o777,
+            0o600
+        );
     }
 
     #[test]

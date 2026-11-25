@@ -66,11 +66,16 @@ impl Reel {
             child,
             output: BufReader::new(output),
         };
-        match ending.line()? {
-            Some(Line::Filming(ears)) => Ok((Reel { input }, ending, ears)),
-            Some(Line::Failed(reason)) => Err(reason.into()),
-            None => Err("The filming process has ended at once".into()),
-        }
+        let reason: Failure = match ending.line() {
+            Ok(Some(Line::Filming(ears))) => return Ok((Reel { input }, ending, ears)),
+            Ok(Some(Line::Failed(reason))) => reason.into(),
+            Ok(None) => "The filming process has ended at once".into(),
+            Err(failure) => failure,
+        };
+        // On Unix a process nobody waits for stays in the list of processes.
+        drop(input);
+        let _ = ending.child.wait();
+        Err(reason)
     }
 
     /// Asks to stop. The file is ready when the ending comes.

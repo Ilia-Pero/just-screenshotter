@@ -174,7 +174,7 @@ export class Overlay implements Acts {
       this.copy();
     } else if (held && LETTER_S.struck(event)) {
       this.save();
-    } else if (held && LETTER_U.struck(event)) {
+    } else if (held && LETTER_U.struck(event) && this.panels.uploads()) {
       this.share();
     } else if (held && LETTER_Z.struck(event)) {
       this.undo();

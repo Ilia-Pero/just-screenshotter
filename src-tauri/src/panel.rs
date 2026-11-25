@@ -8,7 +8,7 @@ use screenshotter_phrase::Phrase;
 use screenshotter_release::Latest;
 use screenshotter_store::{Failure, Listened, Trigger, Triggers};
 use serde::{Deserialize, Serialize};
-use tauri::{AppHandle, Manager, State, WebviewUrl, WebviewWindowBuilder};
+use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder, WindowEvent};
 use tauri_plugin_autostart::ManagerExt;
 use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_opener::OpenerExt;
@@ -31,21 +31,44 @@ pub fn open(app: &AppHandle) {
     let app = app.clone();
     thread::spawn(move || {
         let opened = match app.get_webview_window(PANEL) {
-            Some(window) => window.set_focus(),
-            None => stage::observed(
-                WebviewWindowBuilder::new(&app, PANEL, WebviewUrl::App("panel.html".into()))
-                    .title(Phrase::new("settings").to_string())
-                    .inner_size(SIZE.0, SIZE.1)
-                    .min_inner_size(420.0, 360.0)
-                    .center(),
-            )
-            .build()
-            .map(|_| ()),
+            Some(window) => stage::raise(&window),
+            None => created(&app),
         };
         if let Err(failure) = opened {
             tell(&app, &failure.to_string());
         }
     });
+}
+
+/// Creates the window. It may be closed while it waits for keys, so then they are taken back.
+fn created(app: &AppHandle) -> tauri::Result<()> {
+    let window = stage::observed(
+        WebviewWindowBuilder::new(app, PANEL, WebviewUrl::App("panel.html".into()))
+            .title(Phrase::new("settings").to_string())
+            .inner_size(SIZE.0, SIZE.1)
+            .min_inner_size(420.0, 360.0)
+            .center(),
+    )
+    .build()?;
+    let app = app.clone();
+    window.on_window_event(move |event| {
+        if matches!(event, WindowEvent::Destroyed) {
+            let app = app.clone();
+            thread::spawn(move || {
+                if let Err(failure) = resume(&app) {
+                    tell(&app, &failure.to_string());
+                }
+            });
+        }
+    });
+    Ok(())
+}
+
+/// Takes the keys and the buttons the settings name.
+fn resume(app: &AppHandle) -> Result<(), Failure> {
+    let triggers = files::settings(app)?.read()?.triggers;
+    app.state::<Keyboard>().assign(app, &triggers);
+    app.state::<Mice>().follow(app, &triggers)
 }
 
 /// The page of the program on GitHub.
@@ -135,17 +158,9 @@ pub fn panel(app: AppHandle) -> Result<Panel, String> {
 
 /// Remembers what starts actions. If another program uses a key, nothing changes.
 #[tauri::command(async)]
-pub fn arrange(
-    app: AppHandle,
-    mice: State<'_, Mice>,
-    chosen: Vec<Chosen>,
-) -> Result<Panel, String> {
+pub fn arrange(app: AppHandle, chosen: Vec<Chosen>) -> Result<Panel, String> {
     let arranged = rearranged(&app, &chosen);
-    let triggers = files::settings(&app).and_then(|file| file.read());
-    let resumed = triggers.and_then(|settings| {
-        app.state::<Keyboard>().assign(&app, &settings.triggers);
-        mice.follow(&app, &settings.triggers)
-    });
+    let resumed = resume(&app);
     let shown = tray::refresh(&app);
     after(&app, arranged.and(resumed).and(shown))
 }
@@ -188,19 +203,13 @@ fn rearranged(app: &AppHandle, chosen: &[Chosen]) -> Result<(), Failure> {
 
 /// Lets keys and buttons go while a person presses the ones they want, and takes them back.
 #[tauri::command(async)]
-pub fn hold(app: AppHandle, mice: State<'_, Mice>, on: bool) -> Result<(), String> {
+pub fn hold(app: AppHandle, on: bool) -> Result<(), String> {
     if on {
         app.state::<Keyboard>().release(&app);
-        mice.rest();
+        app.state::<Mice>().rest();
         return Ok(());
     }
-    files::settings(&app)
-        .and_then(|file| file.read())
-        .and_then(|settings| {
-            app.state::<Keyboard>().assign(&app, &settings.triggers);
-            mice.follow(&app, &settings.triggers)
-        })
-        .map_err(|failure| failure.to_string())
+    resume(&app).map_err(|failure| failure.to_string())
 }
 
 /// Starts the program with the system, or does not any more.

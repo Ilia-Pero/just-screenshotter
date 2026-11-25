@@ -1,7 +1,11 @@
 # Security
 
-Please report a vulnerability privately: the page "Security" of this repository, "Report a vulnerability". Do not open an issue for it.
+Please report vulnerabilities privately: open the Security tab of this repository and press “Report a vulnerability”. Please do not open a public issue.
 
-Only the latest release and the latest state of the branch `main` are supported.
+Fixes are made for the latest release and for the branch `main`.
 
-What matters most here: a screenshot must not get anywhere a person has not sent it, the key of the server must not leak, and the server must not show files other than screenshots.
+Reports of these problems are especially important:
+
+- a screenshot leaves the computer without the user sending it;
+- the key of the server becomes readable to others;
+- the server shows a file that is not a screenshot.

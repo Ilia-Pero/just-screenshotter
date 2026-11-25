@@ -69,7 +69,7 @@ impl Camera for Studio {
         prepare()?;
         let (eye, wake) = Eye::open(order)?;
         let area = eye.area();
-        let first = Ear::open(Source::Sound).ok().filter(|_| order.sound);
+        let first = order.sound.then(|| Ear::open(Source::Sound).ok()).flatten();
         let second = order
             .voice
             .then(|| Ear::open(Source::Voice))
@@ -80,9 +80,12 @@ impl Camera for Studio {
             voice: second.is_some(),
         };
         let ears_open: Vec<Ear> = first.into_iter().chain(second).collect();
-        let movie = Arc::new(Movie::create(&order.file, &area, !ears_open.is_empty())?);
+        wait(&eye)?;
+        let movie = Movie::create(&order.file, &area, !ears_open.is_empty())
+            .inspect_err(|_| order.discard())?;
+        let movie = Arc::new(movie);
         let stop = Arc::new(AtomicBool::new(false));
-        let origin = opened(&eye)?;
+        let origin = now()?;
         let mut threads = vec![started(&bell, {
             let movie = Arc::clone(&movie);
             let stop = Arc::clone(&stop);
@@ -168,13 +171,13 @@ fn started(
     })
 }
 
-/// The moment when the eye has seen the first picture.
-fn opened(eye: &Eye) -> Result<i64, Failure> {
+/// Waits until the eye has seen the first picture.
+fn wait(eye: &Eye) -> Result<(), Failure> {
     let start = now()?;
     while now()? - start < PATIENCE {
         eye.wait(Duration::from_millis(100));
         if eye.look()? {
-            return now();
+            return Ok(());
         }
     }
     Err(Phrase::new("error.locked").into())

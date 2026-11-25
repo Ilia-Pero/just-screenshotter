@@ -2,7 +2,7 @@
 
 <h1 align="center">Just Screenshotter</h1>
 
-<p align="center">A screenshot tool with zero idle load for Windows, macOS and Linux</p>
+<p align="center">Screenshots and screen recording for Windows, macOS and Linux</p>
 
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
@@ -15,93 +15,99 @@
 
 ![The editor over a sample screen: a marker, an oval, an arrow and a label](docs/editor.png)
 
-Press Print Screen, select an area, draw on it, then copy, save or upload the picture, or record the area as video. Between screenshots the program only waits for the key: it has no windows, no timers, and takes no processor time.
+Press Print Screen, and the program captures every monitor and opens an editor on top of the screen. Select an area, draw on it, then copy, save or upload the result. The same area can be recorded as video.
 
-## What it does
-
-- Takes a screenshot of all monitors and opens the editor over them.
-- Draws with a pencil, a line, an arrow, a frame, an oval, a marker and text in eight colors.
-- Changes what is already drawn: a click picks a mark, and then you drag it or its ends, set its thickness and color, type its text anew or delete it.
-- Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
-- Records the area as video with sound: MP4 on Windows, MOV on macOS, WebM on Linux. You choose whether to record the sound of the computer and the microphone; on macOS before 13, only the microphone. The button Stop, the shortcut or the icon in the tray ends the recording.
-- Speaks 14 languages. The language is chosen in the settings and in the installer for Windows; until then it is the language of the system.
-- Sends nothing anywhere by itself: there is no account and no telemetry. It uses the network only to upload a picture to the server you have set, and to look for a newer version when you press the button in the settings.
-
-## Keys and mouse
-
-| What it does | Windows and Linux | macOS |
-| --- | --- | --- |
-| Screenshot of an area | Print Screen | ⌘⇧9 |
-| Screenshot of the whole screen | Shift + Print Screen | — |
-| Screenshot of the active window (Windows) | Alt + Print Screen | — |
-| Video of an area | Ctrl + Shift + Print Screen | ⌘⇧8 |
-
-You can choose other keys in the settings. On Windows buttons of the mouse can start the same: both at once, alone, with Shift or with Ctrl. This is off at first, because while the program watches the buttons, every movement of the mouse takes about 2 µs of processor time; at rest it takes nothing. On Wayland the desktop assigns the key.
-
-## Keys in the editor
-
-| Key | What it does |
-| --- | --- |
-| Ctrl+C | copies the area |
-| Ctrl+S | saves the area to `Pictures/Screenshots` |
-| Ctrl+U | uploads the area, the link goes to the clipboard |
-| Ctrl+Z | undoes the last drawing |
-| Delete | deletes the picked mark |
-| Esc | closes the editor |
-
-On macOS, ⌘ takes the place of Ctrl.
-
-A click picks a mark with any tool. A double click or Enter changes a text. The mouse wheel changes the thickness.
-
-In a text, Enter begins a new line; a click elsewhere or Esc ends the text. The wheel changes the size of the letters. The system underlines mistakes in Russian and English, and the right button of the mouse offers corrections. With Shift, a frame becomes a square and an oval becomes a circle.
-
-The rest is in the settings too: what to record with video, the folder, the language, uploading and starting with the system, which is on until you turn it off. The settings are opened by the menu of the tray icon or by starting the program with `--settings`. Starting it for the second time without that also takes a screenshot.
-
-## The browser extension
-
-For Firefox and for browsers based on Chromium: Chrome, Yandex Browser, Edge, Opera.
-
-Takes a picture of the visible part of a page or of the whole page and opens the same editor in a new tab: select, draw, copy, save. The keys are Alt+Shift+S and Alt+Shift+P. It looks at a page only when you ask it to, sends nothing anywhere and remembers only the language. It does not record video, and a picture is no taller than 32,000 pixels.
-
-## How light it is
-
-Measured on 2026-11-24 on Windows Server 2022, a 1920 × 1080 screen, the release build:
-
-| What | Result |
-| --- | --- |
-| Processor time at rest | 0 ms in 10 s |
-| Memory at rest | 14 MB before the first screenshot, 25 MB after seven |
-| Processes at rest | 1 |
-| From the key press to the editor | 0.61–0.75 s in seven runs |
-| Size of the program | 5.2 MB |
-
-The editor takes this long to open because its window is created for every screenshot and destroyed after it. This is the price of zero load at rest.
-
-Video is recorded by a separate process, which is gone with all its memory when the recording ends. On this server, which has no video card, 30 frames a second of 1920 × 1080 take one processor core and 207 MB, of 800 × 600 take 0.4 of a core and 78 MB. A video card that encodes H.264 takes this work over; that has not been measured yet.
-
-## Status
-
-| System | State |
-| --- | --- |
-| Windows | Works on Windows Server 2022 with one monitor. Video is checked there too; recording of sound from devices is not, because the server has none. Not checked on Windows 10 and 11 yet. |
-| macOS 10.13+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen with the sound of the computer. Nobody has tried it by hand yet. |
-| Ubuntu 24.04+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen. On a virtual X11 screen of Ubuntu 26.04 the keys, selecting, saving and video work; it has not been checked on Wayland. Nobody has tried it by hand yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
-| Firefox 128+ | Works in Firefox 161, checked without a window. Not signed by Mozilla yet, so it has to be loaded again after Firefox is restarted. |
-| Chrome, Yandex Browser, Edge, Opera | Works in Edge 158, checked without a window. The others have not been checked; they need Chromium 120 or newer. |
+Between screenshots one process stays in memory with an icon in the tray. On the test machine it held 14–25 MB and used 0 ms of processor time in 10 seconds ([measurements](#measurements)).
 
 ## Install
 
 | System | File | How to install |
 | --- | --- | --- |
-| Windows 10 and 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Run it. If Windows does not know the program: “More info”, “Run anyway”. |
-| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Drag the program into Applications and open it. When macOS refuses, open System Settings, “Privacy & Security”, and press “Open Anyway”. |
-| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
-| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Open `about:debugging`, “This Firefox”, “Load Temporary Add-on”, and choose the file. After Firefox is restarted, load it again. |
-| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Unpack it, open `chrome://extensions`, turn on “Developer mode”, press “Load unpacked” and choose the folder; the folder has to stay. Yandex Browser trusts only catalogs and may turn the extension off. |
+| Windows 10 and 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Run the file. If Windows shows a warning, choose “More info”, then “Run anyway”. |
+| macOS 10.13 or later | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Drag the program to Applications and open it. After macOS refuses for the first time, open System Settings, “Privacy & Security”, and press “Open Anyway”. |
+| Ubuntu 24.04 or later | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128 or later | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Open `about:debugging`, “This Firefox”, “Load Temporary Add-on”, and select the file. Firefox removes such an extension when it closes, so load it again after a restart. |
+| Chrome, Edge, Opera, Yandex Browser | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Unpack the archive into a folder you will keep. Open `chrome://extensions`, turn on “Developer mode”, press “Load unpacked” and select the folder. Yandex Browser may turn off an extension that did not come from a store. |
 
-GitHub builds these files from the code of this repository, installs each of them and starts the program, and only then publishes them. They have no paid signature, so Windows and macOS warn at the first start.
+Windows and macOS warn about the files because they are not signed with a paid certificate. GitHub builds them from this repository, installs the programs on clean machines and starts them before a release is published.
 
-You can also build the program yourself. You need Node.js 24 or newer, Rust, on Windows also the Microsoft C++ Build Tools, on Ubuntu also `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+## What it does
+
+- Draws with a pencil, a line, an arrow, a frame, an oval, a marker and text, in eight colors and any thickness from 1 to 72 pixels.
+- Lets you change a drawing at any time. Click it to move it, pull its ends, recolor it, retype its text or delete it.
+- Copies the result, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
+- Records the selected area with system audio and the microphone: MP4 on Windows, MOV on macOS, WebM on Linux. Before macOS 13 only the microphone is recorded. “Stop”, the shortcut or the tray icon ends the recording.
+- Speaks 14 languages. The settings also hold the folder for files, the shortcuts and starting with the system, which is on by default.
+
+## Keys
+
+| Action | Windows and Linux | macOS |
+| --- | --- | --- |
+| Screenshot of an area | Print Screen | ⌘⇧9 |
+| Screenshot of the whole screen | Shift + Print Screen | not assigned |
+| Screenshot of the active window, Windows only | Alt + Print Screen | |
+| Video of an area | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+All of these can be changed in the settings, which open from the tray menu or with `just-screenshotter --settings`. On Wayland shortcuts belong to the desktop: add one in the keyboard settings with the command `just-screenshotter`.
+
+On Windows the same actions can be started with both mouse buttons pressed at once, alone or together with Shift or Ctrl. This is off by default, because listening for the buttons takes about 2 µs of processor time per mouse movement.
+
+In the editor (on macOS, ⌘ instead of Ctrl):
+
+| Key | Action |
+| --- | --- |
+| Ctrl+C | copies the area |
+| Ctrl+S | saves the area to `Pictures/Screenshots` |
+| Ctrl+U | uploads the area and copies the link |
+| Ctrl+Z | undoes the last change |
+| Delete | deletes the selected drawing |
+| Mouse wheel | changes the thickness of a line or the size of letters |
+| Shift | makes a frame square and an oval round |
+| Enter | edits the selected text; while typing, begins a new line |
+| Esc | ends typing; otherwise closes the editor |
+
+A double click also opens a text for editing. The spell checker of the system underlines mistakes in Russian and English.
+
+## Browser extension
+
+The extension captures the visible part of a page (Alt+Shift+S) or the whole page (Alt+Shift+P) and opens the same editor in a new tab. One picture holds up to 32,000 pixels of a page in height. The extension works in Firefox and in browsers based on Chromium; it does not record video.
+
+## Privacy
+
+Screenshots and recordings stay on your computer. The program uses the network in two cases: when you upload a screenshot to the server you have set, and when you press “Check for updates”. It has no account or telemetry. The extension looks at a page after you press its button or keys, and makes no network requests.
+
+## Measurements
+
+Windows Server 2022, one monitor of 1920 × 1080, no video card, release build, 2026-11-24.
+
+| What was measured | Result |
+| --- | --- |
+| Processor time at rest | 0 ms in 10 s |
+| Memory at rest | 14 MB before the first screenshot, 25 MB after seven |
+| Processes at rest | 1 |
+| From the key press to the editor | 0.61–0.75 s in seven runs |
+| Size of the program file | 5.2 MB |
+| Recording 1920 × 1080, 30 frames per second | 1 processor core, 207 MB |
+| Recording 800 × 600, 30 frames per second | 0.4 of a core, 78 MB |
+
+The window of the editor is created for every screenshot and destroyed after it, which is why it takes this long to open. A separate process records video and exits when the recording ends. Recording on a machine with a hardware H.264 encoder has not been measured.
+
+## Tested on
+
+| System | What was checked |
+| --- | --- |
+| Windows Server 2022 | Screenshots, the editor and video on one monitor. Recording of sound was not checked: the machine has no audio devices. |
+| Windows 10 and 11 | Not checked yet. |
+| macOS, a GitHub machine | Builds, passes the tests, installs, starts, records the screen with system audio. Not checked by hand. |
+| Ubuntu 24.04 and 26.04, GitHub machines | Builds, passes the tests, installs, starts, records the screen. |
+| Ubuntu 26.04, a virtual X11 screen | Keys, selection, saving and video work. Wayland was not checked. |
+| Firefox 161, Edge 158 | The extension works; checked without a window. Chrome, Opera and Yandex Browser were not checked; they need Chromium 120 or later. |
+
+If you run it on a system that has not been checked, please [write how it went](https://github.com/Ilia-Pero/just-screenshotter/issues).
+
+## Build
+
+You need Node.js 24 or later and Rust; on Windows also the Microsoft C++ Build Tools, on Ubuntu also `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -110,12 +116,12 @@ npm ci
 npm run tauri build
 ```
 
-The installer appears in `src-tauri/target/release/bundle`.
+The installer appears in `src-tauri/target/release/bundle`. Tests, the structure of the code and the rules for changes are described in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Translations
 
-The translations are machine-made and have not been checked by native speakers. If you see a mistake, please correct it in `locales` or in `docs`.
+English and Russian are the main languages. The other twelve are machine translations that native speakers have not checked. Corrections go to `locales` and `docs`.
 
-## Contributing and license
+## License
 
-How to build, test and change the program: [CONTRIBUTING.md](CONTRIBUTING.md). The license is [MIT](LICENSE).
+[MIT](LICENSE)

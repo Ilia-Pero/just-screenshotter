@@ -36,7 +36,8 @@ impl Portal {
             .to_file_path()
             .map_err(|()| format!("The portal gave no file: {}", shot.uri().as_str()))?;
         let png = fs::read(&file)?;
-        fs::remove_file(&file)?;
+        // The picture is here already, and the file does no harm if it stays.
+        let _ = fs::remove_file(&file);
         Ok(png)
     }
 }

@@ -1,5 +1,5 @@
 [workspace]
-members = ["capture", "film", "phrase", "store", "upload"]
+members = ["capture", "film", "mouse", "phrase", "store", "upload"]
 
 [workspace.lints.rust]
 unsafe_code = "deny"

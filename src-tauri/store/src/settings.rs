@@ -6,18 +6,54 @@ use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
 
-use crate::Failure;
+use crate::{Failure, Trigger, Triggers};
 
-/// The key that takes a screenshot, as Tauri spells it, the folder for screenshots, the code of
-/// the language, which is empty for the language of the system, and what to record with video.
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+/// What starts actions, the folder for screenshots, the code of the language, which is empty for
+/// the language of the system, what to record with video, and whether the program has settled in
+/// the system: it does so once, and then a person decides.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize)]
 pub struct Settings {
-    pub hotkey: String,
+    pub triggers: Triggers,
     pub folder: PathBuf,
-    #[serde(default)]
     pub language: String,
-    #[serde(default)]
     pub ears: Listened,
+    pub settled: bool,
+}
+
+/// Settings as they lie in the file. Versions before 0.2 wrote only the key.
+#[derive(Deserialize)]
+struct Stored {
+    #[serde(default)]
+    hotkey: String,
+    triggers: Option<Triggers>,
+    folder: PathBuf,
+    #[serde(default)]
+    language: String,
+    #[serde(default)]
+    ears: Listened,
+    #[serde(default)]
+    settled: bool,
+}
+
+impl Stored {
+    /// The settings. What the file does not have comes from the initial ones.
+    fn settings(self, initial: &Settings) -> Settings {
+        let before = Triggers {
+            area: if self.hotkey.is_empty() {
+                initial.triggers.area.clone()
+            } else {
+                Trigger::key(&self.hotkey)
+            },
+            ..initial.triggers.clone()
+        };
+        Settings {
+            triggers: self.triggers.unwrap_or(before),
+            folder: self.folder,
+            language: self.language,
+            ears: self.ears,
+            settled: self.settled,
+        }
+    }
 }
 
 /// What is recorded together with video: the sound of the computer, and the microphone.
@@ -38,11 +74,20 @@ impl Default for Listened {
 }
 
 impl Settings {
-    /// The same settings with another key.
+    /// The same settings with other triggers.
     #[must_use]
-    pub fn with_hotkey(&self, hotkey: &str) -> Settings {
+    pub fn with_triggers(&self, triggers: Triggers) -> Settings {
         Settings {
-            hotkey: hotkey.to_owned(),
+            triggers,
+            ..self.clone()
+        }
+    }
+
+    /// The same settings of a program that has settled in the system.
+    #[must_use]
+    pub fn settled(&self) -> Settings {
+        Settings {
+            settled: true,
             ..self.clone()
         }
     }
@@ -94,7 +139,10 @@ impl SettingsFile {
     /// There is a file, but it cannot be read or understood.
     pub fn read(&self) -> Result<Settings, Failure> {
         match fs::read(&self.file) {
-            Ok(json) => Ok(serde_json::from_slice(&json)?),
+            Ok(json) => {
+                let stored: Stored = serde_json::from_slice(&json)?;
+                Ok(stored.settings(&self.initial))
+            }
             Err(failure) if failure.kind() == ErrorKind::NotFound => Ok(self.initial.clone()),
             Err(failure) => Err(failure.into()),
         }
@@ -125,14 +173,28 @@ mod tests {
     use tempfile::TempDir;
 
     use super::{Listened, Settings, SettingsFile};
+    use crate::{Trigger, Triggers};
 
     fn initial() -> Settings {
         Settings {
-            hotkey: "PrintScreen".to_owned(),
+            triggers: Triggers {
+                area: Trigger::key("PrintScreen"),
+                film: Trigger::key("F8"),
+                ..Triggers::default()
+            },
             folder: PathBuf::from("shots"),
             language: String::new(),
             ears: Listened::default(),
+            settled: false,
         }
+    }
+
+    /// The initial settings with another key for the area.
+    fn keyed(key: &str) -> Settings {
+        initial().with_triggers(Triggers {
+            area: Trigger::key(key),
+            ..initial().triggers
+        })
     }
 
     fn file(root: &TempDir) -> SettingsFile {
@@ -148,8 +210,23 @@ mod tests {
     #[test]
     fn returns_what_was_written() {
         let root = TempDir::new().unwrap();
-        file(&root).write(&initial().with_hotkey("F9")).unwrap();
-        assert_eq!(file(&root).read().unwrap().hotkey, "F9");
+        file(&root).write(&keyed("F9")).unwrap();
+        assert_eq!(file(&root).read().unwrap(), keyed("F9"));
+    }
+
+    #[test]
+    fn remembers_that_it_has_settled() {
+        let root = TempDir::new().unwrap();
+        file(&root).write(&initial().settled()).unwrap();
+        assert!(file(&root).read().unwrap().settled);
+    }
+
+    #[test]
+    fn keeps_an_action_without_a_key() {
+        let root = TempDir::new().unwrap();
+        let bare = initial().with_triggers(Triggers::default());
+        file(&root).write(&bare).unwrap();
+        assert_eq!(file(&root).read().unwrap(), bare);
     }
 
     #[test]
@@ -171,7 +248,7 @@ mod tests {
     #[test]
     fn replaces_earlier_settings() {
         let root = TempDir::new().unwrap();
-        file(&root).write(&initial().with_hotkey("F9")).unwrap();
+        file(&root).write(&keyed("F9")).unwrap();
         file(&root)
             .write(&initial().with_folder(PathBuf::from("other")))
             .unwrap();
@@ -193,7 +270,7 @@ mod tests {
             SettingsFile::new(root.path().join("settings.json"), initial())
                 .read()
                 .unwrap(),
-            initial().with_hotkey("F9")
+            keyed("F9")
         );
     }
 

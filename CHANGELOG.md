@@ -1,5 +1,9 @@
 # Changes
 
+## 0.2.0 (not released)
+
+- Video on macOS 13 and newer has the sound of the computer.
+
 ## 0.1.0 (2026-11-25)
 
 - Screenshots of all monitors on Windows, macOS and Linux.

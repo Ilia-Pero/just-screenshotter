@@ -23,7 +23,7 @@ Pulse Print Screen, seleccione un área, dibuje sobre ella y copie, guarde o sub
 - Dibuja con lápiz, línea, flecha, marco, marcador y texto en ocho colores.
 - Cambia lo ya dibujado: un clic elige una marca y después puede arrastrarla o mover sus extremos, cambiar el grosor y el color, reescribir el texto o borrarla.
 - Copia la imagen, la guarda en PNG o la sube a [su propio servidor](../server/README.md) y copia el enlace.
-- Graba el área en vídeo con sonido: MP4 en Windows, MOV en macOS, WebM en Linux. Usted elige si grabar el sonido del ordenador y el micrófono; en macOS, por ahora solo el micrófono. La grabación termina con el botón Detener, el atajo o el icono de la bandeja.
+- Graba el área en vídeo con sonido: MP4 en Windows, MOV en macOS, WebM en Linux. Usted elige si grabar el sonido del ordenador y el micrófono; en macOS anterior a 13, solo el micrófono. La grabación termina con el botón Detener, el atajo o el icono de la bandeja.
 - Habla 12 idiomas. El idioma se elige en el editor, en el menú del icono y en el instalador para Windows; hasta entonces es el del sistema.
 - No envía nada por su cuenta: no hay cuenta, telemetría ni búsqueda de actualizaciones. Solo usa la red para subir una imagen al servidor que usted indique.
 
@@ -65,7 +65,7 @@ El vídeo lo graba un proceso aparte, que desaparece con toda su memoria al term
 | Sistema | Estado |
 | --- | --- |
 | Windows | Funciona en Windows Server 2022 con un monitor. El vídeo también se ha probado ahí; la grabación de sonido desde dispositivos no, porque el servidor no los tiene. Aún no se ha probado en Windows 10 y 11. |
-| macOS 10.13+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla. Nadie lo ha probado a mano todavía. |
+| macOS 10.13+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla con el sonido del ordenador. Nadie lo ha probado a mano todavía. |
 | Ubuntu 24.04+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla. Nadie lo ha probado a mano todavía. En Wayland, asigne el atajo en los ajustes del teclado: la orden es `just-screenshotter`. |
 
 ## Instalación

@@ -36,7 +36,7 @@ cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p sc
 | `src` | the editor, TypeScript without frameworks |
 | `src-tauri/src` | the program: the tray icon, the shortcut, the windows of the editor |
 | `src-tauri/capture` | taking screenshots: GDI on Windows, `screencapture` on macOS, the portal on Linux |
-| `src-tauri/film` | filming in a process of its own: Media Foundation on Windows, AVFoundation on macOS, the portal and GStreamer on Linux |
+| `src-tauri/film` | filming in a process of its own: Media Foundation on Windows, ScreenCaptureKit and AVFoundation on macOS, the portal and GStreamer on Linux |
 | `src-tauri/store` | the settings and the folder with screenshots |
 | `src-tauri/upload` | uploading to the server |
 | `src-tauri/phrase`, `locales` | texts in 12 languages |

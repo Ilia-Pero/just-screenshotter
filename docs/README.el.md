@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -64,12 +65,20 @@
 | Σύστημα | Κατάσταση |
 | --- | --- |
 | Windows | Λειτουργεί σε Windows Server 2022 με μία οθόνη. Εκεί έχει δοκιμαστεί και το βίντεο· η εγγραφή ήχου από συσκευές όχι, επειδή ο διακομιστής δεν έχει. Δεν έχει δοκιμαστεί ακόμη σε Windows 10 και 11. |
-| macOS 10.13+ | Μεταγλωττίζεται και περνά τις δοκιμές. Δεν το έχει εκτελέσει κανείς ακόμη. |
-| Ubuntu 24.04+ | Μεταγλωττίζεται και περνά τις δοκιμές. Δεν το έχει εκτελέσει κανείς ακόμη. Σε Wayland ορίστε τη συντόμευση στις ρυθμίσεις πληκτρολογίου: η εντολή είναι `just-screenshotter`. |
+| macOS 10.13+ | Μεταγλωττίζεται και περνά τις δοκιμές· σε μηχάνημα του GitHub εγκαθίσταται, εκκινεί και γράφει την οθόνη. Κανείς δεν το έχει δοκιμάσει με το χέρι ακόμη. |
+| Ubuntu 24.04+ | Μεταγλωττίζεται και περνά τις δοκιμές· σε μηχάνημα του GitHub εγκαθίσταται, εκκινεί και γράφει την οθόνη. Κανείς δεν το έχει δοκιμάσει με το χέρι ακόμη. Σε Wayland ορίστε τη συντόμευση στις ρυθμίσεις πληκτρολογίου: η εντολή είναι `just-screenshotter`. |
 
 ## Εγκατάσταση
 
-Δεν υπάρχουν ακόμη έτοιμα αρχεία, οπότε το πρόγραμμα πρέπει να μεταγλωττιστεί. Χρειάζονται Node.js 24 ή νεότερο και Rust, στα Windows επίσης Microsoft C++ Build Tools, στο Ubuntu επίσης `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+| Σύστημα | Αρχείο | Πώς εγκαθίσταται |
+| --- | --- | --- |
+| Windows 10 και 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Εκτελέστε το. Αν τα Windows δεν γνωρίζουν το πρόγραμμα: «Περισσότερες πληροφορίες», «Εκτέλεση ούτως ή άλλως». |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Σύρετε το πρόγραμμα στις Εφαρμογές και ανοίξτε το. Όταν το macOS αρνηθεί, πηγαίνετε στις Ρυθμίσεις συστήματος, «Απόρρητο και ασφάλεια», και πατήστε «Άνοιγμα οπωσδήποτε». |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+Το GitHub μεταγλωττίζει αυτά τα αρχεία από τον κώδικα αυτού του αποθετηρίου, εγκαθιστά το καθένα, εκκινεί το πρόγραμμα και μόνο τότε τα δημοσιεύει. Δεν έχουν υπογραφή επί πληρωμή, γι’ αυτό τα Windows και το macOS προειδοποιούν στην πρώτη εκκίνηση.
+
+Μπορείτε και να μεταγλωττίσετε το πρόγραμμα μόνοι σας. Χρειάζονται Node.js 24 ή νεότερο και Rust, στα Windows επίσης Microsoft C++ Build Tools, στο Ubuntu επίσης `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -78,7 +87,7 @@ npm ci
 npm run tauri build
 ```
 
-Το πρόγραμμα εγκατάστασης εμφανίζεται στο `src-tauri/target/release/bundle`. Δεν είναι υπογεγραμμένο, οπότε τα Windows και το macOS θα ρωτήσουν αν το εμπιστεύεστε.
+Το πρόγραμμα εγκατάστασης εμφανίζεται στο `src-tauri/target/release/bundle`.
 
 ## Μεταφράσεις
 

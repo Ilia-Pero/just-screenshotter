@@ -54,6 +54,10 @@ cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p sc
 
 A language is a file in `locales`. To correct one, change its texts and leave the keys and the `{holes}` as they are: tests check that all languages have the same ones. To add one, copy `en.json` and add the language to `src-tauri/phrase/src/language.rs` and `src/languages.ts`. The translated descriptions are `docs/README.*.md`.
 
+## Releases
+
+Set the version in `package.json`, `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json`, write the changes and the date into `CHANGELOG.md`, and push a tag such as `0.2.0`. GitHub then builds the installers, installs each of them, starts the program, and only after that publishes the release.
+
 ## Licenses of dependencies
 
-The code is under MIT. Dependencies are under MIT, Apache 2.0, BSD, ISC, Zlib, Unicode, BSL, MPL 2.0 and CDLA Permissive 2.0. The full list: `cargo tree --manifest-path src-tauri/Cargo.toml --format "{p} {l}"`.
+The code is under MIT. Dependencies are under MIT, Apache 2.0, BSD, ISC, Zlib, Unicode, BSL, MPL 2.0 and CDLA Permissive 2.0. The full list: `cargo tree --manifest-path src-tauri/Cargo.toml --format "{p} {l}"`. The installers carry the texts: `npm run licenses` collects them into `src-tauri/licenses.txt`.

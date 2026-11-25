@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -64,12 +65,20 @@ macOS에서는 Ctrl 대신 ⌘을 씁니다.
 | 시스템 | 상태 |
 | --- | --- |
 | Windows | Windows Server 2022와 모니터 한 대에서 동작합니다. 동영상도 거기서 확인했습니다. 서버에 소리 장치가 없어 장치 녹음은 확인하지 못했습니다. Windows 10과 11에서는 아직 확인하지 않았습니다. |
-| macOS 10.13+ | 빌드되고 테스트를 통과합니다. 아직 아무도 실행해 보지 않았습니다. |
-| Ubuntu 24.04+ | 빌드되고 테스트를 통과합니다. 아직 아무도 실행해 보지 않았습니다. Wayland에서는 키보드 설정에서 단축키를 지정하세요. 명령은 `just-screenshotter`입니다. |
+| macOS 10.13+ | 빌드되고 테스트를 통과하며, GitHub의 컴퓨터에서 설치, 실행, 화면 녹화가 됩니다. 아직 아무도 직접 써 보지 않았습니다. |
+| Ubuntu 24.04+ | 빌드되고 테스트를 통과하며, GitHub의 컴퓨터에서 설치, 실행, 화면 녹화가 됩니다. 아직 아무도 직접 써 보지 않았습니다. Wayland에서는 키보드 설정에서 단축키를 지정하세요. 명령은 `just-screenshotter`입니다. |
 
 ## 설치
 
-아직 내려받을 수 있는 파일이 없어 직접 빌드해야 합니다. Node.js 24 이상과 Rust가 필요하고, Windows에서는 Microsoft C++ Build Tools, Ubuntu에서는 `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`도 필요합니다.
+| 시스템 | 파일 | 설치 방법 |
+| --- | --- | --- |
+| Windows 10, 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 실행합니다. Windows가 경고하면 "추가 정보", "실행"을 고릅니다. |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | 프로그램을 응용 프로그램으로 끌어다 놓고 엽니다. macOS가 거부하면 시스템 설정의 "개인정보 보호 및 보안"에서 "그래도 열기"를 누릅니다. |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub가 이 저장소의 코드로 파일을 빌드하고 하나씩 설치해 프로그램을 실행해 본 뒤에 공개합니다. 유료 서명이 없어 Windows와 macOS가 첫 실행 때 경고합니다.
+
+직접 빌드할 수도 있습니다. Node.js 24 이상과 Rust가 필요하고, Windows에서는 Microsoft C++ Build Tools, Ubuntu에서는 `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`도 필요합니다.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -78,7 +87,7 @@ npm ci
 npm run tauri build
 ```
 
-설치 파일은 `src-tauri/target/release/bundle`에 생깁니다. 서명되지 않았으므로 Windows와 macOS가 신뢰할지 묻습니다.
+설치 파일은 `src-tauri/target/release/bundle`에 생깁니다.
 
 ## 번역
 

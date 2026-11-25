@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -66,12 +67,20 @@ Just Screenshotter по-русски называется «Просто скр�
 | Система | Что известно |
 | --- | --- |
 | Windows | Работает на Windows Server 2022 с одним монитором. Видео там тоже проверено, а запись звука с устройств нет: на сервере их нет. На Windows 10 и 11 ещё не проверяли. |
-| macOS 10.13+ | Собирается, тесты проходят. Её ещё никто не запускал. |
-| Ubuntu 24.04+ | Собирается, тесты проходят. Её ещё никто не запускал. На Wayland клавишу назначают в настройках клавиатуры: команда `just-screenshotter`. |
+| macOS 10.13+ | Собирается, тесты проходят; на машине GitHub устанавливается, запускается и пишет экран. Руками её ещё никто не проверял. |
+| Ubuntu 24.04+ | Собирается, тесты проходят; на машине GitHub устанавливается, запускается и пишет экран. Руками её ещё никто не проверял. На Wayland клавишу назначают в настройках клавиатуры: команда `just-screenshotter`. |
 
 ## Установка
 
-Готовых файлов для скачивания пока нет, программу нужно собрать. Понадобятся Node.js 24 или новее и Rust, на Windows ещё Microsoft C++ Build Tools, на Ubuntu ещё `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+| Система | Файл | Как установить |
+| --- | --- | --- |
+| Windows 10 и 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Запустите его. Если Windows не знает программу: «Подробнее», «Выполнить в любом случае». |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Перетащите программу в «Программы» и откройте. Когда macOS откажет, откройте системные настройки, «Конфиденциальность и безопасность», и нажмите «Подтвердить вход». |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub собирает эти файлы из кода этого репозитория, устанавливает каждый, запускает программу и только потом публикует. Платной подписи у файлов нет, поэтому при первом запуске Windows и macOS предупреждают.
+
+Программу можно собрать и самому. Понадобятся Node.js 24 или новее и Rust, на Windows ещё Microsoft C++ Build Tools, на Ubuntu ещё `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -80,7 +89,7 @@ npm ci
 npm run tauri build
 ```
 
-Установщик появится в `src-tauri/target/release/bundle`. Он не подписан, поэтому Windows и macOS спросят, доверяете ли вы ему.
+Установщик появится в `src-tauri/target/release/bundle`.
 
 ## Переводы
 

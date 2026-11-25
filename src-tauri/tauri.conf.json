@@ -6,7 +6,7 @@
   "identifier": "io.github.ilia-pero.just-screenshotter",
   "build": {
     "frontendDist": "../web",
-    "beforeBuildCommand": "npm run bundle",
+    "beforeBuildCommand": "npm run bundle && npm run licenses",
     "beforeDevCommand": "npm run bundle"
   },
   "app": {
@@ -29,6 +29,9 @@
     "license": "MIT",
     "homepage": "https://github.com/Ilia-Pero/just-screenshotter",
     "shortDescription": "A screenshot tool with zero idle load",
+    "resources": [
+      "licenses.txt"
+    ],
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -62,7 +65,9 @@
       }
     },
     "macOS": {
-      "minimumSystemVersion": "10.13"
+      "minimumSystemVersion": "10.13",
+      "signingIdentity": "-",
+      "entitlements": "Entitlements.plist"
     },
     "linux": {
       "deb": {

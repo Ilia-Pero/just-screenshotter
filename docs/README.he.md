@@ -9,6 +9,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -66,12 +67,20 @@
 | מערכת | מצב |
 | --- | --- |
 | Windows | עובדת ב־Windows Server 2022 עם מסך אחד. גם הווידאו נבדק שם; הקלטת צליל מהתקנים לא נבדקה, כי בשרת אין כאלה. עדיין לא נבדקה ב־Windows 10 ו־11. |
-| macOS 10.13+ | נבנית ועוברת את הבדיקות. איש עדיין לא הפעיל אותה. |
-| Ubuntu 24.04+ | נבנית ועוברת את הבדיקות. איש עדיין לא הפעיל אותה. ב־Wayland מגדירים את הקיצור בהגדרות המקלדת: הפקודה היא `just-screenshotter`. |
+| macOS 10.13+ | נבנית ועוברת את הבדיקות; במחשב של GitHub היא מותקנת, מופעלת ומקליטה את המסך. איש עדיין לא ניסה אותה ביד. |
+| Ubuntu 24.04+ | נבנית ועוברת את הבדיקות; במחשב של GitHub היא מותקנת, מופעלת ומקליטה את המסך. איש עדיין לא ניסה אותה ביד. ב־Wayland מגדירים את הקיצור בהגדרות המקלדת: הפקודה היא `just-screenshotter`. |
 
 ## התקנה
 
-עדיין אין קבצים מוכנים להורדה, ולכן צריך לבנות את התוכנה. דרושים Node.js 24 ומעלה ו־Rust, ב־Windows גם Microsoft C++ Build Tools, ב־Ubuntu גם `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+| מערכת | קובץ | איך מתקינים |
+| --- | --- | --- |
+| Windows 10 ו־11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | הפעילו אותו. אם Windows אינה מכירה את התוכנה: "מידע נוסף", "הפעל בכל זאת". |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | גררו את התוכנה ליישומים ופתחו אותה. כש־macOS מסרבת, פתחו את הגדרות המערכת, "פרטיות ואבטחה", ולחצו על "פתח בכל זאת". |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub בונה את הקבצים האלה מהקוד של מאגר זה, מתקין כל אחד מהם, מפעיל את התוכנה ורק אז מפרסם אותם. אין להם חתימה בתשלום, ולכן Windows ו־macOS מזהירות בהפעלה הראשונה.
+
+אפשר גם לבנות את התוכנה בעצמכם. דרושים Node.js 24 ומעלה ו־Rust, ב־Windows גם Microsoft C++ Build Tools, ב־Ubuntu גם `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 </div>
 
@@ -84,7 +93,7 @@ npm run tauri build
 
 <div dir="rtl">
 
-קובץ ההתקנה מופיע בתיקייה `src-tauri/target/release/bundle`. הוא אינו חתום, ולכן Windows ו־macOS ישאלו אם אתם סומכים עליו.
+קובץ ההתקנה מופיע בתיקייה `src-tauri/target/release/bundle`.
 
 ## תרגומים
 

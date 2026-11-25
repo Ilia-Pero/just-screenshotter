@@ -1,6 +1,6 @@
 # Changes
 
-## 0.1.0 (not released)
+## 0.1.0 (2026-11-25)
 
 - Screenshots of all monitors on Windows, macOS and Linux.
 - The editor: selection, pencil, line, arrow, frame, marker, text, eight colors, undo.

@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -64,12 +65,20 @@
 | 系统 | 状态 |
 | --- | --- |
 | Windows | 在 Windows Server 2022 上用一台显示器可以使用。视频也在那里检查过；未检查从设备录音，因为该服务器没有音频设备。尚未在 Windows 10 和 11 上检查。 |
-| macOS 10.13+ | 可以构建并通过测试。还没有人运行过。 |
-| Ubuntu 24.04+ | 可以构建并通过测试。还没有人运行过。在 Wayland 上，请在键盘设置中指定快捷键，命令为 `just-screenshotter`。 |
+| macOS 10.13+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕。还没有人手动试过。 |
+| Ubuntu 24.04+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕。还没有人手动试过。在 Wayland 上，请在键盘设置中指定快捷键，命令为 `just-screenshotter`。 |
 
 ## 安装
 
-目前还没有现成的下载文件，需要自行构建。需要 Node.js 24 或更新版本和 Rust；Windows 还需要 Microsoft C++ Build Tools；Ubuntu 还需要 `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`。
+| 系统 | 文件 | 安装方法 |
+| --- | --- | --- |
+| Windows 10 和 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 运行它。如果 Windows 不认识该程序：“更多信息”、“仍要运行”。 |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | 把程序拖到“应用程序”并打开。macOS 拒绝时，打开“系统设置”中的“隐私与安全性”，点按“仍要打开”。 |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub 用本仓库的代码构建这些文件，逐个安装并启动程序，然后才发布。它们没有付费签名，因此 Windows 和 macOS 会在首次启动时发出警告。
+
+也可以自行构建程序。需要 Node.js 24 或更新版本和 Rust；Windows 还需要 Microsoft C++ Build Tools；Ubuntu 还需要 `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`。
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -78,7 +87,7 @@ npm ci
 npm run tauri build
 ```
 
-安装程序位于 `src-tauri/target/release/bundle`。它没有签名，因此 Windows 和 macOS 会询问您是否信任它。
+安装程序位于 `src-tauri/target/release/bundle`。
 
 ## 翻译
 

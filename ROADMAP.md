@@ -15,5 +15,5 @@ These tasks need a server, a paid account or somebody to look after them, so the
 
 - A server for screenshots that anybody can use. Today the program uploads only to a server of your own, and the button is not shown until you set its address.
 - Uploading films by link.
-- Ready-made downloads, signed for Windows and macOS.
+- Signatures of the downloads, so that Windows and macOS do not warn at the first start.
 - Updates from within the program.

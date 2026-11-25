@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -64,12 +65,20 @@
 | Систем | Стање |
 | --- | --- |
 | Windows | Ради на Windows Server 2022 са једним монитором. Видео је тамо такође проверен, а снимање звука са уређаја није, јер их сервер нема. На Windows 10 и 11 још није проверено. |
-| macOS 10.13+ | Гради се и пролази тестове. Нико га још није покренуо. |
-| Ubuntu 24.04+ | Гради се и пролази тестове. Нико га још није покренуо. На Wayland-у пречицу задајте у подешавањима тастатуре: наредба је `just-screenshotter`. |
+| macOS 10.13+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран. Ручно га још нико није испробао. |
+| Ubuntu 24.04+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран. Ручно га још нико није испробао. На Wayland-у пречицу задајте у подешавањима тастатуре: наредба је `just-screenshotter`. |
 
 ## Инсталација
 
-Готових датотека још нема, па програм треба изградити. Потребни су Node.js 24 или новији и Rust, на Windows-у и Microsoft C++ Build Tools, на Ubuntu-у и `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+| Систем | Датотека | Како се инсталира |
+| --- | --- | --- |
+| Windows 10 и 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Покрените је. Ако Windows не познаје програм: „Више информација“, „Ипак покрени“. |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Превуците програм у Applications и отворите га. Кад macOS одбије, отворите System Settings, „Privacy & Security“, и притисните „Open Anyway“. |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub гради ове датотеке из кода овог репозиторијума, сваку инсталира, покреће програм, па их тек онда објављује. Немају плаћени потпис, зато Windows и macOS упозоравају при првом покретању.
+
+Програм можете изградити и сами. Потребни су Node.js 24 или новији и Rust, на Windows-у и Microsoft C++ Build Tools, на Ubuntu-у и `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -78,7 +87,7 @@ npm ci
 npm run tauri build
 ```
 
-Инсталациони програм се појављује у `src-tauri/target/release/bundle`. Није потписан, па ће Windows и macOS питати да ли му верујете.
+Инсталациони програм се појављује у `src-tauri/target/release/bundle`.
 
 ## Преводи
 

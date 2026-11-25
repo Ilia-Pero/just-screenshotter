@@ -34,6 +34,13 @@ export interface Chosen {
   readonly mouse: string;
 }
 
+/** The latest release of the program. */
+export interface Release {
+  readonly version: string;
+  /** Whether it is newer than this program. */
+  readonly newer: boolean;
+}
+
 /** Where the settings are kept: in the shell, or in a browser tab for a look. */
 export interface Cabinet {
   words(): Promise<Words>;
@@ -49,6 +56,12 @@ export interface Cabinet {
   uploading(): Promise<void>;
   languages(): Promise<ReadonlyArray<Tongue>>;
   speak(code: string): Promise<Words>;
+  /** Looks for a newer version. */
+  update(): Promise<Release>;
+  /** Downloads the installer of the latest release. */
+  download(): Promise<void>;
+  /** Shows what is new in the latest release. */
+  news(): Promise<void>;
 }
 
 /** The choice of a person put among the others. */

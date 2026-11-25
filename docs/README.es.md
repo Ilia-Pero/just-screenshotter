@@ -13,19 +13,19 @@
 
 [English](../README.md) · [Русский](README.ru.md) · **Español** · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![El editor sobre una pantalla de muestra: un marcador, un marco, una flecha y un texto](editor.png)
+![El editor sobre una pantalla de muestra: un marcador, un óvalo, una flecha y un texto](editor.png)
 
 Pulse Print Screen, seleccione un área, dibuje sobre ella y copie, guarde o suba la imagen, o grabe el área en vídeo. Entre capturas el programa solo espera la tecla: no tiene ventanas ni temporizadores y no ocupa el procesador.
 
 ## Qué hace
 
 - Captura todos los monitores y abre el editor encima de ellos.
-- Dibuja con lápiz, línea, flecha, marco, marcador y texto en ocho colores.
+- Dibuja con lápiz, línea, flecha, marco, óvalo, marcador y texto en ocho colores.
 - Cambia lo ya dibujado: un clic elige una marca y después puede arrastrarla o mover sus extremos, cambiar el grosor y el color, reescribir el texto o borrarla.
 - Copia la imagen, la guarda en PNG o la sube a [su propio servidor](../server/README.md) y copia el enlace.
 - Graba el área en vídeo con sonido: MP4 en Windows, MOV en macOS, WebM en Linux. Usted elige si grabar el sonido del ordenador y el micrófono; en macOS anterior a 13, solo el micrófono. La grabación termina con el botón Detener, el atajo o el icono de la bandeja.
 - Habla 14 idiomas. El idioma se elige en los ajustes y en el instalador para Windows; hasta entonces es el del sistema.
-- No envía nada por su cuenta: no hay cuenta, telemetría ni búsqueda de actualizaciones. Solo usa la red para subir una imagen al servidor que usted indique.
+- No envía nada por su cuenta: no hay cuenta ni telemetría. Solo usa la red para subir una imagen al servidor que usted indique y para buscar una versión nueva cuando usted pulsa el botón de los ajustes.
 
 ## Teclas y ratón
 
@@ -53,9 +53,13 @@ En macOS, ⌘ en lugar de Ctrl.
 
 Un clic elige una marca con cualquier herramienta. Un doble clic o Enter cambia el texto. La rueda del ratón cambia el grosor.
 
+En un texto, Enter empieza una línea nueva; un clic en otro sitio o Esc termina el texto. La rueda cambia el tamaño de las letras. El sistema subraya los errores en ruso e inglés, y el botón derecho del ratón propone correcciones. Con Mayús, el marco es un cuadrado y el óvalo un círculo.
+
 Lo demás también está en los ajustes: qué se graba con el vídeo, la carpeta, el idioma, la subida y el inicio con el sistema, activado hasta que usted lo desactive. Los ajustes se abren desde el menú del icono de la bandeja o iniciando el programa con `--settings`. Iniciarlo por segunda vez sin eso también hace una captura.
 
-## La extensión para Firefox
+## La extensión para el navegador
+
+Para Firefox y para los navegadores basados en Chromium: Chrome, Yandex Browser, Edge, Opera.
 
 Captura la parte visible de una página o la página completa y abre el mismo editor en una pestaña nueva: seleccionar, dibujar, copiar, guardar. Las teclas son Alt+Mayús+S y Alt+Mayús+P. Mira una página solo cuando usted lo pide, no envía nada y recuerda solo el idioma. No graba vídeo, y la altura de una captura no pasa de 32 000 píxeles.
 
@@ -83,6 +87,7 @@ El vídeo lo graba un proceso aparte, que desaparece con toda su memoria al term
 | macOS 10.13+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla con el sonido del ordenador. Nadie lo ha probado a mano todavía. |
 | Ubuntu 24.04+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla. En una pantalla X11 virtual de Ubuntu 26.04 funcionan las teclas, la selección, el guardado y el vídeo; en Wayland no se ha comprobado. Nadie lo ha probado a mano todavía. En Wayland, asigne el atajo en los ajustes del teclado: la orden es `just-screenshotter`. |
 | Firefox 128+ | Funciona en Firefox 161, probada sin ventana. Mozilla aún no la ha firmado, así que hay que cargarla de nuevo tras reiniciar Firefox. |
+| Chrome, Yandex Browser, Edge, Opera | Funciona en Edge 158, probada sin ventana. Los demás no se han probado; necesitan Chromium 120 o posterior. |
 
 ## Instalación
 
@@ -92,6 +97,7 @@ El vídeo lo graba un proceso aparte, que desaparece con toda su memoria al term
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Arrastre el programa a Aplicaciones y ábralo. Cuando macOS se niegue, vaya a Ajustes del Sistema, «Privacidad y seguridad», y pulse «Abrir igualmente». |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
 | Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Abra `about:debugging`, «Este Firefox», «Cargar complemento temporal», y elija el archivo. Tras reiniciar Firefox, cárguelo de nuevo. |
+| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Descomprímalo, abra `chrome://extensions`, active el «Modo de desarrollador», pulse «Cargar descomprimida» y elija la carpeta; no la borre. Yandex Browser solo confía en los catálogos y puede desactivar la extensión. |
 
 GitHub compila estos archivos a partir del código de este repositorio, instala cada uno, inicia el programa y solo entonces los publica. No llevan firma de pago, por eso Windows y macOS avisan en el primer inicio.
 

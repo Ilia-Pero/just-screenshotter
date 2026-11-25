@@ -75,6 +75,22 @@ body {
   background: #e6e6e6;
 }
 
+.key:active {
+  background: #d4d9e0;
+}
+
+.key:focus {
+  outline: 2px solid #2f6fdf;
+  outline-offset: -2px;
+}
+
+/* A line between groups of buttons. */
+.rule {
+  height: 1px;
+  margin: 3px 6px;
+  background: #d5d9df;
+}
+
 .key.on {
   background: #2f6fdf;
   color: #fff;
@@ -160,11 +176,14 @@ body {
 
 .tick {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
+  padding: 4px 0;
   cursor: pointer;
 }
 
 .tick input {
+  width: 16px;
+  height: 16px;
   margin: 0 6px;
   vertical-align: middle;
 }
@@ -176,7 +195,7 @@ body {
   padding: 7px 12px;
   border: 0;
   border-radius: 4px;
-  background: #e5332a;
+  background: #d42b22;
   color: #fff;
   font: inherit;
   line-height: 1.4;
@@ -184,19 +203,29 @@ body {
 }
 
 .start:hover {
-  background: #c62820;
+  background: #b8231b;
 }
 
 .swatch {
   display: inline-block;
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   margin: 4px;
   padding: 0;
-  border: 1px solid rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(0, 0, 0, 0.5);
   border-radius: 50%;
   vertical-align: top;
   cursor: pointer;
+}
+
+/* The color that is used now. */
+.swatch.on {
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #2f6fdf;
+}
+
+.swatch:focus {
+  outline: 2px solid #1f2328;
+  outline-offset: 3px;
 }
 
 .badge,
@@ -245,8 +274,9 @@ body {
 
 .entry {
   position: absolute;
-  width: 16em;
-  height: 1.2em;
+  box-sizing: content-box;
+  min-width: 6em;
+  min-height: 1.2em;
   margin: 0;
   padding: 0;
   border: 0;
@@ -255,6 +285,9 @@ body {
   font-family: sans-serif;
   font-weight: 600;
   line-height: 1.2;
+  white-space: pre;
+  overflow: hidden;
+  resize: none;
   -webkit-user-select: text;
   user-select: text;
 }

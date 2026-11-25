@@ -16,11 +16,8 @@ import type { Acts, Panels } from './panels.ts';
 import { Point } from './point.ts';
 import type { Session } from './session.ts';
 import type { Typing } from './shape.ts';
-import { turned } from './thickness.ts';
+import { Wheel, turned } from './thickness.ts';
 import type { Tool } from './tool.ts';
-
-/** How far the wheel has to go to change the thickness once, in pixels. */
-const NOTCH = 50;
 
 /**
  * The editor: the screenshot on the canvas, the selection and the panels.
@@ -33,12 +30,12 @@ export class Overlay implements Acts {
   private readonly unit: number;
   private readonly panels: Panels;
   private readonly typing: Typing;
+  private readonly wheel = new Wheel();
   private gesture: Gesture;
   /** Whether a film is wanted and has not been proposed yet. */
   private wanted: boolean;
   private mode: 'idle' | 'dragging' | 'busy' = 'idle';
   private queued = false;
-  private rolled = 0;
 
   constructor(
     desk: Desk,
@@ -139,7 +136,7 @@ export class Overlay implements Acts {
 
   private drag(event: MouseEvent): void {
     if (this.mode === 'dragging') {
-      this.gesture = this.gesture.moved(this.spot(event));
+      this.gesture = this.gesture.moved(this.spot(event), event.shiftKey);
       this.refresh();
     } else if (this.mode === 'idle') {
       this.ctx.canvas.style.cursor = this.gesture.now().cursor(this.spot(event));
@@ -148,7 +145,7 @@ export class Overlay implements Acts {
 
   private release(event: MouseEvent): void {
     if (event.button === 0 && this.mode === 'dragging') {
-      this.end(this.gesture.moved(this.spot(event)));
+      this.end(this.gesture.moved(this.spot(event), event.shiftKey));
     }
   }
 
@@ -162,9 +159,7 @@ export class Overlay implements Acts {
   /** The wheel changes the thickness. */
   private roll(event: WheelEvent): void {
     event.preventDefault();
-    this.rolled += event.deltaY;
-    const notches = Math.trunc(this.rolled / NOTCH);
-    this.rolled -= notches * NOTCH;
+    const notches = this.wheel.notches(event);
     const width = this.gesture.now().thickness() / this.unit;
     if (notches !== 0 && width > 0) {
       this.thick(turned(width, -notches) * this.unit);

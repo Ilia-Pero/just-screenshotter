@@ -13,19 +13,19 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · **简体中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![示例屏幕上的编辑器：荧光笔、方框、箭头和文字](editor.png)
+![示例屏幕上的编辑器：荧光笔、椭圆、箭头和文字](editor.png)
 
 按下 Print Screen，选择区域，在上面绘制，然后复制、保存或上传图片，也可以把该区域录成视频。两次截图之间，程序只等待按键：没有窗口，没有定时器，不占用处理器。
 
 ## 功能
 
 - 截取所有显示器，并在其上打开编辑器。
-- 用铅笔、直线、箭头、方框、荧光笔和文字绘制，八种颜色。
+- 用铅笔、直线、箭头、方框、椭圆、荧光笔和文字绘制，八种颜色。
 - 可以修改已绘制的内容：点击选中一个标记，然后拖动它或它的端点，设置粗细和颜色，重新输入文字或删除。
 - 复制图片、保存为 PNG，或上传到[自己的服务器](../server/README.md)并复制链接。
 - 将区域录成带声音的视频：Windows 上为 MP4，macOS 上为 MOV，Linux 上为 WebM。是否录制电脑声音和麦克风由您选择；macOS 13 之前的版本只能录麦克风。用“停止”按钮、快捷键或托盘图标结束录制。
 - 支持 14 种语言。可在设置和 Windows 安装程序中选择语言；选择之前使用系统语言。
-- 不会自行发送任何内容：没有账号，没有遥测，没有更新检查。仅在把图片上传到您设置的服务器时使用网络。
+- 不会自行发送任何内容：没有账号，没有遥测。仅在把图片上传到您设置的服务器，以及您在设置中点击按钮检查新版本时使用网络。
 
 ## 按键和鼠标
 
@@ -53,9 +53,13 @@
 
 使用任何工具时单击都可选中标记。双击或按 Enter 修改文字。鼠标滚轮调整粗细。
 
+输入文字时，Enter 换行；单击别处或按 Esc 结束。滚轮调整字号。系统会标出俄语和英语的拼写错误，右键可选择更正。按住 Shift，方框变为正方形，椭圆变为圆。
+
 其余也在设置中：录视频时录什么声音、文件夹、语言、上传，以及开机启动（默认开启，可关闭）。设置可从托盘图标的菜单打开，也可用 `--settings` 启动程序打开。不带它再次启动程序也会截图。
 
-## Firefox 扩展
+## 浏览器扩展
+
+适用于 Firefox 和基于 Chromium 的浏览器：Chrome、Yandex 浏览器、Edge、Opera。
 
 截取页面的可见部分或整个页面，并在新标签页中打开同样的编辑器：选择、绘制、复制、保存。按键为 Alt+Shift+S 和 Alt+Shift+P。只有在您要求时才查看页面，不发送任何内容，只记住语言。不录视频，截图高度最多 32,000 像素。
 
@@ -83,6 +87,7 @@
 | macOS 10.13+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕和电脑声音。还没有人手动试过。 |
 | Ubuntu 24.04+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕。在 Ubuntu 26.04 的虚拟 X11 屏幕上，快捷键、选区、保存和视频均可用；Wayland 上尚未检查。还没有人手动试过。在 Wayland 上，请在键盘设置中指定快捷键，命令为 `just-screenshotter`。 |
 | Firefox 128+ | 在 Firefox 161 中可用，已在无窗口模式下检查。尚未经 Mozilla 签名，重启 Firefox 后需要重新加载。 |
+| Chrome、Yandex 浏览器、Edge、Opera | 在 Edge 158 中可用，已在无窗口模式下检查。其他浏览器尚未检查，需要 Chromium 120 或更新版本。 |
 
 ## 安装
 
@@ -92,6 +97,7 @@
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | 把程序拖到“应用程序”并打开。macOS 拒绝时，打开“系统设置”中的“隐私与安全性”，点按“仍要打开”。 |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
 | Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | 打开 `about:debugging`，选择“此 Firefox”、“临时载入附加组件”和该文件。重启 Firefox 后需重新载入。 |
+| Chrome、Yandex 浏览器、Edge、Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | 解压后打开 `chrome://extensions`，开启“开发者模式”，点击“加载已解压的扩展程序”并选择该文件夹；请保留文件夹。Yandex 浏览器只信任应用商店，可能会停用该扩展。 |
 
 GitHub 用本仓库的代码构建这些文件，逐个安装并启动程序，然后才发布。它们没有付费签名，因此 Windows 和 macOS 会在首次启动时发出警告。
 

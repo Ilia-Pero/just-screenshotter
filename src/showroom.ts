@@ -1,4 +1,4 @@
-import type { Cabinet, Chosen, State } from './cabinet.ts';
+import type { Cabinet, Chosen, Release, State } from './cabinet.ts';
 import type { Tongue } from './desk.ts';
 import { LANGUAGES, spoken } from './languages.ts';
 import { Room } from './room.ts';
@@ -87,6 +87,18 @@ class Pretence implements Cabinet {
   speak(code: string): Promise<Words> {
     this.code = code;
     return this.words();
+  }
+
+  update(): Promise<Release> {
+    return Promise.resolve({ version: '0.1.0', newer: true });
+  }
+
+  download(): Promise<void> {
+    return Promise.reject(new Error('A browser tab has nothing to update.'));
+  }
+
+  news(): Promise<void> {
+    return Promise.reject(new Error('A browser tab has nothing new.'));
   }
 
   private changed(change: Partial<State>): Promise<State> {

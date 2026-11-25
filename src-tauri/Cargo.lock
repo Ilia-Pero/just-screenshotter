@@ -2198,7 +2198,7 @@ dependencies = [
 
 [[package]]
 name = "just-screenshotter"
-version = "0.4.0"
+version = "0.5.0"
 dependencies = [
  "chrono",
  "clipboard-win",
@@ -2207,6 +2207,8 @@ dependencies = [
  "screenshotter-keys",
  "screenshotter-mouse",
  "screenshotter-phrase",
+ "screenshotter-release",
+ "screenshotter-spelling",
  "screenshotter-store",
  "screenshotter-upload",
  "serde",
@@ -2218,6 +2220,7 @@ dependencies = [
  "tauri-plugin-global-shortcut",
  "tauri-plugin-opener",
  "tauri-plugin-single-instance",
+ "webkit2gtk",
 ]
 
 [[package]]
@@ -3607,6 +3610,24 @@ dependencies = [
  "serde_json",
  "sys-locale",
  "tempfile",
+]
+
+[[package]]
+name = "screenshotter-release"
+version = "0.1.0"
+dependencies = [
+ "ureq",
+]
+
+[[package]]
+name = "screenshotter-spelling"
+version = "0.1.0"
+dependencies = [
+ "objc2",
+ "objc2-foundation",
+ "serde_json",
+ "tempfile",
+ "windows",
 ]
 
 [[package]]

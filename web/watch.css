@@ -49,7 +49,7 @@ button {
   padding: 0 10px;
   border: 0;
   border-radius: 4px;
-  background: #e5332a;
+  background: #d42b22;
   color: #fff;
   font: inherit;
   font-size: 13px;
@@ -58,7 +58,12 @@ button {
 }
 
 button:hover {
-  background: #c62820;
+  background: #b8231b;
+}
+
+button:focus {
+  outline: 2px solid #fff;
+  outline-offset: -3px;
 }
 
 button:disabled {

@@ -1,5 +1,6 @@
 import { Arrow } from './arrow.ts';
 import { Caption } from './caption.ts';
+import { Border, Oval } from './form.ts';
 import { Frame } from './frame.ts';
 import { ICONS } from './icons.ts';
 import type { Ruler } from './ruler.ts';
@@ -38,7 +39,12 @@ export function brushes(unit: number, ruler: Ruler): ReadonlyArray<Choice> {
     {
       title: 'frame',
       icon: ICONS.frame,
-      tool: new Brush(thin, 1, (at, ink) => new Frame(at, at, ink)),
+      tool: new Brush(thin, 1, (at, ink) => new Frame(at, at, ink, new Border())),
+    },
+    {
+      title: 'oval',
+      icon: ICONS.oval,
+      tool: new Brush(thin, 1, (at, ink) => new Frame(at, at, ink, new Oval())),
     },
     {
       title: 'marker',

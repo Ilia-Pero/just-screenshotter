@@ -1,5 +1,17 @@
 # Changes
 
+## 0.5.0 (2026-11-25)
+
+- Enter begins a new line in a text. A click elsewhere, Esc, or Ctrl+Enter ends it.
+- The wheel changes the size of the letters while a text is typed.
+- Ctrl+S and Ctrl+U end the text that is being typed and do their work; Ctrl+C and Ctrl+Z do so in an empty field.
+- The system underlines mistakes in Russian and English, and the right button of the mouse offers corrections. The program has no dictionaries of its own and sends nothing. On Linux the dictionaries come with the packages hunspell-ru and hunspell-en-us.
+- An oval. With Shift, an oval is a circle and a frame is a square.
+- The wheel over a mark picked by a click changes this mark only. In 0.4.0 it changed the tool too.
+- A button in the settings looks for a newer version. The program does not do this by itself.
+- The extension for Chrome, Yandex Browser, Edge and Opera. Its window names the keys.
+- The settings are laid out in parts and fit a narrow window. Lines of controls and letters on buttons have enough contrast, what is pressed is never smaller than 24 pixels, a key taken by another program is marked with a sign and not with a color alone, and screen readers are told which tool and which color are on.
+
 ## 0.4.0 (2026-11-25)
 
 - A mark can be changed at any moment: a click picks it with any tool, whatever has been drawn after it. A double click types a text anew with any tool.

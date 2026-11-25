@@ -5,6 +5,7 @@ export interface Browser {
   };
   readonly commands: {
     readonly onCommand: { addListener(listener: (name: string) => void): void };
+    getAll(): Promise<ReadonlyArray<Command>>;
   };
   readonly runtime: {
     readonly onMessage: {
@@ -42,6 +43,12 @@ export interface Browser {
     }): Promise<ReadonlyArray<Tab>>;
     remove(tab: number): Promise<void>;
   };
+}
+
+/** A command a person can call with keys. The keys may be empty. */
+export interface Command {
+  readonly name?: string;
+  readonly shortcut?: string;
 }
 
 export interface Tab {
@@ -86,7 +93,7 @@ declare global {
   var chrome: Browser | undefined;
 }
 
-/** Firefox has the one name, Chromium the other. */
+/** Firefox has the one name, Chromium the other; newer ones have both. */
 function found(): Browser {
   const known = globalThis.browser ?? globalThis.chrome;
   if (known === undefined) {
@@ -98,4 +105,4 @@ function found(): Browser {
 export const browser = found();
 
 /** Whether the browser lets extensions take no more than two pictures a second. */
-export const unhurried = globalThis.browser === undefined;
+export const unhurried = !browser.runtime.getURL('').startsWith('moz-extension:');

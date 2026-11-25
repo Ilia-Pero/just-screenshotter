@@ -5,9 +5,12 @@ import type { Ruler } from './ruler.ts';
 import { font } from './ruler.ts';
 import type { Mark, Typing } from './shape.ts';
 
+/** The height of a line, in sizes of its letters. */
+const LINE = 1.2;
+
 /**
- * A line of text. The point is the top left corner of the line, the thickness of the ink is
- * the size of the letters.
+ * A text of one line or several. The point is the top left corner of the first line, the thickness
+ * of the ink is the size of the letters.
  */
 export class Label implements Mark {
   private readonly at: Point;
@@ -31,7 +34,9 @@ export class Label implements Mark {
     this.ink.soak(ctx);
     ctx.font = font(this.ink.times(1));
     ctx.textBaseline = 'middle';
-    ctx.fillText(this.text, this.at.x, this.at.y + this.ink.times(0.6));
+    this.lines().forEach((line, index) =>
+      ctx.fillText(line, this.at.x, this.at.y + this.ink.times(LINE * (index + 0.5))),
+    );
     ctx.restore();
   }
 
@@ -40,9 +45,16 @@ export class Label implements Mark {
   }
 
   bounds(): Box {
+    const lines = this.lines();
+    const size = this.ink.times(1);
     return new Box(
       this.at,
-      this.at.plus(new Point(this.ruler.width(this.text, this.ink.times(1)), this.ink.times(1.2))),
+      this.at.plus(
+        new Point(
+          Math.max(...lines.map((line) => this.ruler.width(line, size))),
+          this.ink.times(LINE * lines.length),
+        ),
+      ),
     );
   }
 
@@ -74,8 +86,14 @@ export class Label implements Mark {
   retyped(typing: Typing): Promise<Mark> {
     return typing
       .words(this.at, this.ink, this.text)
-      .then((text) =>
-        text === this.text ? this : new Label(this.at, text, this.ink, this.ruler),
+      .then((written) =>
+        written.text === this.text && written.ink.times(1) === this.ink.times(1)
+          ? this
+          : new Label(this.at, written.text, written.ink, this.ruler),
       );
+  }
+
+  private lines(): ReadonlyArray<string> {
+    return this.text.split('\n');
   }
 }

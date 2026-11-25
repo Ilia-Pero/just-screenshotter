@@ -56,7 +56,8 @@ export class Session {
 
   /**
    * The session with one more mark. A blank one changes nothing. The mark is picked at once,
-   * except a freehand line: they are drawn in a row, and the outline would be in the way.
+   * except a freehand line: they are drawn in a row, and the outline would be in the way. The tool
+   * keeps the thickness: that of a text may have changed while it was typed.
    */
   drawn(mark: Mark): Session {
     if (mark.blank()) {
@@ -64,7 +65,14 @@ export class Session {
     }
     const sketch = this.sketch.plus(mark);
     const changeable = mark.worded() || mark.handles().length > 0;
-    return this.with(this.box, changeable ? sketch.latest() : sketch);
+    return new Session(
+      this.shot,
+      this.box,
+      changeable ? sketch.latest() : sketch,
+      this.tool.thick(mark.tint().times(1)),
+      this.color,
+      this.unit,
+    );
   }
 
   undone(): Session {
@@ -94,13 +102,16 @@ export class Session {
     );
   }
 
-  /** The session with another thickness: of the picked mark and of the tool. */
+  /**
+   * The session with another thickness: of the picked mark and of the tool. A mark that a person
+   * has picked among the others changes alone.
+   */
   thick(width: number): Session {
     return new Session(
       this.shot,
       this.box,
       this.sketch.changed((mark) => mark.tinted(mark.tint().thick(width)), 'thick'),
-      this.tool.thick(width),
+      this.sketch.taken() ? this.tool : this.tool.thick(width),
       this.color,
       this.unit,
     );
@@ -126,11 +137,14 @@ export class Session {
         );
   }
 
-  /** The session where the picked mark is pulled by one of its handles. */
-  pulled(handle: number, to: Point): Session {
+  /**
+   * The session where the picked mark is pulled by one of its handles. even tells whether its sides
+   * should be equal.
+   */
+  pulled(handle: number, to: Point, even: boolean): Session {
     return this.with(
       this.box,
-      this.sketch.changed((mark) => mark.pulled(handle, to), ''),
+      this.sketch.changed((mark) => mark.pulled(handle, to, even), ''),
     );
   }
 
@@ -204,7 +218,7 @@ export class Session {
     }
     const handle = this.handle(at);
     if (handle >= 0) {
-      return new Pulling(this, handle, at, at);
+      return new Pulling(this, handle, at, at, false);
     }
     for (const grip of GRIPS) {
       if (grip.near(this.box, at, this.reach())) {

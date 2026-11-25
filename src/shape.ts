@@ -17,8 +17,11 @@ export interface Mark extends Shape {
   bounds(): Box;
   /** Where the handles are. A mark without handles can be dragged only as a whole. */
   handles(): ReadonlyArray<Point>;
-  /** The mark after the handle with the number has been dragged to the point. */
-  pulled(handle: number, to: Point): Mark;
+  /**
+   * The mark after the handle with the number has been dragged to the point. even tells whether
+   * the sides should be equal.
+   */
+  pulled(handle: number, to: Point, even: boolean): Mark;
   shifted(by: Point): Mark;
   /** What the mark is drawn with. */
   tint(): Ink;
@@ -31,16 +34,22 @@ export interface Mark extends Shape {
 
 /** A shape that is still being dragged with the mouse. */
 export interface Draft extends Shape {
-  /** The same shape, stretched to the point. */
-  extended(to: Point): Draft;
+  /** The same shape, stretched to the point. even tells whether its sides should be equal. */
+  extended(to: Point, even: boolean): Draft;
   /** The finished shape, once the mouse button is up. */
   settled(typing: Typing): Promise<Mark>;
+}
+
+/** What a person has typed, and the ink with the size of letters they have chosen. */
+export interface Written {
+  readonly text: string;
+  readonly ink: Ink;
 }
 
 /** The place where a person types a label. */
 export interface Typing {
   /** The text typed at the point. At first the place holds the given text. */
-  words(at: Point, ink: Ink, text: string): Promise<string>;
+  words(at: Point, ink: Ink, text: string): Promise<Written>;
 }
 
 /** Nothing at all. */

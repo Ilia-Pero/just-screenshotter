@@ -1,8 +1,24 @@
 import type { Ink } from './ink.ts';
-import { ENTER, ESCAPE, PAD_ENTER } from './key.ts';
+import {
+  ENTER,
+  ESCAPE,
+  LETTER_C,
+  LETTER_S,
+  LETTER_U,
+  LETTER_Z,
+  PAD_ENTER,
+} from './key.ts';
 import type { Point } from './point.ts';
 import type { Typing, Written } from './shape.ts';
 import { Wheel, turned } from './thickness.ts';
+
+/** Keys of the editor that work while a text is typed. typed tells whether a text needs them too. */
+const PASSED = [
+  { key: LETTER_S, typed: false },
+  { key: LETTER_U, typed: false },
+  { key: LETTER_C, typed: true },
+  { key: LETTER_Z, typed: true },
+];
 
 /**
  * The field over the screenshot where a label is typed. It is as large as its text.
@@ -63,9 +79,16 @@ export class Entry implements Typing {
       field.style.color = ink.css();
       field.addEventListener('input', fit);
       field.addEventListener('keydown', (event) => {
+        const held = event.ctrlKey || event.metaKey;
         const entered = ENTER.struck(event) || PAD_ENTER.struck(event);
+        const blank = field.value === '';
+        if (held && PASSED.some((one) => one.key.struck(event) && (blank || !one.typed))) {
+          // The text is ended, and the key goes on to the editor.
+          finish();
+          return;
+        }
         event.stopPropagation();
-        if (ESCAPE.struck(event) || (entered && (event.ctrlKey || event.metaKey))) {
+        if (ESCAPE.struck(event) || (held && entered)) {
           event.preventDefault();
           finish();
         }

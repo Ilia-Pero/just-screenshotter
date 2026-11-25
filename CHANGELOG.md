@@ -4,6 +4,7 @@
 
 - Enter begins a new line in a text. A click elsewhere, Esc, or Ctrl+Enter ends it.
 - The wheel changes the size of the letters while a text is typed.
+- Ctrl+S and Ctrl+U end the text that is being typed and do their work; Ctrl+C and Ctrl+Z do so in an empty field.
 - The system underlines mistakes in Russian and English, and the right button of the mouse offers corrections. The program has no dictionaries of its own and sends nothing. On Linux the dictionaries come with the packages hunspell-ru and hunspell-en-us.
 - An oval. With Shift, an oval is a circle and a frame is a square.
 - The wheel over a mark picked by a click changes this mark only. In 0.4.0 it changed the tool too.

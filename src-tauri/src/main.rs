@@ -3,11 +3,14 @@
 
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+mod act;
 mod album;
 mod clipboard;
 mod commands;
 mod files;
 mod hotkey;
+mod mice;
+mod panel;
 mod stage;
 mod studio;
 mod tray;
@@ -16,19 +19,23 @@ use std::env;
 use std::error::Error;
 use std::ffi::OsString;
 use std::process::ExitCode;
-use std::thread;
 
 use screenshotter_film::Native;
 use screenshotter_phrase::{Language, Phrase};
-use screenshotter_store::Failure;
+use screenshotter_store::{Failure, Settings};
 use tauri::{AppHandle, Builder, Manager, RunEvent, Wry};
-use tauri_plugin_autostart::MacosLauncher;
+use tauri_plugin_autostart::{MacosLauncher, ManagerExt};
 use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
-use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
 
+use crate::act::Act;
 use crate::album::Album;
+use crate::hotkey::Keyboard;
+use crate::mice::Mice;
 use crate::stage::Stage;
 use crate::studio::Studio;
+
+/// The argument that opens the settings. Not every desktop of Linux has a place for the icon.
+const SETTINGS: &str = "--settings";
 
 /// Shows a person what has gone wrong.
 fn tell(app: &AppHandle, text: &str) {
@@ -39,24 +46,15 @@ fn tell(app: &AppHandle, text: &str) {
         .show(|_| {});
 }
 
-/// Takes a screenshot in a thread of its own: on Windows a window cannot be created
-/// from an event handler. If a film is being made, stops it instead.
-fn snap(app: &AppHandle) {
-    if app.state::<Studio>().stop() {
-        return;
-    }
-    let app = app.clone();
-    thread::spawn(move || {
-        if let Err(failure) = app.state::<Stage>().open(&app) {
-            tell(&app, &failure.to_string());
-        }
-    });
-}
-
-/// Gets the program ready: reads the settings, installs the icon, assigns the key.
+/// Gets the program ready: reads the settings, installs the icon, assigns keys and buttons.
 fn setup(app: &AppHandle) -> Result<(), Failure> {
     let chosen = match files::settings(app)?.read() {
-        Ok(chosen) => chosen,
+        Ok(chosen) => {
+            if let Err(failure) = settle(app, &chosen) {
+                tell(app, &failure.to_string());
+            }
+            chosen
+        }
         Err(failure) => {
             tell(
                 app,
@@ -69,19 +67,36 @@ fn setup(app: &AppHandle) -> Result<(), Failure> {
     };
     Language::choose(&chosen.language);
     tray::install(app, &chosen)?;
-    let title = hotkey::title(&chosen.hotkey);
-    if hotkey::assignable()
-        && app
-            .global_shortcut()
-            .register(chosen.hotkey.as_str())
-            .is_err()
+    // The other keys are extra: if they are taken, the window with the settings shows it.
+    if app
+        .state::<Keyboard>()
+        .assign(app, &chosen.triggers)
+        .contains(&Act::Area)
     {
+        let title = chosen.triggers.area.title(cfg!(target_os = "macos"));
         tell(
             app,
             &Phrase::new("error.key").with("key", title).to_string(),
         );
     }
-    Ok(())
+    if env::args().any(|word| word == SETTINGS) {
+        panel::open(app);
+    }
+    app.state::<Mice>().follow(app, &chosen.triggers)
+}
+
+/// Makes the program start with the system. It does so once, and then a person decides. On macOS
+/// it waits until the program is moved from the disk image to where programs are.
+fn settle(app: &AppHandle, chosen: &Settings) -> Result<(), Failure> {
+    let placed = !cfg!(target_os = "macos")
+        || env::current_exe()?
+            .to_string_lossy()
+            .contains("/Applications/");
+    if chosen.settled || !placed || cfg!(debug_assertions) {
+        return Ok(());
+    }
+    app.autolaunch().enable()?;
+    files::settings(app)?.write(&chosen.settled())
 }
 
 /// The plugin for the clipboard. On Windows the program does without it, see `clipboard.rs`.
@@ -112,9 +127,13 @@ fn main() -> ExitCode {
 
 /// Runs the program until a person quits.
 fn run() -> Result<(), Box<dyn Error>> {
-    with_clipboard(Builder::default())
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            snap(app);
+    hotkey::with_keys(with_clipboard(Builder::default()))
+        .plugin(tauri_plugin_single_instance::init(|app, args, _cwd| {
+            if args.iter().any(|word| word == SETTINGS) {
+                panel::open(app);
+            } else {
+                Act::Area.start(app);
+            }
         }))
         .plugin(tauri_plugin_autostart::init(
             MacosLauncher::LaunchAgent,
@@ -122,20 +141,14 @@ fn run() -> Result<(), Box<dyn Error>> {
         ))
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_opener::init())
-        .plugin(
-            tauri_plugin_global_shortcut::Builder::new()
-                .with_handler(|app, _shortcut, event| {
-                    if event.state() == ShortcutState::Pressed {
-                        snap(app);
-                    }
-                })
-                .build(),
-        )
         .manage(Album::default())
+        .manage(Keyboard::default())
+        .manage(Mice::default())
         .manage(Stage::default())
         .manage(Studio::default())
         .invoke_handler(tauri::generate_handler![
             commands::shot,
+            commands::opening,
             commands::reveal,
             commands::copy,
             commands::save,
@@ -151,7 +164,15 @@ fn run() -> Result<(), Box<dyn Error>> {
             commands::languages,
             commands::speak,
             commands::server,
-            commands::appoint
+            commands::appoint,
+            panel::panel,
+            panel::arrange,
+            panel::hold,
+            panel::launch,
+            panel::hear,
+            panel::relocate,
+            panel::folder,
+            panel::uploading
         ])
         .setup(|app| {
             // No icon in the Dock: the program lives in the menu bar only.

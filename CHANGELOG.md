@@ -1,5 +1,14 @@
 # Changes
 
+## 0.3.0 (2026-11-25)
+
+- A window with the settings. The menu of the icon has become shorter.
+- Keys for four actions: a screenshot of an area, of the whole screen, of the active window (Windows), and video. Any keys can be chosen.
+- On Windows, both buttons of the mouse pressed at once can start an action, alone, with Shift or with Ctrl. Off at first.
+- The program starts with the system until a person turns this off.
+- On Linux the program takes no processor time at rest: it asked the server for keys twenty times a second, and now the server tells it.
+- The Firefox extension: a picture of the visible part of a page or of the whole page, and the same editor in a tab.
+
 ## 0.2.0 (2026-11-25)
 
 - Video on macOS 13 and newer has the sound of the computer.

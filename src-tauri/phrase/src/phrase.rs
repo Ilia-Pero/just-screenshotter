@@ -76,13 +76,13 @@ mod tests {
     }
 
     #[test]
-    fn fills_several_holes() {
+    fn has_no_use_for_a_value_without_a_hole() {
         assert_eq!(
-            Phrase::new("error.kept")
-                .with("key", "F9")
-                .with("kept", "F10")
+            Phrase::new("error.code")
+                .with("code", 500)
+                .with("reason", "none")
                 .spoken(&Language::tagged("en")),
-            "Another program uses F9. The shortcut is still F10."
+            "The server answered with error 500."
         );
     }
 }

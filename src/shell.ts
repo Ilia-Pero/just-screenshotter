@@ -1,9 +1,19 @@
-import type { Box } from './box.ts';
+import { Box } from './box.ts';
 import type { Bridge } from './bridge.ts';
-import type { Desk, Ears, Tongue } from './desk.ts';
+import type { Desk, Ears, Opening, Tongue } from './desk.ts';
 import { developed } from './photo.ts';
+import { Point } from './point.ts';
 import type { Shot } from './shot.ts';
 import type { Words } from './words.ts';
+
+/** The opening as the shell tells it. */
+interface Told {
+  readonly left: number;
+  readonly top: number;
+  readonly width: number;
+  readonly height: number;
+  readonly film: boolean;
+}
 
 /** The desktop of the real program: the shell written in Rust owns the screen and the clipboard. */
 export class Shell implements Desk {
@@ -17,6 +27,16 @@ export class Shell implements Desk {
     return this.bridge
       .invoke<ArrayBuffer>('shot')
       .then((bytes) => developed(URL.createObjectURL(new Blob([bytes], { type: 'image/png' }))));
+  }
+
+  opening(): Promise<Opening> {
+    return this.bridge.invoke<Told>('opening').then((told) => ({
+      area: new Box(
+        new Point(told.left, told.top),
+        new Point(told.left + told.width, told.top + told.height),
+      ),
+      film: told.film,
+    }));
   }
 
   copy(png: Blob): Promise<void> {
@@ -33,6 +53,10 @@ export class Shell implements Desk {
 
   share(png: Blob): Promise<void> {
     return this.bytes(png).then((data) => this.bridge.invoke<void>('share', data));
+  }
+
+  films(): Promise<boolean> {
+    return Promise.resolve(true);
   }
 
   listens(): Promise<Ears> {

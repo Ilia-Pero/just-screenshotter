@@ -24,8 +24,19 @@
 - 可以修改已绘制的内容：点击选中一个标记，然后拖动它或它的端点，设置粗细和颜色，重新输入文字或删除。
 - 复制图片、保存为 PNG，或上传到[自己的服务器](../server/README.md)并复制链接。
 - 将区域录成带声音的视频：Windows 上为 MP4，macOS 上为 MOV，Linux 上为 WebM。是否录制电脑声音和麦克风由您选择；macOS 13 之前的版本只能录麦克风。用“停止”按钮、快捷键或托盘图标结束录制。
-- 支持 12 种语言。可在编辑器、图标菜单和 Windows 安装程序中选择语言；选择之前使用系统语言。
+- 支持 12 种语言。可在编辑器、设置和 Windows 安装程序中选择语言；选择之前使用系统语言。
 - 不会自行发送任何内容：没有账号，没有遥测，没有更新检查。仅在把图片上传到您设置的服务器时使用网络。
+
+## 按键和鼠标
+
+| 作用 | Windows 和 Linux | macOS |
+| --- | --- | --- |
+| 区域截图 | Print Screen | ⌘⇧9 |
+| 全屏截图 | Shift + Print Screen | — |
+| 活动窗口截图 (Windows) | Alt + Print Screen | — |
+| 区域视频 | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+其他按键可在设置中选择。在 Windows 上，鼠标键也能启动同样的操作：同时按下左右键，可单独按，也可与 Shift 或 Ctrl 一起按。默认关闭，因为程序监视鼠标键期间，鼠标每次移动约占用 2 µs 处理器时间；静止时不占用。在 Wayland 上，按键在系统设置中指定。
 
 ## 编辑器中的按键
 
@@ -42,7 +53,11 @@
 
 未选择工具时可以选中标记。双击或按 Enter 修改文字。鼠标滚轮调整粗细。
 
-托盘图标的菜单中有快捷键、文件夹、语言、服务器地址和开机启动。再次启动程序也会截图。
+其余也在设置中：录视频时录什么声音、文件夹、语言、上传，以及开机启动（默认开启，可关闭）。设置可从托盘图标的菜单打开，也可用 `--settings` 启动程序打开。不带它再次启动程序也会截图。
+
+## Firefox 扩展
+
+截取页面的可见部分或整个页面，并在新标签页中打开同样的编辑器：选择、绘制、复制、保存。按键为 Alt+Shift+S 和 Alt+Shift+P。只有在您要求时才查看页面，不发送任何内容，只记住语言。不录视频，截图高度最多 32,000 像素。
 
 ## 有多轻
 
@@ -67,6 +82,7 @@
 | Windows | 在 Windows Server 2022 上用一台显示器可以使用。视频也在那里检查过；未检查从设备录音，因为该服务器没有音频设备。尚未在 Windows 10 和 11 上检查。 |
 | macOS 10.13+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕和电脑声音。还没有人手动试过。 |
 | Ubuntu 24.04+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕。还没有人手动试过。在 Wayland 上，请在键盘设置中指定快捷键，命令为 `just-screenshotter`。 |
+| Firefox 128+ | 在 Firefox 161 中可用，已在无窗口模式下检查。尚未经 Mozilla 签名，重启 Firefox 后需要重新加载。 |
 
 ## 安装
 
@@ -75,6 +91,7 @@
 | Windows 10 和 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 运行它。如果 Windows 不认识该程序：“更多信息”、“仍要运行”。 |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | 把程序拖到“应用程序”并打开。macOS 拒绝时，打开“系统设置”中的“隐私与安全性”，点按“仍要打开”。 |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | 打开 `about:debugging`，选择“此 Firefox”、“临时载入附加组件”和该文件。重启 Firefox 后需重新载入。 |
 
 GitHub 用本仓库的代码构建这些文件，逐个安装并启动程序，然后才发布。它们没有付费签名，因此 Windows 和 macOS 会在首次启动时发出警告。
 

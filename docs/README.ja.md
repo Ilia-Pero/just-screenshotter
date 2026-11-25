@@ -24,8 +24,19 @@ Print Screen を押し、範囲を選び、書き込んでから、画像をコ�
 - 書き込んだものを後から変更できます。クリックで選び、本体や端をドラッグし、太さと色を変え、文字を打ち直し、削除できます。
 - 画像をコピーするか、PNG で保存するか、[自分のサーバー](../server/README.md)にアップロードしてリンクをコピーします。
 - 範囲を音声付きの動画として録画します。Windows は MP4、macOS は MOV、Linux は WebM です。パソコンの音とマイクを録音するかは選べます。macOS 13 より前ではマイクだけです。録画は「停止」ボタン、ショートカット、トレイアイコンで終わります。
-- 12 の言語に対応しています。言語はエディター、アイコンのメニュー、Windows のインストーラーで選べます。選ぶまではシステムの言語です。
+- 12 の言語に対応しています。言語はエディター、設定、Windows のインストーラーで選べます。選ぶまではシステムの言語です。
 - 自分からは何も送信しません。アカウント、テレメトリー、更新確認はありません。ネットワークは、設定したサーバーに画像をアップロードするときだけ使います。
+
+## キーとマウス
+
+| 動作 | Windows と Linux | macOS |
+| --- | --- | --- |
+| 範囲のスクリーンショット | Print Screen | ⌘⇧9 |
+| 画面全体のスクリーンショット | Shift + Print Screen | — |
+| 使用中のウィンドウのスクリーンショット (Windows) | Alt + Print Screen | — |
+| 範囲の動画 | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+ほかのキーは設定で選べます。Windows ではマウスのボタンでも同じことができます。左右同時に、そのまま、または Shift や Ctrl と一緒に押します。はじめはオフです。ボタンを見張っている間は、マウスを動かすたびに約 2 µs のプロセッサー時間を使うためです。止まっていれば何も使いません。Wayland ではシステムの設定でキーを割り当てます。
 
 ## エディターのキー
 
@@ -42,7 +53,11 @@ macOS では Ctrl の代わりに ⌘ を使います。
 
 道具を選んでいないときに書き込みを選べます。ダブルクリックか Enter で文字を変更し、ホイールで太さを変えます。
 
-トレイアイコンのメニューに、ショートカット、フォルダー、言語、サーバーのアドレス、システム起動時の開始があります。プログラムをもう一度起動しても撮影します。
+そのほかも設定にあります。動画と一緒に録音するもの、フォルダー、言語、アップロード、システム起動時の開始です。起動時の開始は、オフにするまでオンです。設定はトレイアイコンのメニューか、`--settings` を付けた起動で開きます。付けずにもう一度起動しても撮影します。
+
+## Firefox 拡張機能
+
+ページの見えている部分またはページ全体を撮影し、同じエディターを新しいタブで開きます。選択、書き込み、コピー、保存ができます。キーは Alt+Shift+S と Alt+Shift+P です。頼まれたときだけページを見て、何も送信せず、言語だけを覚えます。動画は録らず、画像の高さは 32,000 ピクセルまでです。
 
 ## 軽さ
 
@@ -67,6 +82,7 @@ macOS では Ctrl の代わりに ⌘ を使います。
 | Windows | Windows Server 2022 とモニター 1 台で動作します。動画もそこで確認しました。音声デバイスからの録音は、サーバーにデバイスがないため確認していません。Windows 10 と 11 ではまだ確認していません。 |
 | macOS 10.13+ | ビルドとテストは通り、GitHub のマシンでインストール、起動、パソコンの音を含む画面の録画ができます。まだ誰も手で試していません。 |
 | Ubuntu 24.04+ | ビルドとテストは通り、GitHub のマシンでインストール、起動、画面の録画ができます。まだ誰も手で試していません。Wayland ではキーボードの設定でショートカットを割り当ててください。コマンドは `just-screenshotter` です。 |
+| Firefox 128+ | Firefox 161 で動作します（ウィンドウなしで確認）。Mozilla の署名がまだないため、Firefox を再起動すると読み込み直す必要があります。 |
 
 ## インストール
 
@@ -75,6 +91,7 @@ macOS では Ctrl の代わりに ⌘ を使います。
 | Windows 10 と 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 実行します。Windows が警告したら「詳細情報」、「実行」を選びます。 |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | プログラムを「アプリケーション」にドラッグして開きます。macOS に拒否されたら、システム設定の「プライバシーとセキュリティ」で「このまま開く」を押します。 |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | `about:debugging` を開き、「この Firefox」、「一時的なアドオンを読み込む」、このファイルを選びます。Firefox を再起動したら読み込み直します。 |
 
 GitHub はこのリポジトリのコードからこれらのファイルをビルドし、それぞれをインストールしてプログラムを起動し、そのうえで公開します。有料の署名がないため、Windows と macOS は初回起動時に警告します。
 

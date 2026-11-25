@@ -1,4 +1,4 @@
 [files]
-extend-exclude = ["locales", "docs/README.*.md", "src-tauri/installer", "test/words.test.ts"]
+extend-exclude = ["locales", "extension/web/_locales", "docs/README.*.md", "src-tauri/installer", "test/words.test.ts"]
 
 [default.extend-words]

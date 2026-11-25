@@ -1,10 +1,11 @@
-import type { Box } from './box.ts';
+import { Box } from './box.ts';
 import type { Choice } from './brushes.ts';
 import { PALETTE, RED } from './colors.ts';
 import type { Ears, Tongue } from './desk.ts';
 import { button, connected, dock, element, size, titled } from './elements.ts';
 import { ICONS } from './icons.ts';
 import { Layout } from './layout.ts';
+import { Point } from './point.ts';
 import type { Session } from './session.ts';
 import { THICKEST, THINNEST } from './thickness.ts';
 import type { Tool } from './tool.ts';
@@ -44,12 +45,13 @@ function chord(letter: string): string {
 /**
  * Everything around the selection: buttons, the palette, the size and the messages.
  * unit is the number of screenshot pixels in one pixel of the window,
- * shares tells whether there is a server to upload to.
+ * shares tells whether there is a server to upload to, films whether the area can be filmed.
  */
 export class Panels {
   private readonly root: HTMLElement;
   private readonly unit: number;
   private readonly shares: boolean;
+  private readonly films: boolean;
   private readonly choices: ReadonlyArray<Choice>;
   private readonly badge = element('div', 'badge');
   private readonly hint = element('div', 'hint');
@@ -61,6 +63,7 @@ export class Panels {
   private readonly widths = element('div', 'sheet widths');
   private readonly tongues = element('div', 'sheet tongues');
   private readonly filming = element('div', 'sheet filming');
+  private readonly reel = button(ICONS.film);
   private readonly sound = element('input', '');
   private readonly voice = element('input', '');
   private readonly dot = element('span', 'dot');
@@ -79,12 +82,14 @@ export class Panels {
     words: Words,
     unit: number,
     shares: boolean,
+    films: boolean,
     choices: ReadonlyArray<Choice>,
   ) {
     this.root = root;
     this.words = words;
     this.unit = unit;
     this.shares = shares;
+    this.films = films;
     this.choices = choices;
     this.kit = choices.map((choice) => choice.tool);
   }
@@ -206,7 +211,7 @@ export class Panels {
   }
 
   private filmWell(acts: Acts): HTMLElement {
-    const open = connected(button(ICONS.film), () => {
+    connected(this.reel, () => {
       acts
         .listens()
         .then((ears) => {
@@ -228,7 +233,12 @@ export class Panels {
     this.filming.appendChild(this.tick(this.sound, 'film.sound'));
     this.filming.appendChild(this.tick(this.voice, 'film.voice'));
     this.filming.appendChild(this.said(start, 'film.start'));
-    return this.well(this.signed(open, 'film', ''), this.filming);
+    return this.well(this.signed(this.reel, 'film', ''), this.filming);
+  }
+
+  /** Proposes to film the area, as the button does. */
+  propose(): void {
+    this.reel.click();
   }
 
   /** A box to tick, with its text. */
@@ -316,8 +326,10 @@ export class Panels {
         ),
       );
     }
+    if (this.films) {
+      keys.push(this.filmWell(acts));
+    }
     keys.push(
-      this.filmWell(acts),
       this.tongueWell(acts),
       this.signed(
         connected(button(ICONS.close), () => acts.leave()),
@@ -346,16 +358,21 @@ export class Panels {
     });
   }
 
+  /** Only a part of a tall picture is seen, and the panels stand in it. */
   private arrange(area: Box): void {
+    const width = document.documentElement.clientWidth;
+    const height = document.documentElement.clientHeight;
+    const corner = new Point(window.pageXOffset, window.pageYOffset);
+    const seen = new Box(new Point(0, 0), new Point(width, height));
     const layout = new Layout(
-      { width: this.root.clientWidth, height: this.root.clientHeight },
-      area,
+      { width, height },
+      area.shifted(new Point(-corner.x, -corner.y)).clipped(seen),
       size(this.tools),
       size(this.actions),
       size(this.badge),
     );
-    dock(this.tools, layout.toolsSpot());
-    dock(this.actions, layout.actionsSpot());
-    dock(this.badge, layout.badgeSpot());
+    dock(this.tools, layout.toolsSpot().plus(corner));
+    dock(this.actions, layout.actionsSpot().plus(corner));
+    dock(this.badge, layout.badgeSpot().plus(corner));
   }
 }

@@ -1,0 +1,11 @@
+{
+  "description": {
+    "message": "截取页面并在其上打开编辑器。不发送任何内容。"
+  },
+  "visible": {
+    "message": "页面可见部分"
+  },
+  "page": {
+    "message": "整个页面"
+  }
+}

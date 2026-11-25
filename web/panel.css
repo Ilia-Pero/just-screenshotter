@@ -1,0 +1,209 @@
+/* The window with the settings. */
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  padding: 8px 24px 24px;
+  background: #f4f5f7;
+  color: #1f2328;
+  font: 14px/1.45 -apple-system, "Segoe UI", Ubuntu, sans-serif;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+h2 {
+  margin: 20px 0 8px;
+  font-size: 15px;
+}
+
+p {
+  margin: 6px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td,
+th {
+  padding: 5px 0;
+  text-align: start;
+  font-weight: normal;
+}
+
+th {
+  color: #57606a;
+  font-size: 12px;
+}
+
+td + td,
+th + th {
+  padding-inline-start: 10px;
+}
+
+[dir="ltr"] td + td,
+[dir="ltr"] th + th {
+  padding-left: 10px;
+}
+
+[dir="rtl"] td + td,
+[dir="rtl"] th + th {
+  padding-right: 10px;
+}
+
+td:nth-child(2) {
+  width: 250px;
+  white-space: nowrap;
+}
+
+td:nth-child(3) {
+  width: 160px;
+}
+
+button,
+select {
+  box-sizing: border-box;
+  height: 32px;
+  border: 1px solid #b9bfc8;
+  border-radius: 6px;
+  background: #fff;
+  color: inherit;
+  font: inherit;
+}
+
+button {
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+select {
+  width: 100%;
+  padding: 0 6px;
+}
+
+button:hover {
+  border-color: #2f6fdf;
+}
+
+button:focus,
+select:focus,
+input:focus {
+  outline: 2px solid #2f6fdf;
+  outline-offset: 1px;
+}
+
+.key {
+  width: 208px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: start;
+}
+
+.key.empty {
+  color: #57606a;
+}
+
+.key.listening {
+  border-color: #2f6fdf;
+  background: #e8f0fe;
+}
+
+.key.busy {
+  border-color: #b3261e;
+  color: #b3261e;
+}
+
+.clear {
+  width: 32px;
+  margin: 0 4px;
+  padding: 0;
+  border-color: transparent;
+  background: none;
+  color: #57606a;
+}
+
+.row {
+  display: block;
+  margin: 8px 0;
+}
+
+.row input {
+  margin: 0 8px 0 0;
+  vertical-align: -1px;
+}
+
+[dir="rtl"] .row input {
+  margin: 0 0 0 8px;
+}
+
+.path {
+  display: block;
+  margin: 4px 0 8px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+.buttons button {
+  margin: 0 8px 0 0;
+}
+
+[dir="rtl"] .buttons button {
+  margin: 0 0 0 8px;
+}
+
+.tongue {
+  width: 240px;
+}
+
+.note {
+  color: #57606a;
+  font-size: 13px;
+}
+
+.bad {
+  color: #b3261e;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background: #1b1d21;
+    color: #e6e8eb;
+  }
+
+  th,
+  .note,
+  .key.empty,
+  .clear {
+    color: #9aa4af;
+  }
+
+  button,
+  select {
+    border-color: #3a3f47;
+    background: #25282d;
+  }
+
+  .clear {
+    border-color: transparent;
+    background: none;
+  }
+
+  .key.listening {
+    background: #1d2f4f;
+  }
+
+  .bad,
+  .key.busy {
+    color: #ff8a80;
+  }
+}

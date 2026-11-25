@@ -1,7 +1,8 @@
-import type { Box } from './box.ts';
-import type { Desk, Ears, Tongue } from './desk.ts';
+import { Box } from './box.ts';
+import type { Desk, Ears, Opening, Tongue } from './desk.ts';
 import { LANGUAGES, spoken } from './languages.ts';
 import { developed } from './photo.ts';
+import { Point } from './point.ts';
 import type { Shot } from './shot.ts';
 import type { Words } from './words.ts';
 
@@ -49,6 +50,11 @@ export class Sandbox implements Desk {
     return developed(canvas.toDataURL('image/png'));
   }
 
+  opening(): Promise<Opening> {
+    const corner = new Point(0, 0);
+    return Promise.resolve({ area: new Box(corner, corner), film: false });
+  }
+
   copy(png: Blob): Promise<void> {
     return Promise.resolve()
       .then(() => navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]))
@@ -75,6 +81,10 @@ export class Sandbox implements Desk {
   share(png: Blob): Promise<void> {
     this.card('The picture would go to the server, and the link to the clipboard.', png);
     return Promise.resolve();
+  }
+
+  films(): Promise<boolean> {
+    return Promise.resolve(true);
   }
 
   listens(): Promise<Ears> {

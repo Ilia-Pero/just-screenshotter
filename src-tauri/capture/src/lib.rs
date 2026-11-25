@@ -6,6 +6,8 @@
 use std::error::Error;
 
 #[cfg(target_os = "windows")]
+mod front;
+#[cfg(target_os = "windows")]
 mod gdi;
 mod patch;
 mod pixels;
@@ -14,6 +16,8 @@ mod portal;
 #[cfg(target_os = "macos")]
 mod quartz;
 
+#[cfg(target_os = "windows")]
+pub use front::front;
 #[cfg(target_os = "windows")]
 pub use gdi::Gdi as Native;
 #[cfg(target_os = "linux")]
@@ -26,6 +30,13 @@ pub use pixels::{Picture, Pixels};
 
 /// A failure to take the picture. It travels between threads, hence `Send + Sync`.
 pub type Failure = Box<dyn Error + Send + Sync>;
+
+/// Where the window a person works with is. Only Windows tells it.
+#[cfg(not(target_os = "windows"))]
+#[must_use]
+pub fn front() -> Patch {
+    Patch::default()
+}
 
 /// A screen that gives away pictures of its rectangular areas.
 pub trait Screen {

@@ -13,7 +13,8 @@ npm run build
 
 | Command | What it does |
 | --- | --- |
-| `npm run dev` | opens the editor in a browser over a sample screen: <http://127.0.0.1:5391>; `?he` at the end chooses the language |
+| `npm run dev` | opens the editor in a browser over a sample screen: <http://127.0.0.1:5391>; `?he` at the end chooses the language; the settings are at <http://127.0.0.1:5391/panel.html> |
+| `npm run extension` | builds the Firefox extension into `extension/web` |
 | `npm run tauri build` | builds the installer for this system |
 | `npm run tauri build -- --debug --no-bundle` | builds the program for a try |
 | `cargo run --manifest-path src-tauri/Cargo.toml -p screenshotter-film --example film -- 5 film.mp4 1920 1080 100 100 800 600` | films a part of the screen for five seconds: the size of the monitor, then the area; on macOS the file is `film.mov`, on Linux `film.webm` |
@@ -34,9 +35,12 @@ cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p sc
 | Folder | What is in it |
 | --- | --- |
 | `src` | the editor, TypeScript without frameworks |
+| `extension` | the Firefox extension; the editor in it is the same |
 | `src-tauri/src` | the program: the tray icon, the shortcut, the windows of the editor |
 | `src-tauri/capture` | taking screenshots: GDI on Windows, `screencapture` on macOS, the portal on Linux |
 | `src-tauri/film` | filming in a process of its own: Media Foundation on Windows, ScreenCaptureKit and AVFoundation on macOS, the portal and GStreamer on Linux |
+| `src-tauri/keys` | keys that start actions on X11, without asking the server all the time |
+| `src-tauri/mouse` | both buttons of the mouse pressed together, Windows |
 | `src-tauri/store` | the settings and the folder with screenshots |
 | `src-tauri/upload` | uploading to the server |
 | `src-tauri/phrase`, `locales` | texts in 12 languages |
@@ -56,7 +60,7 @@ A language is a file in `locales`. To correct one, change its texts and leave th
 
 ## Releases
 
-Set the version in `package.json`, `src-tauri/Cargo.toml` and `src-tauri/tauri.conf.json`, write the changes and the date into `CHANGELOG.md`, and push a tag such as `0.2.0`. GitHub then builds the installers, installs each of them, starts the program, and only after that publishes the release.
+Set the version in `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` and `extension/web/manifest.json`, write the changes and the date into `CHANGELOG.md`, and push a tag such as `0.2.0`. GitHub then builds the installers, installs each of them, starts the program, and only after that publishes the release.
 
 ## Licenses of dependencies
 

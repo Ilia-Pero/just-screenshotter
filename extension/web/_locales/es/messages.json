@@ -1,0 +1,11 @@
+{
+  "description": {
+    "message": "Captura una página y abre un editor sobre ella. No envía nada."
+  },
+  "visible": {
+    "message": "Parte visible de la página"
+  },
+  "page": {
+    "message": "Página completa"
+  }
+}

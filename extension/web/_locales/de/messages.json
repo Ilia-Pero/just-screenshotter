@@ -1,0 +1,11 @@
+{
+  "description": {
+    "message": "Nimmt eine Seite auf und öffnet darüber einen Editor. Sendet nichts."
+  },
+  "visible": {
+    "message": "Sichtbarer Teil der Seite"
+  },
+  "page": {
+    "message": "Ganze Seite"
+  }
+}

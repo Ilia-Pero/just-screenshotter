@@ -1,0 +1,54 @@
+{
+  "manifest_version": 3,
+  "name": "Just Screenshotter",
+  "version": "0.3.0",
+  "description": "__MSG_description__",
+  "default_locale": "en",
+  "homepage_url": "https://github.com/Ilia-Pero/just-screenshotter",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "just-screenshotter@ilia-pero.github.io",
+      "strict_min_version": "128.0",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ]
+      }
+    }
+  },
+  "icons": {
+    "32": "icons/32x32.png",
+    "128": "icons/128x128.png"
+  },
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "clipboardWrite"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_title": "Just Screenshotter",
+    "default_icon": "icons/32x32.png",
+    "default_popup": "popup.html"
+  },
+  "commands": {
+    "visible": {
+      "suggested_key": {
+        "default": "Alt+Shift+S"
+      },
+      "description": "__MSG_visible__"
+    },
+    "page": {
+      "suggested_key": {
+        "default": "Alt+Shift+P"
+      },
+      "description": "__MSG_page__"
+    }
+  }
+}

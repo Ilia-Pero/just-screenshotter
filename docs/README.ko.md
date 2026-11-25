@@ -24,8 +24,19 @@ Print Screen을 누르고 영역을 고른 뒤 그 위에 그리고, 그림을 �
 - 이미 그린 것을 바꿀 수 있습니다. 클릭해서 고른 뒤 전체나 끝점을 끌고, 굵기와 색을 바꾸고, 글자를 다시 입력하거나 삭제합니다.
 - 그림을 복사하거나 PNG로 저장하거나 [자신의 서버](../server/README.md)에 업로드하고 링크를 복사합니다.
 - 영역을 소리가 있는 동영상으로 녹화합니다. Windows는 MP4, macOS는 MOV, Linux는 WebM입니다. 컴퓨터 소리와 마이크를 녹음할지는 직접 고릅니다. macOS 13보다 이전에서는 마이크만 됩니다. 중지 버튼, 단축키, 트레이 아이콘으로 녹화를 끝냅니다.
-- 12개 언어를 지원합니다. 언어는 편집기, 아이콘 메뉴, Windows 설치 프로그램에서 고릅니다. 그전에는 시스템 언어를 씁니다.
+- 12개 언어를 지원합니다. 언어는 편집기, 설정, Windows 설치 프로그램에서 고릅니다. 그전에는 시스템 언어를 씁니다.
 - 스스로 아무것도 보내지 않습니다. 계정, 원격 측정, 업데이트 확인이 없습니다. 지정한 서버에 그림을 올릴 때만 네트워크를 씁니다.
+
+## 키와 마우스
+
+| 하는 일 | Windows와 Linux | macOS |
+| --- | --- | --- |
+| 영역 스크린샷 | Print Screen | ⌘⇧9 |
+| 전체 화면 스크린샷 | Shift + Print Screen | — |
+| 활성 창 스크린샷 (Windows) | Alt + Print Screen | — |
+| 영역 동영상 | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+다른 키는 설정에서 고릅니다. Windows에서는 마우스 버튼으로도 같은 일을 시작할 수 있습니다. 양쪽 버튼을 함께, 그냥 또는 Shift나 Ctrl과 같이 누릅니다. 처음에는 꺼져 있습니다. 버튼을 지켜보는 동안에는 마우스를 움직일 때마다 프로세서 시간을 약 2µs 쓰기 때문입니다. 가만히 있을 때는 쓰지 않습니다. Wayland에서는 시스템 설정에서 키를 지정합니다.
 
 ## 편집기의 키
 
@@ -42,7 +53,11 @@ macOS에서는 Ctrl 대신 ⌘을 씁니다.
 
 도구를 고르지 않았을 때 표시를 고를 수 있습니다. 두 번 클릭하거나 Enter를 누르면 글자를 바꾸고, 휠로 굵기를 바꿉니다.
 
-트레이 아이콘 메뉴에 단축키, 폴더, 언어, 서버 주소, 시스템과 함께 시작이 있습니다. 프로그램을 다시 실행해도 스크린샷을 찍습니다.
+나머지도 설정에 있습니다. 동영상과 함께 녹음할 것, 폴더, 언어, 업로드, 시스템과 함께 시작입니다. 시스템과 함께 시작은 끌 때까지 켜져 있습니다. 설정은 트레이 아이콘 메뉴에서 열거나 프로그램을 `--settings`로 실행해 엽니다. 그것 없이 다시 실행하면 스크린샷을 찍습니다.
+
+## Firefox 확장 기능
+
+페이지의 보이는 부분이나 전체 페이지를 찍고 같은 편집기를 새 탭에서 엽니다. 선택하고, 그리고, 복사하고, 저장합니다. 키는 Alt+Shift+S와 Alt+Shift+P입니다. 요청할 때만 페이지를 보고, 아무것도 보내지 않으며, 언어만 기억합니다. 동영상은 녹화하지 않고 그림 높이는 32,000픽셀까지입니다.
 
 ## 얼마나 가벼운가
 
@@ -67,6 +82,7 @@ macOS에서는 Ctrl 대신 ⌘을 씁니다.
 | Windows | Windows Server 2022와 모니터 한 대에서 동작합니다. 동영상도 거기서 확인했습니다. 서버에 소리 장치가 없어 장치 녹음은 확인하지 못했습니다. Windows 10과 11에서는 아직 확인하지 않았습니다. |
 | macOS 10.13+ | 빌드되고 테스트를 통과하며, GitHub의 컴퓨터에서 설치, 실행, 컴퓨터 소리를 포함한 화면 녹화가 됩니다. 아직 아무도 직접 써 보지 않았습니다. |
 | Ubuntu 24.04+ | 빌드되고 테스트를 통과하며, GitHub의 컴퓨터에서 설치, 실행, 화면 녹화가 됩니다. 아직 아무도 직접 써 보지 않았습니다. Wayland에서는 키보드 설정에서 단축키를 지정하세요. 명령은 `just-screenshotter`입니다. |
+| Firefox 128+ | Firefox 161에서 동작합니다(창 없이 확인). 아직 Mozilla의 서명이 없어 Firefox를 다시 시작하면 다시 로드해야 합니다. |
 
 ## 설치
 
@@ -75,6 +91,7 @@ macOS에서는 Ctrl 대신 ⌘을 씁니다.
 | Windows 10, 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 실행합니다. Windows가 경고하면 "추가 정보", "실행"을 고릅니다. |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | 프로그램을 응용 프로그램으로 끌어다 놓고 엽니다. macOS가 거부하면 시스템 설정의 "개인정보 보호 및 보안"에서 "그래도 열기"를 누릅니다. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | `about:debugging`을 열어 "현재 Firefox", "임시 부가 기능 로드", 이 파일을 고릅니다. Firefox를 다시 시작하면 다시 로드합니다. |
 
 GitHub가 이 저장소의 코드로 파일을 빌드하고 하나씩 설치해 프로그램을 실행해 본 뒤에 공개합니다. 유료 서명이 없어 Windows와 macOS가 첫 실행 때 경고합니다.
 

@@ -20,10 +20,11 @@ fn pictures(app: &AppHandle) -> Result<PathBuf, Failure> {
 pub fn initial(app: &AppHandle) -> Result<Settings, Failure> {
     let program = std::env::current_exe()?;
     Ok(Settings {
-        hotkey: hotkey::INITIAL.to_owned(),
+        triggers: hotkey::initial(),
         folder: pictures(app)?.join("Screenshots"),
         language: program.parent().map_or_default(Language::installed),
         ears: Listened::default(),
+        settled: false,
     })
 }
 

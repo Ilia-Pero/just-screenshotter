@@ -2198,12 +2198,14 @@ dependencies = [
 
 [[package]]
 name = "just-screenshotter"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "chrono",
  "clipboard-win",
  "screenshotter-capture",
  "screenshotter-film",
+ "screenshotter-keys",
+ "screenshotter-mouse",
  "screenshotter-phrase",
  "screenshotter-store",
  "screenshotter-upload",
@@ -3582,6 +3584,20 @@ dependencies = [
  "tempfile",
  "tokio",
  "windows",
+]
+
+[[package]]
+name = "screenshotter-keys"
+version = "0.1.0"
+dependencies = [
+ "x11rb",
+]
+
+[[package]]
+name = "screenshotter-mouse"
+version = "0.1.0"
+dependencies = [
+ "windows-sys 0.61.2",
 ]
 
 [[package]]

@@ -5,10 +5,11 @@ use std::sync::Mutex;
 use std::thread;
 use std::time::{Duration, Instant};
 
-use screenshotter_capture::{Failure, Native, Patch, Screen};
+use screenshotter_capture::{front, Failure, Native, Patch, Screen};
 use tauri::{AppHandle, Manager, Monitor, WebviewUrl, WebviewWindow, WebviewWindowBuilder, Wry};
 
-use crate::album::Album;
+use crate::act::Act;
+use crate::album::{Album, Opening};
 
 /// How labels of editor windows begin.
 const OVERLAY: &str = "overlay-";
@@ -24,9 +25,9 @@ pub struct Stage {
 }
 
 impl Stage {
-    /// Takes a screenshot of all monitors and opens the editor over them. Does nothing if
-    /// the editor is already open.
-    pub fn open(&self, app: &AppHandle) -> Result<(), Failure> {
+    /// Takes a screenshot of all monitors and opens the editor over them, ready for the action.
+    /// Does nothing if the editor is already open.
+    pub fn open(&self, app: &AppHandle, act: Act) -> Result<(), Failure> {
         let Ok(mut opened) = self.opened.try_lock() else {
             return Ok(());
         };
@@ -40,7 +41,7 @@ impl Stage {
         }
         close(app)?;
         *opened = Some(Instant::now());
-        let raised = self.raise(app);
+        let raised = self.raise(app, act);
         if raised.is_err() {
             close(app)?;
         }
@@ -49,15 +50,22 @@ impl Stage {
 
     /// Creates hidden windows while the screenshot is being taken: both take time, and a window
     /// shows itself only after it has got its screenshot.
-    fn raise(&self, app: &AppHandle) -> Result<(), Failure> {
+    fn raise(&self, app: &AppHandle, act: Act) -> Result<(), Failure> {
         let monitors = app.available_monitors()?;
         let patches: Vec<Patch> = monitors.iter().map(patch).collect();
+        let chosen = match act {
+            Act::Screen => patch(&under(app)?),
+            Act::Window => front(),
+            Act::Area | Act::Film => Patch::default(),
+        };
         let serial = self.serial.fetch_add(1, Ordering::Relaxed);
         let label = |index: usize| format!("{OVERLAY}{serial}-{index}");
         thread::scope(|scope| {
             let shots = scope.spawn(|| Native.pngs(&patches));
             for (index, monitor) in monitors.iter().enumerate() {
                 if staged(app, monitor)? {
+                    let opening = opening(&chosen, &patches[index], act);
+                    app.state::<Album>().plan(&label(index), opening);
                     overlay(app, &label(index), monitor)?;
                 }
             }
@@ -98,6 +106,27 @@ fn patch(monitor: &Monitor) -> Patch {
     }
 }
 
+/// What the window on the monitor begins with.
+fn opening(chosen: &Patch, monitor: &Patch, act: Act) -> Opening {
+    let seen = chosen.within(monitor);
+    Opening {
+        left: seen.left,
+        top: seen.top,
+        width: seen.width,
+        height: seen.height,
+        film: act == Act::Film,
+    }
+}
+
+/// The monitor with the cursor.
+fn under(app: &AppHandle) -> Result<Monitor, Failure> {
+    let cursor = app.cursor_position()?;
+    Ok(match app.monitor_from_point(cursor.x, cursor.y)? {
+        Some(found) => found,
+        None => app.primary_monitor()?.ok_or("There are no monitors")?,
+    })
+}
+
 /// Whether this monitor needs a window of the editor.
 #[cfg(not(target_os = "linux"))]
 #[allow(clippy::unnecessary_wraps)]
@@ -112,12 +141,7 @@ fn staged(_app: &AppHandle, _monitor: &Monitor) -> Result<bool, Failure> {
 ///  the one with the cursor, and if not, ask the window where it is after it is shown.
 #[cfg(target_os = "linux")]
 fn staged(app: &AppHandle, monitor: &Monitor) -> Result<bool, Failure> {
-    let cursor = app.cursor_position()?;
-    let under = match app.monitor_from_point(cursor.x, cursor.y)? {
-        Some(found) => found,
-        None => app.primary_monitor()?.ok_or("There are no monitors")?,
-    };
-    Ok(patch(&under) == patch(monitor))
+    Ok(patch(&under(app)?) == patch(monitor))
 }
 
 /// Opens a hidden window of the editor. The editor shows it when the screenshot is drawn.

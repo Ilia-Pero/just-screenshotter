@@ -4,7 +4,7 @@ use std::collections::HashMap;
 use std::thread;
 
 use chrono::Local;
-use screenshotter_film::{Area, Order};
+use screenshotter_film::{Area, Camera, Native, Order};
 use screenshotter_phrase::{Language, Phrase, LANGUAGES};
 use screenshotter_store::{Failure, Listened};
 use screenshotter_upload::Server;
@@ -98,16 +98,13 @@ pub struct Listens {
 }
 
 /// What to offer before filming.
-///
-/// @todo #1 On macOS only the microphone is recorded. Since macOS 13 `ScreenCaptureKit` gives
-///  the sound of the computer too: film through it there, and offer the sound.
 #[tauri::command]
 pub fn listens(app: AppHandle) -> Result<Listens, String> {
     let ears = files::settings(&app)
         .and_then(|file| file.read())
         .map_err(|failure| failure.to_string())?
         .ears;
-    let hears = !cfg!(target_os = "macos");
+    let hears = Native.hears();
     Ok(Listens {
         hears,
         sound: hears && ears.sound,
@@ -175,7 +172,7 @@ pub fn progress(app: AppHandle, studio: State<'_, Studio>) -> Progress {
     let sound = files::settings(&app)
         .and_then(|file| file.read())
         .is_ok_and(|settings| settings.ears.sound);
-    studio.progress(sound && !cfg!(target_os = "macos"))
+    studio.progress(sound && Native.hears())
 }
 
 /// Stops filming.

@@ -1,16 +1,14 @@
 import { Box } from '../../src/box.ts';
-import type { Desk, Ears, Opening, Tongue } from '../../src/desk.ts';
-import { LANGUAGES, spoken } from '../../src/languages.ts';
+import type { Desk, Ears, Opening } from '../../src/desk.ts';
 import { developed } from '../../src/photo.ts';
 import { Point } from '../../src/point.ts';
 import type { Shot } from '../../src/shot.ts';
 import { start } from '../../src/start.ts';
-import type { Words } from '../../src/words.ts';
 import { filled } from '../../src/words.ts';
 import type { Taken } from './browser.ts';
 import { browser } from './browser.ts';
 import { sheet } from './sheet.ts';
-import { choice, choose, words } from './tongue.ts';
+import { words } from './tongue.ts';
 
 function two(number: number): string {
   return String(number).padStart(2, '0');
@@ -51,6 +49,10 @@ class Tab implements Desk {
     return Promise.resolve({ area: new Box(new Point(0, 0), size), film: false });
   }
 
+  stretched(): Promise<void> {
+    return Promise.resolve();
+  }
+
   copy(png: Blob): Promise<void> {
     return navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]);
   }
@@ -84,23 +86,6 @@ class Tab implements Desk {
 
   film(): Promise<void> {
     return Promise.reject(new Error('A tab does not film'));
-  }
-
-  async languages(): Promise<ReadonlyArray<Tongue>> {
-    const chosen = await choice();
-    const system = { code: '', title: (await words())['menu.system'], on: chosen === '' };
-    return [system].concat(
-      Object.keys(LANGUAGES).map((code) => ({
-        code,
-        title: spoken(code).language,
-        on: code === chosen,
-      })),
-    );
-  }
-
-  async speak(code: string): Promise<Words> {
-    await choose(code);
-    return words();
   }
 
   async leave(): Promise<void> {

@@ -31,17 +31,19 @@ export function start(desk: Desk, root: HTMLElement, words: Words): Promise<void
   return Promise.all([desk.shot(), desk.shares(), desk.opening(), desk.films()]).then((ready) => {
     const shot = ready[0];
     const sheet = shot.bounds();
-    const unit = sheet.width() / root.clientWidth;
     const opening = ready[2];
-    const ctx = easel(root, sheet);
-    new Overlay(
-      desk,
-      ctx,
-      unit,
-      new Panels(root, words, unit, ready[1], ready[3], brushes(unit, new Tape(ctx))),
-      new Entry(root, unit),
-      new Rest(new Session(shot, opening.area, new Sketch([], []), new Hand(), RED, unit)),
-      opening.film,
-    ).open();
+    return desk.stretched(sheet.width()).then(() => {
+      const unit = sheet.width() / root.clientWidth;
+      const ctx = easel(root, sheet);
+      new Overlay(
+        desk,
+        ctx,
+        unit,
+        new Panels(root, words, unit, ready[1], ready[3], brushes(unit, new Tape(ctx))),
+        new Entry(root, unit),
+        new Rest(new Session(shot, opening.area, new Sketch([], []), new Hand(), RED, unit)),
+        opening.film,
+      ).open();
+    });
   });
 }

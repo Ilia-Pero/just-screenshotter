@@ -1,10 +1,12 @@
 import { Box } from './box.ts';
 import type { Bridge } from './bridge.ts';
-import type { Desk, Ears, Opening, Tongue } from './desk.ts';
+import type { Desk, Ears, Opening } from './desk.ts';
 import { developed } from './photo.ts';
 import { Point } from './point.ts';
 import type { Shot } from './shot.ts';
-import type { Words } from './words.ts';
+
+/** How many pixels may be lost when the window is measured. */
+const CLOSE = 3;
 
 /** The opening as the shell tells it. */
 interface Told {
@@ -37,6 +39,36 @@ export class Shell implements Desk {
       ),
       film: told.film,
     }));
+  }
+
+  /**
+   * Waits until the window covers the screen. Linux stretches only windows that are shown, so such
+   * a window is shown before the picture is drawn. If it does not cover the screen in a second,
+   * it never will.
+   */
+  stretched(width: number): Promise<void> {
+    const room = (): number =>
+      Math.abs(document.documentElement.clientWidth * window.devicePixelRatio - width);
+    if (room() < CLOSE) {
+      return Promise.resolve();
+    }
+    return this.bridge.invoke<void>('reveal').then(
+      () =>
+        new Promise((resolve) => {
+          const look = (): void => {
+            if (room() < CLOSE) {
+              done();
+            }
+          };
+          const done = (): void => {
+            window.removeEventListener('resize', look);
+            resolve();
+          };
+          window.addEventListener('resize', look);
+          window.setTimeout(done, 1000);
+          look();
+        }),
+    );
   }
 
   copy(png: Blob): Promise<void> {
@@ -77,14 +109,6 @@ export class Shell implements Desk {
         voice: ears.voice,
       },
     });
-  }
-
-  languages(): Promise<ReadonlyArray<Tongue>> {
-    return this.bridge.invoke<ReadonlyArray<Tongue>>('languages');
-  }
-
-  speak(code: string): Promise<Words> {
-    return this.bridge.invoke<Words>('speak', { code });
   }
 
   leave(): Promise<void> {

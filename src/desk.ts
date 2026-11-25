@@ -1,6 +1,5 @@
 import type { Box } from './box.ts';
 import type { Shot } from './shot.ts';
-import type { Words } from './words.ts';
 
 /** A language of the program. */
 export interface Tongue {
@@ -36,6 +35,8 @@ export interface Desk {
   shot(): Promise<Shot>;
   /** What to begin with. */
   opening(): Promise<Opening>;
+  /** Waits until there is room for a picture of the width. */
+  stretched(width: number): Promise<void>;
   /** Puts the picture on the clipboard. */
   copy(png: Blob): Promise<void>;
   /** Saves the picture to a file. */
@@ -50,10 +51,6 @@ export interface Desk {
   listens(): Promise<Ears>;
   /** Closes the editor and films the area of the screen. The sheet is the whole screenshot. */
   film(area: Box, sheet: Box, ears: Ears): Promise<void>;
-  /** Languages to choose from. */
-  languages(): Promise<ReadonlyArray<Tongue>>;
-  /** Makes the whole program speak the language with the code. Returns its words. */
-  speak(code: string): Promise<Words>;
   /** Closes the editor. */
   leave(): Promise<void>;
 }

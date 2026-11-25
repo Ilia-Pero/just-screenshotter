@@ -1,10 +1,8 @@
 import { Box } from './box.ts';
-import type { Desk, Ears, Opening, Tongue } from './desk.ts';
-import { LANGUAGES, spoken } from './languages.ts';
+import type { Desk, Ears, Opening } from './desk.ts';
 import { developed } from './photo.ts';
 import { Point } from './point.ts';
 import type { Shot } from './shot.ts';
-import type { Words } from './words.ts';
 
 /** A pretended program window on the sample screenshot. Sizes are fractions of the screen. */
 interface Pane {
@@ -55,6 +53,10 @@ export class Sandbox implements Desk {
     return Promise.resolve({ area: new Box(corner, corner), film: false });
   }
 
+  stretched(): Promise<void> {
+    return Promise.resolve();
+  }
+
   copy(png: Blob): Promise<void> {
     return Promise.resolve()
       .then(() => navigator.clipboard.write([new ClipboardItem({ 'image/png': png })]))
@@ -75,7 +77,7 @@ export class Sandbox implements Desk {
   }
 
   shares(): Promise<boolean> {
-    return Promise.resolve(true);
+    return Promise.resolve(false);
   }
 
   share(png: Blob): Promise<void> {
@@ -97,16 +99,6 @@ export class Sandbox implements Desk {
     note.textContent = `A film of ${area.width()} by ${area.height()} would be made.`;
     this.root.appendChild(note);
     return this.leave();
-  }
-
-  languages(): Promise<ReadonlyArray<Tongue>> {
-    return Promise.resolve(
-      Object.keys(LANGUAGES).map((code) => ({ code, title: spoken(code).language, on: false })),
-    );
-  }
-
-  speak(code: string): Promise<Words> {
-    return Promise.resolve(spoken(code));
   }
 
   leave(): Promise<void> {

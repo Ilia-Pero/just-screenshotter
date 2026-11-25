@@ -1,7 +1,16 @@
 import type { Box } from './box.ts';
 import { Cut } from './cut.ts';
 import type { Gesture } from './gesture.ts';
-import { Framing, Moving, Pulling, Resizing, Rest, Retyping, Shifting } from './gesture.ts';
+import {
+  Framing,
+  Moving,
+  Pulling,
+  Resizing,
+  Rest,
+  Retyping,
+  Shifting,
+  Touching,
+} from './gesture.ts';
 import type { Grip } from './grip.ts';
 import { GRIPS } from './grip.ts';
 import type { Point } from './point.ts';
@@ -213,15 +222,27 @@ export class Session {
     return next.picked() ? new Shifting(next, at, at) : new Moving(next, at, at);
   }
 
+  /**
+   * What a press at the point means when the other movement could begin. A click on a mark picks
+   * it, and the mark a person has picked is dragged.
+   */
+  touch(at: Point, otherwise: Gesture): Gesture {
+    if (this.sketch.holding(at, this.reach())) {
+      return new Shifting(this, at, at);
+    }
+    const next = this.picking(at);
+    return next.picked() ? new Touching(next, otherwise, at, 3 * this.unit) : otherwise;
+  }
+
   /** Typing the text at the point anew. If there is no text, the other movement. */
   reword(at: Point, otherwise: Gesture): Gesture {
     const next = this.picking(at);
     return next.worded() ? new Retyping(next) : otherwise;
   }
 
-  /** What a double click at the point leads to: without a tool, a text is typed anew. */
+  /** What a double click at the point leads to: a text is typed anew. */
   twice(at: Point): Gesture {
-    return this.strength() > 0 ? new Rest(this) : this.reword(at, new Rest(this));
+    return this.reword(at, new Rest(this));
   }
 
   /** Typing the text of the picked mark anew, if it has a text. */

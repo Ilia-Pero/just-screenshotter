@@ -252,9 +252,38 @@ test('a double click on a text types it anew when there is no tool', async () =>
   assert.equal((await bare.twice(point(25, 25)).ended(new Script(''))).marked(), false);
 });
 
-test('a double click with the pencil does not touch a text', async () => {
+test('a double click with the pencil types a text anew', async () => {
   const drawing = (await labelled()).equipped(pencil);
-  assert.equal((await drawing.twice(point(25, 25)).ended(new Script(''))).marked(), true);
+  assert.equal((await drawing.twice(point(25, 25)).ended(new Script(''))).marked(), false);
+});
+
+test('a click on a mark picks it while a tool is chosen', async () => {
+  const drawing = (await pointed()).equipped(pencil);
+  assert.equal((await dragged(drawing, point(30, 20), point(30, 20), '')).picked(), true);
+});
+
+test('a click on a mark draws nothing', async () => {
+  const drawing = (await pointed()).equipped(pencil);
+  const clicked = await dragged(drawing, point(30, 20), point(30, 20), '');
+  assert.equal(clicked.undone().marked(), false);
+});
+
+test('a mark drawn earlier is picked after another one is drawn', async () => {
+  const both = await dragged(await pointed(), point(20, 34), point(40, 34), '');
+  const first = await dragged(both, point(30, 20), point(30, 20), '');
+  assert.equal(first.dropped().equipped(new Hand()).cursor(point(30, 20)), 'move');
+});
+
+test('a mark picked by a click is dragged while a tool is chosen', async () => {
+  const drawing = (await pointed()).equipped(pencil);
+  const picked = await dragged(drawing, point(30, 20), point(30, 20), '');
+  const moved = await dragged(picked, point(30, 20), point(30, 33), '');
+  assert.equal(moved.equipped(new Hand()).cursor(point(30, 33)), 'pointer');
+});
+
+test('a tool draws over a mark that has just been drawn', async () => {
+  const over = await dragged(await pointed(), point(30, 20), point(30, 50), '');
+  assert.equal(over.undone().marked(), true);
 });
 
 test('a key does nothing to a picked arrow', async () => {

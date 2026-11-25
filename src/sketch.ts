@@ -14,11 +14,16 @@ interface Step {
 export class Sketch implements Shape {
   private readonly steps: ReadonlyArray<Step>;
   private readonly choice: ReadonlyArray<number>;
+  private readonly held: boolean;
 
-  /** choice is the number of the picked mark, or nothing. */
-  constructor(steps: ReadonlyArray<Step>, choice: ReadonlyArray<number>) {
+  /**
+   * choice is the number of the picked mark, or nothing. held tells whether a person has picked it:
+   * a mark that has just been drawn is picked by itself.
+   */
+  constructor(steps: ReadonlyArray<Step>, choice: ReadonlyArray<number>, held = false) {
     this.steps = steps;
     this.choice = choice;
+    this.held = held;
   }
 
   blank(): boolean {
@@ -54,7 +59,12 @@ export class Sketch implements Shape {
     const found = this.marks()
       .map((mark, index) => (mark.touched(at, reach) ? index : -1))
       .filter((index) => index >= 0);
-    return new Sketch(this.steps, found.slice(-1));
+    return new Sketch(this.steps, found.slice(-1), true);
+  }
+
+  /** True if a person has picked the mark at the point. */
+  holding(at: Point, reach: number): boolean {
+    return this.held && this.picked().some((mark) => mark.touched(at, reach));
   }
 
   /** The sketch where the last mark is picked. */
@@ -103,6 +113,7 @@ export class Sketch implements Shape {
     return new Sketch(
       [...(same ? this.steps.slice(0, -1) : this.steps), { reason: full, marks }],
       choice,
+      this.held && choice.length > 0,
     );
   }
 

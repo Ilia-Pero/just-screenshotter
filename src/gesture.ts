@@ -155,6 +155,40 @@ export class Drawing implements Gesture {
   }
 }
 
+/**
+ * A press on a mark while something else could begin. If the mouse does not move, the mark is
+ * picked; if it does, the other movement goes on from where it began.
+ */
+export class Touching implements Gesture {
+  private readonly picked: Session;
+  private readonly otherwise: Gesture;
+  private readonly from: Point;
+  private readonly reach: number;
+
+  constructor(picked: Session, otherwise: Gesture, from: Point, reach: number) {
+    this.picked = picked;
+    this.otherwise = otherwise;
+    this.from = from;
+    this.reach = reach;
+  }
+
+  moved(to: Point): Gesture {
+    return this.from.distance(to) > this.reach ? this.otherwise.moved(to) : this;
+  }
+
+  now(): Session {
+    return this.picked;
+  }
+
+  paint(ctx: CanvasRenderingContext2D): void {
+    this.picked.paint(ctx, new Nothing());
+  }
+
+  ended(): Promise<Session> {
+    return Promise.resolve(this.picked);
+  }
+}
+
 /** Dragging the picked mark. */
 export class Shifting implements Gesture {
   private readonly session: Session;

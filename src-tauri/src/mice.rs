@@ -43,11 +43,7 @@ impl Mice {
 
     /// Watches no more.
     pub fn rest(&self) {
-        let watch = self
-            .watch
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
-            .take();
-        drop(watch);
+        // A watch ends when nobody keeps it.
+        *self.watch.lock().unwrap_or_else(PoisonError::into_inner) = None;
     }
 }

@@ -2,18 +2,18 @@
 
 ## Next
 
-What can be done in the code alone is marked with `@todo #1` next to the place it concerns. The largest of these tasks:
+Tasks that need only changes in the code are marked with `@todo #1` where they belong. The largest of them:
 
-- Video on machines with a video card: let the card turn pictures into the form the encoder takes.
-- A shortcut on Wayland that the program sets by itself.
-- A check on Windows 10 and 11, on a Mac, and on Ubuntu with Wayland.
+- use the video card to prepare frames for the encoder;
+- set shortcuts on Wayland from the program itself;
+- check the program on Windows 10 and 11, on a Mac and on Ubuntu with Wayland.
 
 ## Later
 
-These tasks need a server, a paid account or somebody to look after them, so they are put off.
+These tasks need a server, a paid account or constant maintenance.
 
-- A server for screenshots that anybody can use. Today the program uploads only to a server of your own, and the button is not shown until you set its address.
-- Uploading films by link.
-- The extension in the Chrome Web Store, which charges for registration. Yandex Browser trusts this catalog and the one of Opera only.
-- Signatures of the downloads, so that Windows and macOS do not warn at the first start.
-- Installing updates from within the program. It needs a key that signs them; today the program only tells about a newer version.
+- A public server for screenshots. For now the program uploads only to your own server, and the button stays hidden until its address is set.
+- Uploading videos.
+- The Chrome Web Store, which charges for registration. Yandex Browser accepts extensions only from this store and from Opera Add-ons.
+- Paid signatures, so that Windows and macOS do not warn at the first start.
+- Updating from within the program, which needs a signing key. For now the program only reports a new version.

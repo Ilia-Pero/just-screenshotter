@@ -1,29 +1,29 @@
-# The server for screenshots
+# Server for screenshots
 
-One file in Python without dependencies, a plain WSGI application. It accepts PNG with a key, keeps it under a random name and shows it by a link. It needs Python 3.12 or newer.
+A WSGI application in one Python file without dependencies. It accepts PNG files with a key, stores them under random names and returns links. Python 3.12 or later is required.
 
-| Variable | What is in it |
+| Variable | Value |
 | --- | --- |
 | `SCREENSHOT_FOLDER` | the folder for screenshots |
-| `SCREENSHOT_URL` | the address they are seen at from outside |
+| `SCREENSHOT_URL` | the public address of the server |
 | `SCREENSHOT_TOKEN` | the key, at least 32 characters long |
-| `SCREENSHOT_PORT` | the port for a try on this computer, 5397 at first |
+| `SCREENSHOT_PORT` | the port for a local run, 5397 by default |
 
-To try it on this computer:
+A local run:
 
 ```sh
 python screenshot_server.py
 ```
 
-On a server any WSGI server runs it behind a web server with https:
+On a server, use any WSGI server behind a web server with HTTPS:
 
 ```sh
 gunicorn "screenshot_server:application()"
 ```
 
-Then put the same address and key into the program: the menu of the tray icon, "Upload by link…".
+Then open the settings of the program, press “Upload by link…” and enter the same address and key.
 
-Anybody who knows the link of a screenshot can open it. The server does not delete old screenshots by itself.
+Anyone who has the link to a screenshot can open it. The server does not delete old screenshots.
 
 Tests:
 

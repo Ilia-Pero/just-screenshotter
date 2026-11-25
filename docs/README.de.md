@@ -2,7 +2,7 @@
 
 <h1 align="center">Just Screenshotter</h1>
 
-<p align="center">Ein Screenshot-Werkzeug ohne Last im Ruhezustand für Windows, macOS und Linux</p>
+<p align="center">Screenshots und Bildschirmaufnahmen für Windows, macOS und Linux</p>
 
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
@@ -15,107 +15,51 @@
 
 ![Der Editor über einem Beispielbildschirm: Marker, Oval, Pfeil und Text](editor.png)
 
-Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und kopieren, speichern oder senden Sie das Bild oder nehmen Sie den Bereich als Video auf. Zwischen den Aufnahmen wartet das Programm nur auf die Taste: Es hat keine Fenster, keine Timer und belegt den Prozessor nicht.
-
-## Was es kann
-
-- Nimmt alle Bildschirme auf und öffnet den Editor darüber.
-- Zeichnet mit Stift, Linie, Pfeil, Rahmen, Oval, Marker und Text in acht Farben.
-- Ändert bereits Gezeichnetes: Ein Klick wählt eine Markierung, dann ziehen Sie sie oder ihre Enden, ändern Stärke und Farbe, tippen den Text neu oder löschen sie.
-- Kopiert das Bild, speichert es als PNG oder lädt es auf [Ihren eigenen Server](../server/README.md) und kopiert den Link.
-- Nimmt den Bereich als Video mit Ton auf: MP4 unter Windows, MOV unter macOS, WebM unter Linux. Sie wählen, ob der Ton des Computers und das Mikrofon aufgenommen werden; unter macOS vor Version 13 nur das Mikrofon. Die Schaltfläche „Beenden“, die Tastenkombination oder das Symbol beendet die Aufnahme.
-- Spricht 14 Sprachen. Die Sprache wird in den Einstellungen und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
-- Sendet von sich aus nichts: kein Konto, keine Telemetrie. Das Netz wird nur genutzt, um ein Bild auf den von Ihnen angegebenen Server zu laden und um nach einer neuen Version zu suchen, wenn Sie in den Einstellungen auf die Schaltfläche klicken.
-
-## Tasten und Maus
-
-| Was sie tun | Windows und Linux | macOS |
-| --- | --- | --- |
-| Screenshot eines Bereichs | Print Screen | ⌘⇧9 |
-| Screenshot des ganzen Bildschirms | Shift + Print Screen | — |
-| Screenshot des aktiven Fensters (Windows) | Alt + Print Screen | — |
-| Video eines Bereichs | Ctrl + Shift + Print Screen | ⌘⇧8 |
-
-Andere Tasten wählen Sie in den Einstellungen. Unter Windows starten dasselbe auch die Maustasten: beide zugleich, allein, mit Umschalt oder mit Strg. Anfangs ist das aus, denn solange das Programm die Maustasten beobachtet, kostet jede Mausbewegung etwa 2 µs Prozessorzeit; in Ruhe nichts. Unter Wayland legt der Desktop die Taste fest.
-
-## Tasten im Editor
-
-| Taste | Was sie tut |
-| --- | --- |
-| Ctrl+C | kopiert den Bereich |
-| Ctrl+S | speichert den Bereich in `Bilder/Screenshots` |
-| Ctrl+U | lädt den Bereich hoch, der Link kommt in die Zwischenablage |
-| Ctrl+Z | macht die letzte Zeichnung rückgängig |
-| Delete | löscht die gewählte Markierung |
-| Esc | schließt den Editor |
-
-Unter macOS ⌘ statt Strg.
-
-Ein Klick wählt eine Markierung bei jedem Werkzeug. Ein Doppelklick oder Enter ändert einen Text. Das Mausrad ändert die Stärke.
-
-In einem Text beginnt Enter eine neue Zeile; ein Klick an eine andere Stelle oder Esc beendet den Text. Das Mausrad ändert die Größe der Buchstaben. Das System unterstreicht Fehler im Russischen und Englischen, die rechte Maustaste bietet Korrekturen an. Mit Umschalt wird der Rahmen ein Quadrat und das Oval ein Kreis.
-
-Auch der Rest steht in den Einstellungen: was mit dem Video aufgenommen wird, der Ordner, die Sprache, das Hochladen und der Start mit dem System, der an ist, bis Sie ihn ausschalten. Die Einstellungen öffnet das Menü des Symbols oder der Start des Programms mit `--settings`. Auch ein zweiter Start ohne das macht einen Screenshot.
-
-## Die Browser-Erweiterung
-
-Für Firefox und für Browser auf Basis von Chromium: Chrome, Yandex Browser, Edge, Opera.
-
-Nimmt den sichtbaren Teil einer Seite oder die ganze Seite auf und öffnet denselben Editor in einem neuen Tab: auswählen, zeichnen, kopieren, speichern. Die Tasten sind Alt+Umschalt+S und Alt+Umschalt+P. Sie sieht eine Seite nur an, wenn Sie es wollen, sendet nichts und merkt sich nur die Sprache. Video nimmt sie nicht auf, und ein Bild ist höchstens 32.000 Pixel hoch.
-
-## Wie leicht es ist
-
-Gemessen am 24.11.2026 unter Windows Server 2022, Bildschirm 1920 × 1080, optimierter Build:
-
-| Was | Ergebnis |
-| --- | --- |
-| Prozessor im Ruhezustand | 0 ms in 10 s |
-| Speicher im Ruhezustand | 14 MB vor der ersten Aufnahme, 25 MB nach sieben |
-| Prozesse im Ruhezustand | 1 |
-| Vom Tastendruck bis zum Editor | 0,61–0,75 s in sieben Läufen |
-| Größe des Programms | 5,2 MB |
-
-Der Editor braucht diese Zeit, weil sein Fenster für jede Aufnahme erstellt und danach zerstört wird. Das ist der Preis für null Last im Ruhezustand.
-
-Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher verschwindet. Auf diesem Server ohne Grafikkarte belegen 30 Bilder pro Sekunde bei 1920 × 1080 einen Prozessorkern und 207 MB, bei 800 × 600 0,4 Kerne und 78 MB. Eine Grafikkarte, die H.264 kodiert, übernimmt diese Arbeit; das ist noch nicht gemessen.
-
-## Stand
-
-| System | Stand |
-| --- | --- |
-| Windows | Funktioniert unter Windows Server 2022 mit einem Bildschirm. Auch Video wurde dort geprüft; die Tonaufnahme von Geräten nicht, weil der Server keine hat. Unter Windows 10 und 11 noch nicht geprüft. |
-| macOS 10.13+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm mit dem Ton des Computers auf. Von Hand hat es noch niemand ausprobiert. |
-| Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Auf einem virtuellen X11-Bildschirm von Ubuntu 26.04 funktionieren Tasten, Auswahl, Speichern und Video; unter Wayland ist es nicht geprüft. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
-| Firefox 128+ | Funktioniert in Firefox 161, ohne Fenster geprüft. Von Mozilla noch nicht signiert und muss nach einem Neustart von Firefox erneut geladen werden. |
-| Chrome, Yandex Browser, Edge, Opera | Funktioniert in Edge 158, ohne Fenster geprüft. Die anderen sind nicht geprüft; nötig ist Chromium 120 oder neuer. |
+Nach einem Druck auf Print Screen nimmt das Programm alle Bildschirme auf und öffnet darüber einen Editor. Dort wählen Sie einen Bereich, zeichnen darauf und kopieren, speichern oder senden das Bild. Derselbe Bereich lässt sich als Video aufnehmen. Zwischen den Aufnahmen bleibt ein Prozess mit einem Symbol im Infobereich im Speicher.
 
 ## Installation
 
 | System | Datei | So wird installiert |
 | --- | --- | --- |
-| Windows 10 und 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Starten Sie sie. Wenn Windows das Programm nicht kennt: „Weitere Informationen“, „Trotzdem ausführen“. |
-| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Ziehen Sie das Programm in „Programme“ und öffnen Sie es. Wenn macOS es ablehnt, öffnen Sie die Systemeinstellungen, „Datenschutz und Sicherheit“, und klicken Sie auf „Dennoch öffnen“. |
+| Windows 10, 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Datei starten. Wenn Windows warnt: „Weitere Informationen“, dann „Trotzdem ausführen“. |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Programm in „Programme“ ziehen und öffnen. Nach der ersten Ablehnung in den Systemeinstellungen „Datenschutz & Sicherheit“ öffnen und „Dennoch öffnen“ wählen. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
-| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Öffnen Sie `about:debugging`, „Dieser Firefox“, „Temporäres Add-on laden“, und wählen Sie die Datei. Nach einem Neustart von Firefox laden Sie sie erneut. |
-| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Entpacken Sie sie, öffnen Sie `chrome://extensions`, schalten Sie den „Entwicklermodus“ ein, klicken Sie auf „Entpackte Erweiterung laden“ und wählen Sie den Ordner; löschen Sie ihn nicht. Yandex Browser vertraut nur Katalogen und kann die Erweiterung ausschalten. |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | `about:debugging` öffnen, „Dieser Firefox“, „Temporäres Add-on laden“ und die Datei wählen. Nach einem Neustart von Firefox erneut laden. |
+| Chrome, Edge, Opera, Yandex Browser | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Archiv in einen Ordner entpacken, der bestehen bleibt. `chrome://extensions` öffnen, „Entwicklermodus“ einschalten, „Entpackte Erweiterung laden“ und den Ordner wählen. |
 
-GitHub baut diese Dateien aus dem Code dieses Repositorys, installiert jede, startet das Programm und veröffentlicht sie erst dann. Sie haben keine bezahlte Signatur, deshalb warnen Windows und macOS beim ersten Start.
+Windows und macOS warnen, weil die Dateien keine bezahlte Signatur haben. GitHub baut sie aus diesem Repository, installiert die Programme auf sauberen Rechnern und startet sie, bevor eine Version veröffentlicht wird.
 
-Sie können das Programm auch selbst bauen. Nötig sind Node.js 24 oder neuer und Rust, unter Windows auch die Microsoft C++ Build Tools, unter Ubuntu auch `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+## Funktionen
 
-```sh
-git clone https://github.com/Ilia-Pero/just-screenshotter
-cd just-screenshotter
-npm ci
-npm run tauri build
-```
+- Zeichnen mit Stift, Linie, Pfeil, Rahmen, Oval, Marker und Text: acht Farben, Stärke von 1 bis 72 Pixel.
+- Gezeichnetes lässt sich jederzeit verschieben, umfärben, in der Größe ändern, neu tippen oder löschen.
+- Das Bild wird kopiert, als PNG gespeichert oder auf [Ihren eigenen Server](../server/README.md) geladen.
+- Video eines Bereichs mit Ton des Computers und Mikrofon: MP4 unter Windows, MOV unter macOS, WebM unter Linux. Vor macOS 13 wird nur das Mikrofon aufgenommen.
+- 14 Sprachen; Tasten und Ordner werden in den Einstellungen festgelegt.
 
-Das Installationsprogramm erscheint in `src-tauri/target/release/bundle`.
+## Tasten
 
-## Übersetzungen
+| Aktion | Windows, Linux | macOS |
+| --- | --- | --- |
+| Screenshot eines Bereichs | Print Screen | ⌘⇧9 |
+| Screenshot des ganzen Bildschirms | Shift + Print Screen | |
+| Screenshot des aktiven Fensters, nur Windows | Alt + Print Screen | |
+| Video eines Bereichs | Ctrl + Shift + Print Screen | ⌘⇧8 |
 
-Die Übersetzungen sind maschinell und wurden nicht von Muttersprachlern geprüft. Wenn Sie einen Fehler sehen, berichtigen Sie ihn bitte in `locales` oder in `docs`.
+Die Tasten lassen sich in den Einstellungen ändern. Im Editor kopiert Strg+C, Strg+S speichert, Strg+Z macht rückgängig, Esc schließt.
 
-## Mitmachen und Lizenz
+## Browser-Erweiterung
 
-So wird das Programm gebaut, geprüft und geändert: [CONTRIBUTING.md](../CONTRIBUTING.md). Die Lizenz ist [MIT](../LICENSE).
+Nimmt den sichtbaren Teil einer Seite (Alt+Shift+S) oder die ganze Seite (Alt+Shift+P) auf und öffnet denselben Editor in einem neuen Tab. Läuft in Firefox und in Browsern auf Chromium-Basis.
+
+## Daten und Netzwerk
+
+Bilder und Aufnahmen bleiben auf Ihrem Computer. Das Programm nutzt das Netz, wenn Sie ein Bild auf Ihren Server laden und wenn Sie auf „Nach Updates suchen“ klicken. Ein Konto oder Telemetrie gibt es nicht.
+
+## Mehr
+
+Messwerte, geprüfte Systeme und der Bau des Programms sind [auf Englisch](../README.md) beschrieben.
+
+Dieser Text wurde maschinell übersetzt und nicht von Muttersprachlern geprüft. Korrekturen gehören in den Ordner `docs`.
+
+[MIT](../LICENSE)

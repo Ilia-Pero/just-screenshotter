@@ -1,28 +1,28 @@
 # Contributing
 
-## Build
+## Build and test
 
-You need Node.js 24 or newer and Rust with clippy and rustfmt. On Windows, also the Microsoft C++ Build Tools. On Ubuntu, also `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+You need Node.js 24 or later and Rust with clippy and rustfmt; on Windows also the Microsoft C++ Build Tools, on Ubuntu also `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 npm ci
 npm run build
 ```
 
-`npm run build` runs the linter, the type check, the tests, the bundle, rustfmt, clippy and the tests of Rust. It has to pass without warnings.
+`npm run build` runs the linter, the type check, the tests, the bundler, rustfmt, clippy and the Rust tests. A pull request has to pass it without warnings.
 
 | Command | What it does |
 | --- | --- |
-| `npm run dev` | opens the editor in a browser over a sample screen: <http://127.0.0.1:5391>; `?he` at the end chooses the language; the settings are at <http://127.0.0.1:5391/panel.html> |
-| `npm run extension` | builds the browser extension into `extension/packed`: one folder for Firefox, the other for browsers based on Chromium |
-| `npm run tauri build` | builds the installer for this system |
-| `npm run tauri build -- --debug --no-bundle` | builds the program for a try |
-| `cargo run --manifest-path src-tauri/Cargo.toml -p screenshotter-film --example film -- 5 film.mp4 1920 1080 100 100 800 600` | films a part of the screen for five seconds: the size of the monitor, then the area; on macOS the file is `film.mov`, on Linux `film.webm` |
-| `python -m unittest discover -s tests -t .` | tests the server, in the folder `server` |
+| `npm run dev` | opens the editor in a browser over a sample screen at <http://127.0.0.1:5391> (`?he` at the end selects a language); the settings are at <http://127.0.0.1:5391/panel.html> |
+| `npm run extension` | builds the browser extension into `extension/packed/firefox` and `extension/packed/chrome` |
+| `npm run tauri build` | builds the installer for your system |
+| `npm run tauri build -- --debug --no-bundle` | builds a debug version without an installer |
+| `cargo run --manifest-path src-tauri/Cargo.toml -p screenshotter-film --example film -- 5 film.mp4 1920 1080 100 100 800 600` | records a part of the screen for five seconds. The numbers are the size of the monitor and the area. Use `film.mov` on macOS and `film.webm` on Linux |
+| `python -m unittest discover -s tests -t .` | tests the server; run it in the folder `server` |
 
-In a debug build, `SCREENSHOTTER_DEBUG_PORT` opens the debugging port of the editor, so a test can drive it without the mouse and the keyboard.
+In a debug build the variable `SCREENSHOTTER_DEBUG_PORT` opens a debugging port of the editor, so a test can control it without the mouse and the keyboard.
 
-The compiler checks the code for other systems on any machine:
+Code for other systems can be checked on any machine:
 
 ```sh
 rustup target add x86_64-unknown-linux-gnu x86_64-apple-darwin
@@ -30,40 +30,46 @@ cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p sc
 cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p screenshotter-film --target x86_64-apple-darwin
 ```
 
-## Where things are
+## Structure
 
-| Folder | What is in it |
+| Folder | Contents |
 | --- | --- |
-| `src` | the editor, TypeScript without frameworks |
-| `extension` | the browser extension; the editor in it is the same |
-| `src-tauri/src` | the program: the tray icon, the shortcut, the windows of the editor |
-| `src-tauri/capture` | taking screenshots: GDI on Windows, `screencapture` on macOS, the portal on Linux |
-| `src-tauri/film` | filming in a process of its own: Media Foundation on Windows, ScreenCaptureKit and AVFoundation on macOS, the portal and GStreamer on Linux |
-| `src-tauri/keys` | keys that start actions on X11, without asking the server all the time |
-| `src-tauri/mouse` | both buttons of the mouse pressed together, Windows |
-| `src-tauri/release` | what the latest release is |
-| `src-tauri/spelling` | mistakes in texts, found by the system |
+| `src` | the editor and the settings, TypeScript without frameworks |
+| `extension` | the browser extension, which uses the same editor |
+| `src-tauri/src` | the program: the tray icon, shortcuts, windows |
+| `src-tauri/capture` | screenshots: GDI on Windows, `screencapture` on macOS, the portal on Linux |
+| `src-tauri/film` | video, recorded in a separate process: Media Foundation on Windows, ScreenCaptureKit and AVFoundation on macOS, the portal and GStreamer on Linux |
+| `src-tauri/keys` | shortcuts on X11 |
+| `src-tauri/mouse` | both mouse buttons pressed at once, Windows |
+| `src-tauri/release` | the version of the latest release |
+| `src-tauri/spelling` | the spell checker of the system |
 | `src-tauri/store` | the settings and the folder with screenshots |
 | `src-tauri/upload` | uploading to the server |
 | `src-tauri/phrase`, `locales` | texts in 14 languages |
 | `server` | the server for screenshots, Python |
 
-## What to keep in mind
+## Rules
 
-**No load at rest.** Between screenshots and films there are no windows, no timers and no polling. A change that breaks this is not accepted; please measure the processor time and the memory at rest and write them into the pull request.
+**Idle load.** Between screenshots and recordings the program has no windows, timers or polling. If your change affects this, measure processor time and memory at rest and put the numbers into the pull request.
 
-**macOS 10.13.** On High Sierra the system WebKit draws the window, so the editor is built for Safari 11: no Pointer Events, no `gap` in flex, no ResizeObserver, no destructuring. `npm run bundle` fails if the code needs something newer.
+**macOS 10.13.** High Sierra draws the windows with its own WebKit, so the code is built for Safari 11, which lacks Pointer Events, `gap` in flex, ResizeObserver and destructuring. `npm run bundle` fails if the code needs a newer browser.
 
-**Objects.** They are immutable, there is no `null`, and names are not made with "-er". A test has one assertion, and its name says what the program does. What is left undone is marked in the code with `@todo #issue` next to the place it concerns, as in [puzzle driven development](https://www.yegor256.com/2010/03/04/pdd.html). Such a comment is enough to take the work up. What is planned: [ROADMAP.md](ROADMAP.md).
+**Objects.** The code follows [Elegant Objects](https://www.elegantobjects.org/): objects are immutable, `null` is not used, names do not end in "-er". A test has one assertion, and its name describes behavior.
+
+**Unfinished work** is marked with `@todo #issue` next to the code it concerns, as in [puzzle driven development](https://www.yegor256.com/2010/03/04/pdd.html). Plans are in [ROADMAP.md](ROADMAP.md).
 
 ## Translations
 
-A language is a file in `locales`. To correct one, change its texts and leave the keys and the `{holes}` as they are: tests check that all languages have the same ones. To add one, copy `en.json` and add the language to `src-tauri/phrase/src/language.rs` and `src/languages.ts`. The translated descriptions are `docs/README.*.md`.
+Each language is a file in `locales`. To correct one, change the texts and keep the keys and the `{placeholders}`; tests compare them with the other languages. To add one, copy `en.json` and list the language in `src-tauri/phrase/src/language.rs` and `src/languages.ts`. Translated descriptions are in `docs/README.*.md`.
 
 ## Releases
 
-Set the version in `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` and `extension/web/manifest.json`, write the changes and the date into `CHANGELOG.md`, and push a tag such as `0.2.0`. GitHub then builds the installers, installs each of them, starts the program, and only after that publishes the release. The extension goes to the catalog of Firefox after it, with the texts of `extension/store/firefox.json`, if the repository has the secrets `AMO_KEY` and `AMO_SECRET`. The workflow `catalog` sends a release that is already out.
+1. Set the version in `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` and `extension/web/manifest.json`.
+2. Describe the changes in `CHANGELOG.md` under the version and the date.
+3. Push a tag such as `0.2.0`.
+
+GitHub builds the installers, installs each one, starts the program and then publishes the release. If the repository has the secrets `AMO_KEY` and `AMO_SECRET`, the release also sends the extension to Firefox Add-ons with the texts from `extension/store/firefox.json`. The workflow `catalog` does the same for a release that has already been published.
 
 ## Licenses of dependencies
 
-The code is under MIT. Dependencies are under MIT, Apache 2.0, BSD, ISC, Zlib, Unicode, BSL, MPL 2.0 and CDLA Permissive 2.0. The full list: `cargo tree --manifest-path src-tauri/Cargo.toml --format "{p} {l}"`. The installers carry the texts: `npm run licenses` collects them into `src-tauri/licenses.txt`.
+The code is under MIT. Dependencies are under MIT, Apache 2.0, BSD, ISC, Zlib, Unicode, BSL, MPL 2.0 and CDLA Permissive 2.0; `cargo tree --manifest-path src-tauri/Cargo.toml --format "{p} {l}"` prints the full list. `npm run licenses` collects the texts into `src-tauri/licenses.txt`, which goes into the installers.

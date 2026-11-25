@@ -2,4 +2,4 @@
 
 - [ ] `npm run build` passes without warnings
 - [ ] A change in behavior comes with a test
-- [ ] What is left undone is marked with `@todo #issue` next to the place it concerns
+- [ ] Unfinished work is marked with `@todo #issue` in the code

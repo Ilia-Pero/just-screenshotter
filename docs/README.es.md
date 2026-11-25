@@ -2,7 +2,7 @@
 
 <h1 align="center">Just Screenshotter</h1>
 
-<p align="center">Una herramienta de capturas sin carga en reposo para Windows, macOS y Linux</p>
+<p align="center">Capturas y grabación de pantalla para Windows, macOS y Linux</p>
 
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
@@ -13,109 +13,53 @@
 
 [English](../README.md) · [Русский](README.ru.md) · **Español** · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![El editor sobre una pantalla de muestra: un marcador, un óvalo, una flecha y un texto](editor.png)
+![El editor sobre una pantalla de ejemplo: marcador, óvalo, flecha y texto](editor.png)
 
-Pulse Print Screen, seleccione un área, dibuje sobre ella y copie, guarde o suba la imagen, o grabe el área en vídeo. Entre capturas el programa solo espera la tecla: no tiene ventanas ni temporizadores y no ocupa el procesador.
-
-## Qué hace
-
-- Captura todos los monitores y abre el editor encima de ellos.
-- Dibuja con lápiz, línea, flecha, marco, óvalo, marcador y texto en ocho colores.
-- Cambia lo ya dibujado: un clic elige una marca y después puede arrastrarla o mover sus extremos, cambiar el grosor y el color, reescribir el texto o borrarla.
-- Copia la imagen, la guarda en PNG o la sube a [su propio servidor](../server/README.md) y copia el enlace.
-- Graba el área en vídeo con sonido: MP4 en Windows, MOV en macOS, WebM en Linux. Usted elige si grabar el sonido del ordenador y el micrófono; en macOS anterior a 13, solo el micrófono. La grabación termina con el botón Detener, el atajo o el icono de la bandeja.
-- Habla 14 idiomas. El idioma se elige en los ajustes y en el instalador para Windows; hasta entonces es el del sistema.
-- No envía nada por su cuenta: no hay cuenta ni telemetría. Solo usa la red para subir una imagen al servidor que usted indique y para buscar una versión nueva cuando usted pulsa el botón de los ajustes.
-
-## Teclas y ratón
-
-| Qué hacen | Windows y Linux | macOS |
-| --- | --- | --- |
-| Captura de un área | Print Screen | ⌘⇧9 |
-| Captura de toda la pantalla | Shift + Print Screen | — |
-| Captura de la ventana activa (Windows) | Alt + Print Screen | — |
-| Vídeo de un área | Ctrl + Shift + Print Screen | ⌘⇧8 |
-
-Otras teclas se eligen en los ajustes. En Windows lo mismo se inicia con los botones del ratón: los dos a la vez, solos, con Mayús o con Ctrl. Al principio está desactivado, porque mientras el programa vigila los botones cada movimiento del ratón cuesta unos 2 µs de procesador; en reposo, nada. En Wayland la tecla se asigna en los ajustes del sistema.
-
-## Teclas en el editor
-
-| Tecla | Qué hace |
-| --- | --- |
-| Ctrl+C | copia el área |
-| Ctrl+S | guarda el área en `Imágenes/Screenshots` |
-| Ctrl+U | sube el área, el enlace va al portapapeles |
-| Ctrl+Z | deshace el último dibujo |
-| Delete | borra la marca elegida |
-| Esc | cierra el editor |
-
-En macOS, ⌘ en lugar de Ctrl.
-
-Un clic elige una marca con cualquier herramienta. Un doble clic o Enter cambia el texto. La rueda del ratón cambia el grosor.
-
-En un texto, Enter empieza una línea nueva; un clic en otro sitio o Esc termina el texto. La rueda cambia el tamaño de las letras. El sistema subraya los errores en ruso e inglés, y el botón derecho del ratón propone correcciones. Con Mayús, el marco es un cuadrado y el óvalo un círculo.
-
-Lo demás también está en los ajustes: qué se graba con el vídeo, la carpeta, el idioma, la subida y el inicio con el sistema, activado hasta que usted lo desactive. Los ajustes se abren desde el menú del icono de la bandeja o iniciando el programa con `--settings`. Iniciarlo por segunda vez sin eso también hace una captura.
-
-## La extensión para el navegador
-
-Para Firefox y para los navegadores basados en Chromium: Chrome, Yandex Browser, Edge, Opera.
-
-Captura la parte visible de una página o la página completa y abre el mismo editor en una pestaña nueva: seleccionar, dibujar, copiar, guardar. Las teclas son Alt+Mayús+S y Alt+Mayús+P. Mira una página solo cuando usted lo pide, no envía nada y recuerda solo el idioma. No graba vídeo, y la altura de una captura no pasa de 32 000 píxeles.
-
-## Cuánto ocupa
-
-Medido el 24.11.2026 en Windows Server 2022, pantalla de 1920 × 1080, compilación optimizada:
-
-| Qué | Resultado |
-| --- | --- |
-| Procesador en reposo | 0 ms en 10 s |
-| Memoria en reposo | 14 MB antes de la primera captura, 25 MB después de siete |
-| Procesos en reposo | 1 |
-| De la tecla al editor | 0,61–0,75 s en siete ejecuciones |
-| Tamaño del programa | 5,2 MB |
-
-El editor tarda esto en abrirse porque su ventana se crea para cada captura y se destruye después. Es el precio de la carga nula en reposo.
-
-El vídeo lo graba un proceso aparte, que desaparece con toda su memoria al terminar. En este servidor, sin tarjeta gráfica, 30 fotogramas por segundo de 1920 × 1080 ocupan un núcleo del procesador y 207 MB; los de 800 × 600, 0,4 de un núcleo y 78 MB. Una tarjeta que codifique H.264 asume ese trabajo; aún no se ha medido.
-
-## Estado
-
-| Sistema | Estado |
-| --- | --- |
-| Windows | Funciona en Windows Server 2022 con un monitor. El vídeo también se ha probado ahí; la grabación de sonido desde dispositivos no, porque el servidor no los tiene. Aún no se ha probado en Windows 10 y 11. |
-| macOS 10.13+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla con el sonido del ordenador. Nadie lo ha probado a mano todavía. |
-| Ubuntu 24.04+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla. En una pantalla X11 virtual de Ubuntu 26.04 funcionan las teclas, la selección, el guardado y el vídeo; en Wayland no se ha comprobado. Nadie lo ha probado a mano todavía. En Wayland, asigne el atajo en los ajustes del teclado: la orden es `just-screenshotter`. |
-| Firefox 128+ | Funciona en Firefox 161, probada sin ventana. Mozilla aún no la ha firmado, así que hay que cargarla de nuevo tras reiniciar Firefox. |
-| Chrome, Yandex Browser, Edge, Opera | Funciona en Edge 158, probada sin ventana. Los demás no se han probado; necesitan Chromium 120 o posterior. |
+Al pulsar Print Screen, el programa captura todos los monitores y abre un editor encima de la pantalla. Allí se selecciona un área, se dibuja sobre ella y se copia, guarda o envía la imagen. La misma área puede grabarse en vídeo. Entre capturas queda en memoria un proceso con un icono en la bandeja.
 
 ## Instalación
 
 | Sistema | Archivo | Cómo instalarlo |
 | --- | --- | --- |
-| Windows 10 y 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Ejecútelo. Si Windows no conoce el programa: «Más información», «Ejecutar de todas formas». |
-| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Arrastre el programa a Aplicaciones y ábralo. Cuando macOS se niegue, vaya a Ajustes del Sistema, «Privacidad y seguridad», y pulse «Abrir igualmente». |
+| Windows 10, 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Ejecute el archivo. Si Windows muestra una advertencia, elija «Más información» y después «Ejecutar de todas formas». |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Arrastre el programa a Aplicaciones y ábralo. Después del primer rechazo de macOS, abra Ajustes del Sistema, «Privacidad y seguridad», y pulse «Abrir igualmente». |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
-| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Abra `about:debugging`, «Este Firefox», «Cargar complemento temporal», y elija el archivo. Tras reiniciar Firefox, cárguelo de nuevo. |
-| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Descomprímalo, abra `chrome://extensions`, active el «Modo de desarrollador», pulse «Cargar descomprimida» y elija la carpeta; no la borre. Yandex Browser solo confía en los catálogos y puede desactivar la extensión. |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Abra `about:debugging`, «Este Firefox», «Cargar complemento temporal» y elija el archivo. Después de reiniciar Firefox hay que cargarlo de nuevo. |
+| Chrome, Edge, Opera, Yandex Browser | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Descomprima el archivo en una carpeta que vaya a conservar. Abra `chrome://extensions`, active el modo de desarrollador, pulse «Cargar extensión sin empaquetar» y elija la carpeta. |
 
-GitHub compila estos archivos a partir del código de este repositorio, instala cada uno, inicia el programa y solo entonces los publica. No llevan firma de pago, por eso Windows y macOS avisan en el primer inicio.
+Windows y macOS avisan porque los archivos no tienen una firma de pago. GitHub los compila a partir de este repositorio, instala los programas en equipos limpios y los inicia antes de publicar una versión.
 
-También puede compilar el programa usted mismo. Hacen falta Node.js 24 o posterior y Rust; en Windows, también Microsoft C++ Build Tools; en Ubuntu, también `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+## Funciones
 
-```sh
-git clone https://github.com/Ilia-Pero/just-screenshotter
-cd just-screenshotter
-npm ci
-npm run tauri build
-```
+- Dibujo con lápiz, línea, flecha, marco, óvalo, marcador y texto: ocho colores, grosor de 1 a 72 píxeles.
+- Lo dibujado se puede mover, cambiar de color o tamaño, volver a escribir o borrar en cualquier momento.
+- La imagen se copia, se guarda en PNG o se envía a [su propio servidor](../server/README.md).
+- Vídeo de un área con el sonido del ordenador y el micrófono: MP4 en Windows, MOV en macOS, WebM en Linux. Antes de macOS 13 solo se graba el micrófono.
+- 14 idiomas; las teclas y la carpeta se eligen en los ajustes.
 
-El instalador aparece en `src-tauri/target/release/bundle`.
+## Teclas
 
-## Traducciones
+| Acción | Windows, Linux | macOS |
+| --- | --- | --- |
+| Captura de un área | Print Screen | ⌘⇧9 |
+| Captura de toda la pantalla | Shift + Print Screen | |
+| Captura de la ventana activa, solo Windows | Alt + Print Screen | |
+| Vídeo de un área | Ctrl + Shift + Print Screen | ⌘⇧8 |
 
-Las traducciones son automáticas y no las ha revisado ningún hablante nativo. Si ve un error, corríjalo en `locales` o en `docs`.
+Las teclas se cambian en los ajustes. En el editor, Ctrl+C copia, Ctrl+S guarda, Ctrl+Z deshace y Esc cierra.
 
-## Participar y licencia
+## Extensión del navegador
 
-Cómo compilar, probar y cambiar el programa: [CONTRIBUTING.md](../CONTRIBUTING.md). La licencia es [MIT](../LICENSE).
+Captura la parte visible de una página (Alt+Shift+S) o la página entera (Alt+Shift+P) y abre el mismo editor en una pestaña nueva. Funciona en Firefox y en navegadores basados en Chromium.
+
+## Datos y red
+
+Las capturas y grabaciones se quedan en su ordenador. El programa usa la red cuando envía una captura a su servidor y cuando pulsa «Buscar actualizaciones». No hay cuenta ni telemetría.
+
+## Más información
+
+Las mediciones, los sistemas comprobados y la compilación se describen [en inglés](../README.md).
+
+Este texto es una traducción automática que no han revisado hablantes nativos. Las correcciones van en la carpeta `docs`.
+
+[MIT](../LICENSE)

@@ -29,7 +29,7 @@
     "copyright": "Copyright (c) 2026 Ilia-Pero",
     "license": "MIT",
     "homepage": "https://github.com/Ilia-Pero/just-screenshotter",
-    "shortDescription": "A screenshot tool with zero idle load",
+    "shortDescription": "Screenshots and screen recording",
     "resources": [
       "licenses.txt"
     ],

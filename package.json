@@ -3,7 +3,7 @@
   "version": "0.5.1",
   "private": true,
   "type": "module",
-  "description": "A screenshot tool with zero idle load",
+  "description": "Screenshots and screen recording",
   "license": "MIT",
   "repository": "github:Ilia-Pero/just-screenshotter",
   "scripts": {

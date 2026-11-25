@@ -4,7 +4,7 @@
 
 <h1 align="center">Just Screenshotter</h1>
 
-<p align="center">כלי לצילומי מסך ללא עומס במנוחה עבור Windows‏, macOS ו־Linux</p>
+<p align="center">צילומי מסך והקלטת מסך עבור Windows‏, macOS ו־Linux</p>
 
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
@@ -17,113 +17,53 @@
 
 ![העורך מעל מסך לדוגמה: מרקר, אליפסה, חץ וכיתוב](editor.png)
 
-לחצו על Print Screen, בחרו אזור, ציירו עליו והעתיקו, שמרו או העלו את התמונה, או הקליטו את האזור כווידאו. בין צילום לצילום התוכנה רק ממתינה למקש: אין לה חלונות ואין טיימרים, והיא אינה מעסיקה את המעבד.
-
-## מה היא עושה
-
-- מצלמת את כל המסכים ופותחת מעליהם את העורך.
-- מציירת בעיפרון, קו, חץ, מסגרת, אליפסה, מרקר וטקסט בשמונה צבעים.
-- משנה את מה שכבר צויר: לחיצה בוחרת סימון, ואז אפשר לגרור אותו או את קצותיו, לקבוע עובי וצבע, להקליד את הטקסט מחדש או למחוק.
-- מעתיקה את התמונה, שומרת אותה כ־PNG או מעלה אותה אל [השרת שלכם](../server/README.md) ומעתיקה את הקישור.
-- מקליטה את האזור כווידאו עם צליל: MP4 ב־Windows,‏ MOV ב־macOS,‏ WebM ב־Linux. אתם בוחרים אם להקליט את הצליל של המחשב ואת המיקרופון; ב־macOS לפני גרסה 13 רק את המיקרופון. ההקלטה נעצרת בכפתור, בקיצור המקשים או בסמל שבמגש.
-- מדברת 14 שפות. את השפה בוחרים בהגדרות ובתוכנית ההתקנה ל־Windows; עד אז זו שפת המערכת.
-- אינה שולחת דבר מעצמה: אין חשבון ואין טלמטריה. הרשת משמשת רק להעלאת תמונה אל השרת שהגדרתם ולבדיקת גרסה חדשה כשאתם לוחצים על הכפתור בהגדרות.
-
-## מקשים ועכבר
-
-| מה הם עושים | Windows ו־Linux | macOS |
-| --- | --- | --- |
-| צילום של אזור | Print Screen | ⌘⇧9 |
-| צילום של כל המסך | Shift + Print Screen | — |
-| צילום של החלון הפעיל (Windows) | Alt + Print Screen | — |
-| וידאו של אזור | Ctrl + Shift + Print Screen | ⌘⇧8 |
-
-מקשים אחרים בוחרים בהגדרות. ב־Windows גם לחצני העכבר מפעילים את אותן פעולות: שניהם יחד, לבד, עם Shift או עם Ctrl. בהתחלה זה כבוי, כי כל עוד התוכנה עוקבת אחרי הלחצנים, כל תנועה של העכבר גוזלת בערך 2 מיקרו־שניות של זמן מעבד; במנוחה כלום. ב־Wayland את המקש קובעים בהגדרות המערכת.
-
-## מקשים בעורך
-
-| מקש | מה הוא עושה |
-| --- | --- |
-| Ctrl+C | מעתיק את האזור |
-| Ctrl+S | שומר את האזור בתיקייה `Screenshots` שבתיקיית התמונות |
-| Ctrl+U | מעלה את האזור, והקישור עובר ללוח |
-| Ctrl+Z | מבטל את הציור האחרון |
-| Delete | מוחק את הסימון שנבחר |
-| Esc | סוגר את העורך |
-
-ב־macOS המקש ⌘ במקום Ctrl.
-
-לחיצה בוחרת סימון עם כל כלי. לחיצה כפולה או Enter משנה טקסט. גלגלת העכבר משנה את העובי.
-
-בטקסט, Enter מתחיל שורה חדשה; לחיצה במקום אחר או Esc מסיימת את הטקסט. הגלגלת משנה את גודל האותיות. המערכת מסמנת שגיאות ברוסית ובאנגלית, והכפתור הימני של העכבר מציע תיקונים. עם Shift המסגרת נעשית ריבוע והאליפסה עיגול.
-
-גם השאר נמצא בהגדרות: מה מקליטים עם הווידאו, התיקייה, השפה, ההעלאה והפעלה עם המערכת, שפועלת עד שתכבו אותה. את ההגדרות פותחים מתפריט הסמל שבמגש או בהפעלת התוכנה עם `--settings`. הפעלה נוספת בלעדיו גם היא מצלמת את המסך.
-
-## ההרחבה לדפדפן
-
-עבור Firefox ועבור דפדפנים המבוססים על Chromium‏: Chrome‏, Yandex Browser‏, Edge‏, Opera.
-
-מצלמת את החלק הנראה של דף או את הדף כולו ופותחת את אותו העורך בלשונית חדשה: לבחור, לצייר, להעתיק, לשמור. המקשים הם Alt+Shift+S ו־Alt+Shift+P. היא מסתכלת על דף רק כשאתם מבקשים, אינה שולחת דבר וזוכרת רק את השפה. היא אינה מקליטה וידאו, וגובה הצילום עד 32,000 פיקסלים.
-
-## כמה היא קלה
-
-נמדד ב־24.11.2026 ב־Windows Server 2022, מסך 1920 × 1080, גרסה ממוטבת:
-
-| מה | תוצאה |
-| --- | --- |
-| מעבד במנוחה | 0 אלפיות השנייה ב־10 שניות |
-| זיכרון במנוחה | 14 MB לפני הצילום הראשון, 25 MB אחרי שבעה |
-| תהליכים במנוחה | 1 |
-| מלחיצת המקש ועד העורך | 0.61–0.75 שניות בשבע הפעלות |
-| גודל התוכנה | 5.2 MB |
-
-העורך נפתח בפרק זמן כזה משום שהחלון שלו נוצר לכל צילום ונהרס אחריו. זה המחיר של אפס עומס במנוחה.
-
-את הווידאו מקליט תהליך נפרד, שמסתיים ומחזיר את כל הזיכרון שלו בסוף ההקלטה. בשרת הזה, שאין בו כרטיס מסך, 30 תמונות בשנייה ב־1920 × 1080 מעסיקות ליבת מעבד אחת ו־207 MB, וב־800 × 600 מעסיקות 0.4 ליבה ו־78 MB. כרטיס מסך שמקודד H.264 לוקח את העבודה הזאת על עצמו; זה עדיין לא נמדד.
-
-## מצב
-
-| מערכת | מצב |
-| --- | --- |
-| Windows | עובדת ב־Windows Server 2022 עם מסך אחד. גם הווידאו נבדק שם; הקלטת צליל מהתקנים לא נבדקה, כי בשרת אין כאלה. עדיין לא נבדקה ב־Windows 10 ו־11. |
-| macOS 10.13+ | נבנית ועוברת את הבדיקות; במחשב של GitHub היא מותקנת, מופעלת ומקליטה את המסך עם הצליל של המחשב. איש עדיין לא ניסה אותה ביד. |
-| Ubuntu 24.04+ | נבנית ועוברת את הבדיקות; במחשב של GitHub היא מותקנת, מופעלת ומקליטה את המסך. במסך X11 וירטואלי של Ubuntu 26.04 פועלים המקשים, הבחירה, השמירה והווידאו; ב־Wayland זה לא נבדק. איש עדיין לא ניסה אותה ביד. ב־Wayland מגדירים את הקיצור בהגדרות המקלדת: הפקודה היא `just-screenshotter`. |
-| Firefox 128+ | עובדת ב־Firefox 161, נבדקה ללא חלון. Mozilla עדיין לא חתמה עליה, ולכן צריך לטעון אותה שוב אחרי הפעלה מחדש של Firefox. |
-| Chrome, Yandex Browser, Edge, Opera | עובדת ב־Edge 158, נבדקה ללא חלון. האחרים לא נבדקו; נדרש Chromium 120 ומעלה. |
+בלחיצה על Print Screen התוכנה מצלמת את כל המסכים ופותחת מעליהם עורך. בעורך בוחרים אזור, מציירים עליו ואז מעתיקים, שומרים או שולחים את התמונה. את אותו אזור אפשר להקליט כווידאו. בין צילום לצילום נשאר בזיכרון תהליך אחד עם סמל במגש המערכת.
 
 ## התקנה
 
 | מערכת | קובץ | איך מתקינים |
 | --- | --- | --- |
-| Windows 10 ו־11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | הפעילו אותו. אם Windows אינה מכירה את התוכנה: "מידע נוסף", "הפעל בכל זאת". |
-| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | גררו את התוכנה ליישומים ופתחו אותה. כש־macOS מסרבת, פתחו את הגדרות המערכת, "פרטיות ואבטחה", ולחצו על "פתח בכל זאת". |
+| Windows 10, 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | הפעילו את הקובץ. אם Windows מציגה אזהרה, בחרו „מידע נוסף” ואז „הפעל בכל זאת”. |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | גררו את התוכנה לתיקיית „יישומים” ופתחו אותה. אחרי הסירוב הראשון של macOS פתחו את הגדרות המערכת, „פרטיות ואבטחה”, ולחצו על „פתח בכל זאת”. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
-| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | פתחו את `about:debugging`, "This Firefox", "Load Temporary Add-on", ובחרו את הקובץ. אחרי הפעלה מחדש של Firefox טענו אותו שוב. |
-| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | פרקו את הקובץ, פתחו את `chrome://extensions`, הפעילו "Developer mode", לחצו "Load unpacked" ובחרו את התיקייה; אל תמחקו אותה. Yandex Browser סומך רק על קטלוגים ועשוי לכבות את ההרחבה. |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | פתחו את `about:debugging`, „Firefox זה”, „טעינת תוספת זמנית” ובחרו את הקובץ. אחרי הפעלה מחדש של Firefox טענו אותו שוב. |
+| Chrome, Edge, Opera, Yandex Browser | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | חלצו את הארכיון לתיקייה שתישאר במקומה. פתחו את `chrome://extensions`, הפעילו את מצב המפתחים, לחצו על „טעינת פריט unpacked” ובחרו את התיקייה. |
 
-GitHub בונה את הקבצים האלה מהקוד של מאגר זה, מתקין כל אחד מהם, מפעיל את התוכנה ורק אז מפרסם אותם. אין להם חתימה בתשלום, ולכן Windows ו־macOS מזהירות בהפעלה הראשונה.
+Windows ו־macOS מציגות אזהרה משום שלקבצים אין חתימה בתשלום. GitHub בונה אותם מהמאגר הזה, מתקין את התוכנות במחשבים נקיים ומפעיל אותן לפני פרסום גרסה.
 
-אפשר גם לבנות את התוכנה בעצמכם. דרושים Node.js 24 ומעלה ו־Rust, ב־Windows גם Microsoft C++ Build Tools, ב־Ubuntu גם `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+## אפשרויות
 
-</div>
+- ציור בעיפרון, קו, חץ, מסגרת, אליפסה, מרקר וטקסט: שמונה צבעים, עובי של 1 עד 72 פיקסלים.
+- את מה שצויר אפשר בכל רגע להזיז, לצבוע מחדש, לשנות בגודל, להקליד מחדש או למחוק.
+- התמונה מועתקת, נשמרת כ־PNG או נשלחת אל [השרת שלכם](../server/README.md).
+- וידאו של אזור עם צליל המחשב והמיקרופון: MP4 ב־Windows,‏ MOV ב־macOS,‏ WebM ב־Linux. לפני macOS 13 מוקלט רק המיקרופון.
+- 14 שפות; את המקשים ואת התיקייה קובעים בהגדרות.
 
-```sh
-git clone https://github.com/Ilia-Pero/just-screenshotter
-cd just-screenshotter
-npm ci
-npm run tauri build
-```
+## מקשים
 
-<div dir="rtl">
+| פעולה | Windows, Linux | macOS |
+| --- | --- | --- |
+| צילום אזור | Print Screen | ⌘⇧9 |
+| צילום כל המסך | Shift + Print Screen | |
+| צילום החלון הפעיל, Windows בלבד | Alt + Print Screen | |
+| וידאו של אזור | Ctrl + Shift + Print Screen | ⌘⇧8 |
 
-קובץ ההתקנה מופיע בתיקייה `src-tauri/target/release/bundle`.
+את המקשים משנים בהגדרות. בעורך Ctrl+C מעתיק, Ctrl+S שומר, Ctrl+Z מבטל, Esc סוגר.
 
-## תרגומים
+## תוסף לדפדפן
 
-התרגומים נעשו במכונה ולא נבדקו על ידי דוברי השפה. אם ראיתם טעות, תקנו אותה בתיקייה `locales` או `docs`.
+מצלם את החלק הנראה של הדף (Alt+Shift+S) או את הדף כולו (Alt+Shift+P) ופותח את אותו עורך בלשונית חדשה. פועל ב־Firefox ובדפדפנים מבוססי Chromium.
 
-## השתתפות ורישיון
+## נתונים ורשת
 
-איך לבנות, לבדוק ולשנות את התוכנה: [CONTRIBUTING.md](../CONTRIBUTING.md). הרישיון הוא [MIT](../LICENSE).
+הצילומים וההקלטות נשארים במחשב שלכם. התוכנה פונה לרשת כשאתם שולחים צילום אל השרת שלכם וכשאתם לוחצים על „בדיקת עדכונים”. אין חשבון ואין טלמטריה.
+
+## עוד
+
+המדידות, המערכות שנבדקו ובניית התוכנה מתוארות [באנגלית](../README.md).
+
+הטקסט תורגם במכונה ולא נבדק בידי דוברי השפה. תיקונים נעשים בתיקייה `docs`.
+
+[MIT](../LICENSE)
 
 </div>

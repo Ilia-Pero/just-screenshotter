@@ -43,7 +43,7 @@ cargo clippy --manifest-path src-tauri/Cargo.toml -p screenshotter-capture -p sc
 | `src-tauri/mouse` | both buttons of the mouse pressed together, Windows |
 | `src-tauri/store` | the settings and the folder with screenshots |
 | `src-tauri/upload` | uploading to the server |
-| `src-tauri/phrase`, `locales` | texts in 12 languages |
+| `src-tauri/phrase`, `locales` | texts in 14 languages |
 | `server` | the server for screenshots, Python |
 
 ## What to keep in mind

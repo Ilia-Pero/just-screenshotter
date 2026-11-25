@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · **日本語** · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · **日本語** · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![サンプル画面上のエディター：マーカー、枠、矢印、文字](editor.png)
 
@@ -24,7 +24,7 @@ Print Screen を押し、範囲を選び、書き込んでから、画像をコ�
 - 書き込んだものを後から変更できます。クリックで選び、本体や端をドラッグし、太さと色を変え、文字を打ち直し、削除できます。
 - 画像をコピーするか、PNG で保存するか、[自分のサーバー](../server/README.md)にアップロードしてリンクをコピーします。
 - 範囲を音声付きの動画として録画します。Windows は MP4、macOS は MOV、Linux は WebM です。パソコンの音とマイクを録音するかは選べます。macOS 13 より前ではマイクだけです。録画は「停止」ボタン、ショートカット、トレイアイコンで終わります。
-- 12 の言語に対応しています。言語はエディター、設定、Windows のインストーラーで選べます。選ぶまではシステムの言語です。
+- 14 の言語に対応しています。言語は設定と Windows のインストーラーで選べます。選ぶまではシステムの言語です。
 - 自分からは何も送信しません。アカウント、テレメトリー、更新確認はありません。ネットワークは、設定したサーバーに画像をアップロードするときだけ使います。
 
 ## キーとマウス
@@ -51,7 +51,7 @@ Print Screen を押し、範囲を選び、書き込んでから、画像をコ�
 
 macOS では Ctrl の代わりに ⌘ を使います。
 
-道具を選んでいないときに書き込みを選べます。ダブルクリックか Enter で文字を変更し、ホイールで太さを変えます。
+どの道具でも、クリックで書き込みを選べます。ダブルクリックか Enter で文字を変更し、ホイールで太さを変えます。
 
 そのほかも設定にあります。動画と一緒に録音するもの、フォルダー、言語、アップロード、システム起動時の開始です。起動時の開始は、オフにするまでオンです。設定はトレイアイコンのメニューか、`--settings` を付けた起動で開きます。付けずにもう一度起動しても撮影します。
 

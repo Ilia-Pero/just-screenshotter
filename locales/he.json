@@ -95,7 +95,7 @@
   "error.gstreamer": "לווידאו דרוש GStreamer. התקינו את החבילות gstreamer1.0-tools,‏ gstreamer1.0-plugins-good ו־gstreamer1.0-pipewire.",
   "error.picture": "זו אינה תמונה, לכן הקובץ לא נשמר.",
   "error.clipboard": "תוכנה אחרת תופסת את הלוח.",
-  "error.noserver": "הגדירו את כתובת השרת ואת המפתח בתפריט הסמל.",
+  "error.noserver": "קבעו את כתובת השרת ואת המפתח בהגדרות.",
   "error.address": "הכתובת חייבת להתחיל ב־https://",
   "error.link": "תשובת השרת אינה קישור. בדקו את הכתובת.",
   "error.refused": "השרת אינו מקבל את המפתח.",

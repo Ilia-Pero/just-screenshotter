@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![L’éditeur au-dessus d’un écran d’exemple : un surligneur, un cadre, une flèche et un texte](editor.png)
 
@@ -24,7 +24,7 @@ Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, 
 - Modifie ce qui est déjà dessiné : un clic choisit une marque, puis on la déplace ou on tire ses extrémités, on change son épaisseur et sa couleur, on réécrit son texte ou on la supprime.
 - Copie l’image, l’enregistre en PNG ou l’envoie sur [votre propre serveur](../server/README.md) et copie le lien.
 - Enregistre la zone en vidéo avec le son : MP4 sous Windows, MOV sous macOS, WebM sous Linux. Vous choisissez d’enregistrer ou non le son de l’ordinateur et le microphone ; sous macOS antérieur à 13, seulement le microphone. Le bouton Arrêter, le raccourci ou l’icône termine l’enregistrement.
-- Parle 12 langues. La langue se choisit dans l’éditeur, dans les réglages et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
+- Parle 14 langues. La langue se choisit dans les réglages et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
 - N’envoie rien de lui-même : pas de compte, pas de télémétrie, pas de recherche de mises à jour. Il n’utilise le réseau que pour envoyer une image au serveur que vous avez indiqué.
 
 ## Touches et souris
@@ -51,7 +51,7 @@ D’autres touches se choisissent dans les réglages. Sous Windows, les boutons 
 
 Sous macOS, ⌘ remplace Ctrl.
 
-Les marques se choisissent quand aucun outil n’est actif. Un double clic ou Entrée modifie un texte. La molette change l’épaisseur.
+Un clic choisit une marque avec n’importe quel outil. Un double clic ou Entrée modifie un texte. La molette change l’épaisseur.
 
 Le reste est aussi dans les réglages : ce qui est enregistré avec la vidéo, le dossier, la langue, l’envoi et le démarrage avec le système, activé jusqu’à ce que vous le désactiviez. Les réglages s’ouvrent depuis le menu de l’icône ou en lançant le programme avec `--settings`. Le lancer une seconde fois sans cela prend aussi une capture.
 

@@ -95,7 +95,7 @@
   "error.gstreamer": "Für Videos wird GStreamer benötigt. Installieren Sie die Pakete gstreamer1.0-tools, gstreamer1.0-plugins-good und gstreamer1.0-pipewire.",
   "error.picture": "Das ist kein Bild, die Datei wurde nicht gespeichert.",
   "error.clipboard": "Ein anderes Programm belegt die Zwischenablage.",
-  "error.noserver": "Geben Sie im Menü des Symbols die Serveradresse und den Schlüssel an.",
+  "error.noserver": "Geben Sie die Serveradresse und den Schlüssel in den Einstellungen an.",
   "error.address": "Die Adresse muss mit https:// beginnen",
   "error.link": "Die Antwort des Servers ist kein Link. Prüfen Sie die Adresse.",
   "error.refused": "Der Server akzeptiert den Schlüssel nicht.",

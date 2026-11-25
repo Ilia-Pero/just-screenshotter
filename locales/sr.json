@@ -95,7 +95,7 @@
   "error.gstreamer": "За видео је потребан GStreamer. Инсталирајте пакете gstreamer1.0-tools, gstreamer1.0-plugins-good и gstreamer1.0-pipewire.",
   "error.picture": "Ово није слика, датотека није сачувана.",
   "error.clipboard": "Други програм држи оставу заузетом.",
-  "error.noserver": "Унесите адресу сервера и кључ у менију иконе.",
+  "error.noserver": "Задајте адресу сервера и кључ у подешавањима.",
   "error.address": "Адреса мора почињати са https://",
   "error.link": "Одговор сервера није веза. Проверите адресу.",
   "error.refused": "Сервер не прихвата кључ.",

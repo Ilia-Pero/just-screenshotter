@@ -10,10 +10,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · **עברית** · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · **עברית** · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![העורך מעל מסך לדוגמה: מרקר, מסגרת, חץ וכיתוב](editor.png)
 
@@ -26,7 +26,7 @@
 - משנה את מה שכבר צויר: לחיצה בוחרת סימון, ואז אפשר לגרור אותו או את קצותיו, לקבוע עובי וצבע, להקליד את הטקסט מחדש או למחוק.
 - מעתיקה את התמונה, שומרת אותה כ־PNG או מעלה אותה אל [השרת שלכם](../server/README.md) ומעתיקה את הקישור.
 - מקליטה את האזור כווידאו עם צליל: MP4 ב־Windows,‏ MOV ב־macOS,‏ WebM ב־Linux. אתם בוחרים אם להקליט את הצליל של המחשב ואת המיקרופון; ב־macOS לפני גרסה 13 רק את המיקרופון. ההקלטה נעצרת בכפתור, בקיצור המקשים או בסמל שבמגש.
-- מדברת 12 שפות. את השפה בוחרים בעורך, בהגדרות ובתוכנית ההתקנה ל־Windows; עד אז זו שפת המערכת.
+- מדברת 14 שפות. את השפה בוחרים בהגדרות ובתוכנית ההתקנה ל־Windows; עד אז זו שפת המערכת.
 - אינה שולחת דבר מעצמה: אין חשבון, אין טלמטריה ואין בדיקת עדכונים. הרשת משמשת רק להעלאת תמונה אל השרת שהגדרתם.
 
 ## מקשים ועכבר
@@ -53,7 +53,7 @@
 
 ב־macOS המקש ⌘ במקום Ctrl.
 
-סימונים נבחרים כשאין כלי פעיל. לחיצה כפולה או Enter משנה טקסט. גלגלת העכבר משנה את העובי.
+לחיצה בוחרת סימון עם כל כלי. לחיצה כפולה או Enter משנה טקסט. גלגלת העכבר משנה את העובי.
 
 גם השאר נמצא בהגדרות: מה מקליטים עם הווידאו, התיקייה, השפה, ההעלאה והפעלה עם המערכת, שפועלת עד שתכבו אותה. את ההגדרות פותחים מתפריט הסמל שבמגש או בהפעלת התוכנה עם `--settings`. הפעלה נוספת בלעדיו גם היא מצלמת את המסך.
 

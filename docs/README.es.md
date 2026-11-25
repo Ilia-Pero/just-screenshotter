@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · **Español** · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · **Español** · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![El editor sobre una pantalla de muestra: un marcador, un marco, una flecha y un texto](editor.png)
 
@@ -24,7 +24,7 @@ Pulse Print Screen, seleccione un área, dibuje sobre ella y copie, guarde o sub
 - Cambia lo ya dibujado: un clic elige una marca y después puede arrastrarla o mover sus extremos, cambiar el grosor y el color, reescribir el texto o borrarla.
 - Copia la imagen, la guarda en PNG o la sube a [su propio servidor](../server/README.md) y copia el enlace.
 - Graba el área en vídeo con sonido: MP4 en Windows, MOV en macOS, WebM en Linux. Usted elige si grabar el sonido del ordenador y el micrófono; en macOS anterior a 13, solo el micrófono. La grabación termina con el botón Detener, el atajo o el icono de la bandeja.
-- Habla 12 idiomas. El idioma se elige en el editor, en los ajustes y en el instalador para Windows; hasta entonces es el del sistema.
+- Habla 14 idiomas. El idioma se elige en los ajustes y en el instalador para Windows; hasta entonces es el del sistema.
 - No envía nada por su cuenta: no hay cuenta, telemetría ni búsqueda de actualizaciones. Solo usa la red para subir una imagen al servidor que usted indique.
 
 ## Teclas y ratón
@@ -51,7 +51,7 @@ Otras teclas se eligen en los ajustes. En Windows lo mismo se inicia con los bot
 
 En macOS, ⌘ en lugar de Ctrl.
 
-Las marcas se eligen cuando no hay ninguna herramienta activa. Un doble clic o Enter cambia el texto. La rueda del ratón cambia el grosor.
+Un clic elige una marca con cualquier herramienta. Un doble clic o Enter cambia el texto. La rueda del ratón cambia el grosor.
 
 Lo demás también está en los ajustes: qué se graba con el vídeo, la carpeta, el idioma, la subida y el inicio con el sistema, activado hasta que usted lo desactive. Los ajustes se abren desde el menú del icono de la bandeja o iniciando el programa con `--settings`. Iniciarlo por segunda vez sin eso también hace una captura.
 

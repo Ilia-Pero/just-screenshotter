@@ -95,7 +95,7 @@
   "error.gstreamer": "동영상에는 GStreamer가 필요합니다. gstreamer1.0-tools, gstreamer1.0-plugins-good, gstreamer1.0-pipewire 패키지를 설치하세요.",
   "error.picture": "이미지가 아니므로 파일을 저장하지 않았습니다.",
   "error.clipboard": "다른 프로그램이 클립보드를 사용하고 있습니다.",
-  "error.noserver": "트레이 아이콘 메뉴에서 서버 주소와 키를 설정하세요.",
+  "error.noserver": "설정에서 서버 주소와 키를 지정하세요.",
   "error.address": "주소는 https://로 시작해야 합니다",
   "error.link": "서버의 응답이 링크가 아닙니다. 주소를 확인하세요.",
   "error.refused": "서버가 키를 받아들이지 않습니다.",

@@ -95,7 +95,7 @@
   "error.gstreamer": "El vídeo necesita GStreamer. Instale los paquetes gstreamer1.0-tools, gstreamer1.0-plugins-good y gstreamer1.0-pipewire.",
   "error.picture": "Esto no es una imagen; el archivo no se ha guardado.",
   "error.clipboard": "Otro programa mantiene ocupado el portapapeles.",
-  "error.noserver": "Indique la dirección del servidor y la clave en el menú del icono.",
+  "error.noserver": "Indique la dirección del servidor y la clave en los ajustes.",
   "error.address": "La dirección debe empezar por https://",
   "error.link": "El servidor ha respondido con algo que no es un enlace. Compruebe la dirección.",
   "error.refused": "El servidor no acepta la clave.",

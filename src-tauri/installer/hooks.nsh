@@ -15,6 +15,7 @@
     ${IfThen} $LANGUAGE = 1041 ${|} StrCpy $0 "ja" ${|}
     ${IfThen} $LANGUAGE = 1042 ${|} StrCpy $0 "ko" ${|}
     ${IfThen} $LANGUAGE = 3098 ${|} StrCpy $0 "sr" ${|}
+    ${IfThen} $LANGUAGE = 1059 ${|} StrCpy $0 "be" ${|}
     ${IfThen} $LANGUAGE = 1036 ${|} StrCpy $0 "fr" ${|}
     ${IfThen} $LANGUAGE = 1031 ${|} StrCpy $0 "de" ${|}
     ${IfThen} $LANGUAGE = 1040 ${|} StrCpy $0 "it" ${|}

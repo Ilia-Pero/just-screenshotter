@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · **简体中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · **简体中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![示例屏幕上的编辑器：荧光笔、方框、箭头和文字](editor.png)
 
@@ -24,7 +24,7 @@
 - 可以修改已绘制的内容：点击选中一个标记，然后拖动它或它的端点，设置粗细和颜色，重新输入文字或删除。
 - 复制图片、保存为 PNG，或上传到[自己的服务器](../server/README.md)并复制链接。
 - 将区域录成带声音的视频：Windows 上为 MP4，macOS 上为 MOV，Linux 上为 WebM。是否录制电脑声音和麦克风由您选择；macOS 13 之前的版本只能录麦克风。用“停止”按钮、快捷键或托盘图标结束录制。
-- 支持 12 种语言。可在编辑器、设置和 Windows 安装程序中选择语言；选择之前使用系统语言。
+- 支持 14 种语言。可在设置和 Windows 安装程序中选择语言；选择之前使用系统语言。
 - 不会自行发送任何内容：没有账号，没有遥测，没有更新检查。仅在把图片上传到您设置的服务器时使用网络。
 
 ## 按键和鼠标
@@ -51,7 +51,7 @@
 
 在 macOS 上用 ⌘ 代替 Ctrl。
 
-未选择工具时可以选中标记。双击或按 Enter 修改文字。鼠标滚轮调整粗细。
+使用任何工具时单击都可选中标记。双击或按 Enter 修改文字。鼠标滚轮调整粗细。
 
 其余也在设置中：录视频时录什么声音、文件夹、语言、上传，以及开机启动（默认开启，可关闭）。设置可从托盘图标的菜单打开，也可用 `--settings` 启动程序打开。不带它再次启动程序也会截图。
 

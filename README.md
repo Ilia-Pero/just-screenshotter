@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-**English** · [Русский](docs/README.ru.md) · [Español](docs/README.es.md) · [Ελληνικά](docs/README.el.md) · [עברית](docs/README.he.md) · [简体中文](docs/README.zh.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Српски](docs/README.sr.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md)
+**English** · [Русский](docs/README.ru.md) · [Español](docs/README.es.md) · [Ελληνικά](docs/README.el.md) · [עברית](docs/README.he.md) · [简体中文](docs/README.zh.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Српски](docs/README.sr.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Беларуская](docs/README.be.md) · [Қазақша](docs/README.kk.md)
 
 ![The editor over a sample screen: a marker, a frame, an arrow and a label](docs/editor.png)
 
@@ -24,7 +24,7 @@ Press Print Screen, select an area, draw on it, then copy, save or upload the pi
 - Changes what is already drawn: a click picks a mark, and then you drag it or its ends, set its thickness and color, type its text anew or delete it.
 - Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
 - Records the area as video with sound: MP4 on Windows, MOV on macOS, WebM on Linux. You choose whether to record the sound of the computer and the microphone; on macOS before 13, only the microphone. The button Stop, the shortcut or the icon in the tray ends the recording.
-- Speaks 12 languages. The language is chosen in the editor, in the settings and in the installer for Windows; until then it is the language of the system.
+- Speaks 14 languages. The language is chosen in the settings and in the installer for Windows; until then it is the language of the system.
 - Sends nothing anywhere by itself: there is no account, no telemetry and no update check. It uses the network only to upload a picture to the server you have set.
 
 ## Keys and mouse
@@ -51,7 +51,7 @@ You can choose other keys in the settings. On Windows buttons of the mouse can s
 
 On macOS, ⌘ takes the place of Ctrl.
 
-Marks are picked when no tool is chosen. A double click or Enter changes a text. The mouse wheel changes the thickness.
+A click picks a mark with any tool. A double click or Enter changes a text. The mouse wheel changes the thickness.
 
 The rest is in the settings too: what to record with video, the folder, the language, uploading and starting with the system, which is on until you turn it off. The settings are opened by the menu of the tray icon or by starting the program with `--settings`. Starting it for the second time without that also takes a screenshot.
 

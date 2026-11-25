@@ -63,6 +63,7 @@ jobs:
         run: npm run tauri build -- ${{ matrix.args }}
       - name: Installing on Windows
         if: runner.os == 'Windows'
+        shell: pwsh
         run: |
           New-Item -ItemType Directory installers
           $file = Copy-Item src-tauri/target/release/bundle/nsis/*-setup.exe installers/just-screenshotter-windows.exe -PassThru

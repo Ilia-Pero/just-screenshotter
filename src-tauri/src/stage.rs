@@ -81,6 +81,12 @@ impl Stage {
     }
 }
 
+/// Brings the window to the front. A minimised one has to be restored first.
+pub fn raise(window: &WebviewWindow) -> tauri::Result<()> {
+    window.unminimize()?;
+    window.set_focus()
+}
+
 /// Closes the editor on all monitors and forgets the screenshots.
 pub fn close(app: &AppHandle) -> Result<(), Failure> {
     app.state::<Album>().clear();

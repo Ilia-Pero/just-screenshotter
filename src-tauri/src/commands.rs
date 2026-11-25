@@ -189,8 +189,8 @@ pub fn progress(app: AppHandle, studio: State<'_, Studio>) -> Progress {
 
 /// Stops filming.
 #[tauri::command]
-pub fn cease(studio: State<'_, Studio>) {
-    studio.stop();
+pub fn cease(app: AppHandle, studio: State<'_, Studio>) {
+    studio.stop(&app);
 }
 
 /// Lets a person drag the window.

@@ -13,7 +13,7 @@ use tauri_plugin_opener::OpenerExt;
 use crate::act::Act;
 use crate::files::{folder, settings};
 use crate::studio::Studio;
-use crate::{hotkey, panel, tell};
+use crate::{hotkey, panel, stage, tell};
 
 const TRAY: &str = "tray";
 
@@ -147,7 +147,7 @@ pub fn appoint(app: &AppHandle) {
     let app = app.clone();
     thread::spawn(move || {
         let opened = match app.get_webview_window(SERVER) {
-            Some(window) => window.set_focus(),
+            Some(window) => stage::raise(&window),
             None => WebviewWindowBuilder::new(&app, SERVER, WebviewUrl::App("server.html".into()))
                 .title(said("server.title"))
                 .inner_size(460.0, 400.0)

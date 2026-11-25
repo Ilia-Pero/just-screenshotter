@@ -1,7 +1,7 @@
 //! Settings of the program.
 
-use std::fs;
-use std::io::ErrorKind;
+use std::fs::{self, File};
+use std::io::{ErrorKind, Write};
 use std::path::PathBuf;
 
 use serde::{Deserialize, Serialize};
@@ -159,7 +159,10 @@ impl SettingsFile {
             fs::create_dir_all(folder)?;
         }
         let draft = self.file.with_extension("new");
-        fs::write(&draft, serde_json::to_vec_pretty(settings)?)?;
+        let mut fresh = File::create(&draft)?;
+        fresh.write_all(&serde_json::to_vec_pretty(settings)?)?;
+        fresh.sync_all()?;
+        drop(fresh);
         fs::rename(&draft, &self.file)?;
         Ok(())
     }

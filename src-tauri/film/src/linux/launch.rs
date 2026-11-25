@@ -32,6 +32,9 @@ impl Launch {
     pub fn start(words: &[String]) -> Result<Launch, Failure> {
         let mut child = Command::new("gst-launch-1.0")
             .args(words)
+            // Its messages are looked through, so they have to be in English.
+            .env("LC_ALL", "C.UTF-8")
+            .env("LANGUAGE", "C")
             .stdin(Stdio::null())
             .stdout(Stdio::null())
             .stderr(Stdio::piped())

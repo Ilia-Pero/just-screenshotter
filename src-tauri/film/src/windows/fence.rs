@@ -9,10 +9,11 @@ use windows::Win32::Graphics::Gdi::CreateSolidBrush;
 use windows::Win32::System::LibraryLoader::GetModuleHandleW;
 use windows::Win32::System::Threading::GetCurrentThreadId;
 use windows::Win32::UI::WindowsAndMessaging::{
-    CreateWindowExW, DefWindowProcW, DestroyWindow, DispatchMessageW, GetMessageW,
+    CreateWindowExW, DefWindowProcW, DestroyWindow, DispatchMessageW, GetMessageW, PeekMessageW,
     PostThreadMessageW, RegisterClassW, SetLayeredWindowAttributes, SetWindowDisplayAffinity,
-    ShowWindow, LWA_ALPHA, MSG, SW_SHOWNOACTIVATE, WDA_EXCLUDEFROMCAPTURE, WM_QUIT, WNDCLASSW,
-    WS_EX_LAYERED, WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW, WS_EX_TOPMOST, WS_EX_TRANSPARENT, WS_POPUP,
+    ShowWindow, LWA_ALPHA, MSG, PM_NOREMOVE, SW_SHOWNOACTIVATE, WDA_EXCLUDEFROMCAPTURE, WM_QUIT,
+    WNDCLASSW, WS_EX_LAYERED, WS_EX_NOACTIVATE, WS_EX_TOOLWINDOW, WS_EX_TOPMOST, WS_EX_TRANSPARENT,
+    WS_POPUP,
 };
 
 use crate::{Area, Failure, Order};
@@ -34,8 +35,15 @@ impl Fence {
         let boards = boards(order, area)?;
         let (bell, ready) = sync_channel(1);
         let keeper = thread::spawn(move || {
-            // SAFETY: the function only returns a number.
-            let _ = bell.send(unsafe { GetCurrentThreadId() });
+            // SAFETY: there is a place for a message, and the second function only returns
+            // a number. The first one gives the thread a queue: without it the message to quit
+            // would be lost.
+            let number = unsafe {
+                let mut message = MSG::default();
+                let _ = PeekMessageW(&raw mut message, None, WM_QUIT, WM_QUIT, PM_NOREMOVE);
+                GetCurrentThreadId()
+            };
+            let _ = bell.send(number);
             // Filming goes on even if the fence does not stand.
             let _ = keep(&boards);
         });

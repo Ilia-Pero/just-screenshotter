@@ -10,7 +10,7 @@ use x11rb::protocol::xproto::{
 use x11rb::protocol::Event;
 use x11rb::rust_connection::RustConnection;
 
-use crate::{Failure, Key};
+use crate::{Failure, Key, Repeats};
 
 /// Keys that must not matter: Caps Lock and Num Lock.
 const LOCKS: [u16; 4] = [0, 1 << 1, 1 << 4, (1 << 1) | (1 << 4)];
@@ -113,9 +113,11 @@ impl Drop for Grab {
 
 /// Sleeps until the server says something. The end of the connection lets the keys go.
 fn listen(connection: &RustConnection, taken: &[Taken], ring: &impl Fn(usize)) {
+    let mut repeats = Repeats::default();
     while let Ok(event) = connection.wait_for_event() {
         match event {
-            Event::KeyPress(press) => {
+            Event::KeyRelease(release) => repeats.release(release.detail, release.time),
+            Event::KeyPress(press) if !repeats.again(press.detail, press.time) => {
                 let held = u16::from(press.state) & HELD & !LOCKS[3];
                 taken
                     .iter()
@@ -157,9 +159,11 @@ fn seized(connection: &RustConnection, root: u32, code: u8, held: u16) -> Result
             )?
             .check();
         if answer.is_err() {
-            connection
-                .ungrab_key(code, root, ModMask::from(held))?
-                .check()?;
+            for taken in LOCKS {
+                connection
+                    .ungrab_key(code, root, ModMask::from(held | taken))?
+                    .check()?;
+            }
             return Ok(false);
         }
     }

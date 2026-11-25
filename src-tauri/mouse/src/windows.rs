@@ -17,9 +17,9 @@ use windows_sys::Win32::UI::Input::KeyboardAndMouse::{
     GetAsyncKeyState, VIRTUAL_KEY, VK_CONTROL, VK_SHIFT,
 };
 use windows_sys::Win32::UI::WindowsAndMessaging::{
-    CallNextHookEx, GetMessageW, PostThreadMessageW, SetWindowsHookExW, UnhookWindowsHookEx,
-    HC_ACTION, MSG, MSLLHOOKSTRUCT, WH_MOUSE_LL, WM_LBUTTONDOWN, WM_LBUTTONUP, WM_MOUSEMOVE,
-    WM_QUIT, WM_RBUTTONDOWN, WM_RBUTTONUP,
+    CallNextHookEx, GetMessageW, PeekMessageW, PostThreadMessageW, SetWindowsHookExW,
+    UnhookWindowsHookEx, HC_ACTION, MSG, MSLLHOOKSTRUCT, PM_NOREMOVE, WH_MOUSE_LL, WM_LBUTTONDOWN,
+    WM_LBUTTONUP, WM_MOUSEMOVE, WM_QUIT, WM_RBUTTONDOWN, WM_RBUTTONUP,
 };
 
 use crate::pair::{Button, Pair, Verdict};
@@ -97,8 +97,16 @@ fn listen(told: &mpsc::Sender<io::Result<u32>>) {
             let _ = told.send(Err(io::Error::last_os_error()));
             return;
         }
-        let _ = told.send(Ok(GetCurrentThreadId()));
         let mut message: MSG = std::mem::zeroed();
+        // Gives the thread a queue: without it the message to quit would be lost.
+        PeekMessageW(
+            &raw mut message,
+            ptr::null_mut(),
+            WM_QUIT,
+            WM_QUIT,
+            PM_NOREMOVE,
+        );
+        let _ = told.send(Ok(GetCurrentThreadId()));
         while GetMessageW(&raw mut message, ptr::null_mut(), 0, 0) > 0 {}
         UnhookWindowsHookEx(hook);
     }

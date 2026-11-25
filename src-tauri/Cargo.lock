@@ -2198,7 +2198,7 @@ dependencies = [
 
 [[package]]
 name = "just-screenshotter"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "chrono",
  "clipboard-win",

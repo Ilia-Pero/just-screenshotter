@@ -10,7 +10,6 @@ Fixed:
 - On keyboards where Z is not in its American place, such as German and French ones, Ctrl+Z did not undo, and a letter chosen for a shortcut could turn into another one.
 - A recording that was still being saved could stop the next one.
 - On Linux in a language other than English, errors of video recording were not reported. A failed recording left an empty file.
-- On X11, holding the key that stops recording opened the editor.
 - On macOS and Linux, the key of the server could be read by other users of the computer for an instant while it was being saved.
 - On Windows, system audio was opened before a recording even when it was turned off in the settings.
 - In the browser extension Ctrl+U showed an error.
@@ -18,6 +17,7 @@ Fixed:
 Changed:
 
 - The extension builds its icons without `innerHTML`, as Mozilla recommends.
+- On X11, repeats of a key that is being held are ignored.
 
 ## 0.5.0 (2026-11-25)
 

@@ -71,6 +71,28 @@ impl Area {
         )
     }
 
+    /// The bits of video in a second: enough for text to stay sharp.
+    #[must_use]
+    pub fn bits(&self, pace: u32) -> u32 {
+        let pixels = u64::from(self.width) * u64::from(self.height) * u64::from(pace);
+        u32::try_from((pixels * 8 / 100).clamp(1_000_000, 24_000_000)).unwrap_or(24_000_000)
+    }
+
+    /// The even size of a picture of the area that is not larger than the limit.
+    #[must_use]
+    pub fn shrunk(&self, limit: (u32, u32)) -> (u32, u32) {
+        let (width, height) = (u64::from(self.width), u64::from(self.height));
+        let (wide, high) = (u64::from(limit.0), u64::from(limit.1));
+        let (across, down) = if width <= wide && height <= high {
+            (width, height)
+        } else if width * high > height * wide {
+            (wide, height * wide / width)
+        } else {
+            (width * high / height, high)
+        };
+        (even(across), even(down))
+    }
+
     /// True if there is nothing to film.
     #[must_use]
     pub fn blank(&self) -> bool {
@@ -93,6 +115,11 @@ fn cut(from: i32, length: u32, limit: u32) -> (i32, u32) {
         i32::try_from(start.min(limit - long)).unwrap_or(0),
         span(0, long),
     )
+}
+
+/// The nearest even length that is not longer.
+fn even(length: u64) -> u32 {
+    u32::try_from(length / 2 * 2).unwrap_or(u32::MAX - 1)
 }
 
 /// The length of a segment.
@@ -208,6 +235,65 @@ mod tests {
     #[test]
     fn has_a_window_that_stays_on_the_screen() {
         assert_eq!(window(1800, 100, 300).0, 1720);
+    }
+
+    const SCREEN: Area = Area {
+        left: 0,
+        top: 0,
+        width: 5120,
+        height: 2880,
+    };
+
+    #[test]
+    fn gives_a_small_area_enough_bits() {
+        assert_eq!(AREA.bits(30), 1_000_000);
+    }
+
+    #[test]
+    fn gives_a_large_area_more_bits() {
+        assert_eq!(
+            Area {
+                width: 1920,
+                height: 1080,
+                ..AREA
+            }
+            .bits(30),
+            4_976_640
+        );
+    }
+
+    #[test]
+    fn is_shown_in_its_size_if_it_is_not_too_large() {
+        assert_eq!(AREA.shrunk((4096, 2304)), (300, 200));
+    }
+
+    #[test]
+    fn is_shrunk_if_it_is_too_large() {
+        assert_eq!(SCREEN.shrunk((4096, 2304)), (4096, 2304));
+    }
+
+    #[test]
+    fn is_shrunk_by_its_width_if_it_is_wide() {
+        assert_eq!(
+            Area {
+                height: 1000,
+                ..SCREEN
+            }
+            .shrunk((4096, 2304)),
+            (4096, 800)
+        );
+    }
+
+    #[test]
+    fn is_shrunk_by_its_height_if_it_is_high() {
+        assert_eq!(
+            Area {
+                width: 1000,
+                ..SCREEN
+            }
+            .shrunk((4096, 2304)),
+            (800, 2304)
+        );
     }
 
     #[test]

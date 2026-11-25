@@ -23,7 +23,7 @@ Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, 
 - Dessine au crayon, avec une ligne, une flèche, un cadre, un surligneur et du texte, en huit couleurs.
 - Modifie ce qui est déjà dessiné : un clic choisit une marque, puis on la déplace ou on tire ses extrémités, on change son épaisseur et sa couleur, on réécrit son texte ou on la supprime.
 - Copie l’image, l’enregistre en PNG ou l’envoie sur [votre propre serveur](../server/README.md) et copie le lien.
-- Enregistre la zone en vidéo avec le son : MP4 sous Windows, MOV sous macOS, WebM sous Linux. Vous choisissez d’enregistrer ou non le son de l’ordinateur et le microphone ; sous macOS, seulement le microphone pour l’instant. Le bouton Arrêter, le raccourci ou l’icône termine l’enregistrement.
+- Enregistre la zone en vidéo avec le son : MP4 sous Windows, MOV sous macOS, WebM sous Linux. Vous choisissez d’enregistrer ou non le son de l’ordinateur et le microphone ; sous macOS antérieur à 13, seulement le microphone. Le bouton Arrêter, le raccourci ou l’icône termine l’enregistrement.
 - Parle 12 langues. La langue se choisit dans l’éditeur, dans le menu de l’icône et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
 - N’envoie rien de lui-même : pas de compte, pas de télémétrie, pas de recherche de mises à jour. Il n’utilise le réseau que pour envoyer une image au serveur que vous avez indiqué.
 
@@ -65,7 +65,7 @@ La vidéo est enregistrée par un processus à part, qui disparaît avec toute s
 | Système | État |
 | --- | --- |
 | Windows | Fonctionne sous Windows Server 2022 avec un écran. La vidéo y a été vérifiée aussi ; l’enregistrement du son des périphériques non, car le serveur n’en a pas. Pas encore vérifié sous Windows 10 et 11. |
-| macOS 10.13+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Personne ne l’a encore essayé à la main. |
+| macOS 10.13+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran avec le son de l’ordinateur. Personne ne l’a encore essayé à la main. |
 | Ubuntu 24.04+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Personne ne l’a encore essayé à la main. Sous Wayland, attribuez le raccourci dans les réglages du clavier : la commande est `just-screenshotter`. |
 
 ## Installation

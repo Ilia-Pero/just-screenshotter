@@ -47,18 +47,30 @@ rustix = { version = "1", features = ["process", "stdio"] }
 tokio = { version = "1", features = ["macros", "net", "rt", "sync", "time"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]
+block2 = { version = "0.6", default-features = false, features = ["std"] }
+dispatch2 = { version = "0.3", default-features = false, features = ["std", "objc2"] }
 objc2 = "0.6"
 objc2-av-foundation = { version = "0.3", default-features = false, features = [
     "std",
+    "AVAssetWriter",
+    "AVAssetWriterInput",
+    "AVCaptureAudioDataOutput",
     "AVCaptureDevice",
-    "AVCaptureFileOutput",
     "AVCaptureInput",
     "AVCaptureOutputBase",
     "AVCaptureSession",
+    "AVCaptureVideoDataOutput",
     "AVMediaFormat",
+    "AVVideoSettings",
+    "block2",
+    "dispatch2",
     "objc2-core-foundation",
     "objc2-core-graphics",
     "objc2-core-media",
+] }
+objc2-core-audio-types = { version = "0.3", default-features = false, features = [
+    "std",
+    "CoreAudioBaseTypes",
 ] }
 objc2-core-foundation = { version = "0.3", default-features = false, features = ["std", "CFCGTypes"] }
 objc2-core-graphics = { version = "0.3", default-features = false, features = [
@@ -66,17 +78,31 @@ objc2-core-graphics = { version = "0.3", default-features = false, features = [
     "CGDirectDisplay",
     "CGError",
 ] }
-objc2-core-media = { version = "0.3", default-features = false, features = ["std", "CMTime"] }
+objc2-core-media = { version = "0.3", default-features = false, features = [
+    "std",
+    "CMBase",
+    "CMBlockBuffer",
+    "CMFormatDescription",
+    "CMSampleBuffer",
+    "CMSync",
+    "CMTime",
+    "objc2",
+    "objc2-core-audio-types",
+    "objc2-core-video",
+] }
 objc2-foundation = { version = "0.3", default-features = false, features = [
     "std",
     "NSArray",
-    "NSDate",
+    "NSBundle",
+    "NSDictionary",
+    "NSEnumerator",
     "NSError",
     "NSObjCRuntime",
     "NSObject",
-    "NSRunLoop",
+    "NSProcessInfo",
     "NSString",
     "NSURL",
+    "NSValue",
 ] }
 
 [dev-dependencies]

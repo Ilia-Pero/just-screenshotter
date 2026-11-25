@@ -6,15 +6,19 @@
 use std::error::Error;
 use std::sync::mpsc::{Receiver, Sender};
 
+#[cfg(any(test, target_os = "macos"))]
+mod desk;
 #[cfg(target_os = "linux")]
 mod linux;
 #[cfg(target_os = "macos")]
 mod mac;
-#[cfg(any(test, target_os = "windows"))]
+#[cfg(any(test, target_os = "macos", target_os = "windows"))]
 mod mix;
 #[cfg(any(test, target_os = "windows"))]
 mod nv12;
 mod order;
+#[cfg(any(test, target_os = "macos"))]
+mod pcm;
 #[cfg(any(test, target_os = "linux"))]
 mod pipeline;
 mod reel;
@@ -24,7 +28,7 @@ mod windows;
 #[cfg(target_os = "linux")]
 pub use linux::Studio as Native;
 #[cfg(target_os = "macos")]
-pub use mac::Studio as Native;
+pub use mac::{Studio as Native, Veteran};
 #[cfg(target_os = "windows")]
 pub use windows::Studio as Native;
 
@@ -36,6 +40,11 @@ pub type Failure = Box<dyn Error + Send + Sync>;
 
 /// A camera that looks at the screen.
 pub trait Camera {
+    /// Whether it can record what is heard from the computer.
+    fn hears(&self) -> bool {
+        true
+    }
+
     /// Starts filming. The bell rings when filming comes to an end by itself.
     ///
     /// # Errors

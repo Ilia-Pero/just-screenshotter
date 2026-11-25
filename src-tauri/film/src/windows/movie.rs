@@ -169,12 +169,6 @@ fn pair(first: u32, second: u32) -> u64 {
     (u64::from(first) << 32) | u64::from(second)
 }
 
-/// The bits of video in a second: enough for text to stay sharp.
-fn bitrate(area: &Area) -> u32 {
-    let pixels = u64::from(area.width) * u64::from(area.height) * u64::from(PACE);
-    u32::try_from((pixels * 8 / 100).clamp(1_000_000, 24_000_000)).unwrap_or(24_000_000)
-}
-
 fn picture(area: &Area, kind: &GUID) -> Result<IMFMediaType, Failure> {
     // SAFETY: the calls get live objects.
     unsafe {
@@ -212,7 +206,7 @@ fn h264(area: &Area) -> Result<IMFMediaType, Failure> {
     let media = picture(area, &MFVideoFormat_H264)?;
     // SAFETY: the object is alive.
     unsafe {
-        media.SetUINT32(&MF_MT_AVG_BITRATE, bitrate(area))?;
+        media.SetUINT32(&MF_MT_AVG_BITRATE, area.bits(PACE))?;
         media.SetUINT32(
             &MF_MT_MPEG2_PROFILE,
             eAVEncH264VProfile_High.0.unsigned_abs(),
@@ -263,7 +257,7 @@ mod tests {
     use windows::Win32::Media::MediaFoundation::{MFStartup, MFSTARTUP_LITE, MF_VERSION};
     use windows::Win32::System::Com::{CoInitializeEx, COINIT_MULTITHREADED};
 
-    use super::{bitrate, Movie, PACE};
+    use super::{Movie, PACE};
     use crate::mix::RATE;
     use crate::windows::clock::TICKS;
     use crate::Area;
@@ -343,22 +337,5 @@ mod tests {
         prepare();
         Movie::create(&file, &tiny, false).err().unwrap();
         assert!(!file.exists());
-    }
-
-    #[test]
-    fn gives_a_small_area_enough_bits() {
-        assert_eq!(bitrate(&AREA), 1_000_000);
-    }
-
-    #[test]
-    fn gives_a_large_area_more_bits() {
-        assert_eq!(
-            bitrate(&Area {
-                width: 1920,
-                height: 1080,
-                ..AREA
-            }),
-            4_976_640
-        );
     }
 }

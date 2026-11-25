@@ -23,7 +23,7 @@ Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o ca
 - Disegna con matita, linea, freccia, cornice, evidenziatore e testo in otto colori.
 - Modifica ciò che è già disegnato: un clic sceglie un segno, poi lo si trascina o se ne spostano le estremità, si cambiano spessore e colore, si riscrive il testo o lo si elimina.
 - Copia l’immagine, la salva in PNG o la carica sul [tuo server](../server/README.md) e copia il link.
-- Registra l’area come video con audio: MP4 su Windows, MOV su macOS, WebM su Linux. Scegli tu se registrare l’audio del computer e il microfono; su macOS per ora solo il microfono. La registrazione termina con il pulsante Ferma, la scorciatoia o l’icona.
+- Registra l’area come video con audio: MP4 su Windows, MOV su macOS, WebM su Linux. Scegli tu se registrare l’audio del computer e il microfono; su macOS precedente a 13 solo il microfono. La registrazione termina con il pulsante Ferma, la scorciatoia o l’icona.
 - Parla 12 lingue. La lingua si sceglie nell’editor, nel menu dell’icona e nel programma di installazione per Windows; fino ad allora è quella del sistema.
 - Non invia nulla da solo: nessun account, nessuna telemetria, nessun controllo degli aggiornamenti. Usa la rete solo per caricare un’immagine sul server che hai indicato.
 
@@ -65,7 +65,7 @@ Il video è registrato da un processo a parte, che alla fine scompare con tutta 
 | Sistema | Stato |
 | --- | --- |
 | Windows | Funziona su Windows Server 2022 con un monitor. Anche il video è stato verificato lì; la registrazione dell’audio dai dispositivi no, perché il server non ne ha. Non ancora verificato su Windows 10 e 11. |
-| macOS 10.13+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. |
+| macOS 10.13+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo con l’audio del computer. Nessuno l’ha ancora provato a mano. |
 | Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
 
 ## Installazione

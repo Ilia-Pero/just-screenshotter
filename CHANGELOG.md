@@ -1,5 +1,10 @@
 # Changes
 
+## 0.2.0 (2026-11-25)
+
+- Video on macOS 13 and newer has the sound of the computer.
+- Video on older macOS begins at once, and a film with the microphone alone does not fail.
+
 ## 0.1.0 (2026-11-25)
 
 - Screenshots of all monitors on Windows, macOS and Linux.

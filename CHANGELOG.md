@@ -1,5 +1,9 @@
 # Changes
 
+## 0.5.1 (2026-11-25)
+
+- The extension builds the icons of the editor without `innerHTML`, as the catalog of Firefox advises.
+
 ## 0.5.0 (2026-11-25)
 
 - Enter begins a new line in a text. A click elsewhere, Esc, or Ctrl+Enter ends it.

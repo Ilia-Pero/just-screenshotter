@@ -14,7 +14,7 @@ needless_pass_by_value = "allow"
 
 [package]
 name = "just-screenshotter"
-version = "0.5.0"
+version = "0.5.1"
 edition = "2021"
 description = "A screenshot tool with zero idle load"
 license = "MIT"

@@ -95,7 +95,7 @@
   "error.gstreamer": "La vidéo nécessite GStreamer. Installez les paquets gstreamer1.0-tools, gstreamer1.0-plugins-good et gstreamer1.0-pipewire.",
   "error.picture": "Ce n’est pas une image, le fichier n’a pas été enregistré.",
   "error.clipboard": "Un autre programme occupe le presse-papiers.",
-  "error.noserver": "Indiquez l’adresse du serveur et la clé dans le menu de l’icône.",
+  "error.noserver": "Indiquez l’adresse du serveur et la clé dans les réglages.",
   "error.address": "L’adresse doit commencer par https://",
   "error.link": "La réponse du serveur n’est pas un lien. Vérifiez l’adresse.",
   "error.refused": "Le serveur refuse la clé.",

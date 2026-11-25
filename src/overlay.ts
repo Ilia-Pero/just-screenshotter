@@ -1,4 +1,4 @@
-import type { Desk, Ears, Tongue } from './desk.ts';
+import type { Desk, Ears } from './desk.ts';
 import type { Gesture } from './gesture.ts';
 import { Rest } from './gesture.ts';
 import {
@@ -124,20 +124,6 @@ export class Overlay implements Acts {
       this.mode = 'idle';
       this.panels.complain(error);
     });
-  }
-
-  languages(): Promise<ReadonlyArray<Tongue>> {
-    return this.desk.languages();
-  }
-
-  speak(code: string): void {
-    this.desk
-      .speak(code)
-      .then((words) => {
-        this.panels.speak(words);
-        this.paint();
-      })
-      .catch((error: unknown) => this.panels.complain(error));
   }
 
   private press(event: MouseEvent): void {

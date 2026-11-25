@@ -95,7 +95,7 @@
   "error.gstreamer": "Per i video serve GStreamer. Installa i pacchetti gstreamer1.0-tools, gstreamer1.0-plugins-good e gstreamer1.0-pipewire.",
   "error.picture": "Non è un’immagine, il file non è stato salvato.",
   "error.clipboard": "Un altro programma tiene occupati gli appunti.",
-  "error.noserver": "Imposta l’indirizzo del server e la chiave nel menu dell’icona.",
+  "error.noserver": "Indica l’indirizzo del server e la chiave nelle impostazioni.",
   "error.address": "L’indirizzo deve iniziare con https://",
   "error.link": "La risposta del server non è un link. Controlla l’indirizzo.",
   "error.refused": "Il server non accetta la chiave.",

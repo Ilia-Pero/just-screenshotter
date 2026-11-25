@@ -1,7 +1,7 @@
 import { Box } from './box.ts';
 import type { Choice } from './brushes.ts';
 import { PALETTE, RED } from './colors.ts';
-import type { Ears, Tongue } from './desk.ts';
+import type { Ears } from './desk.ts';
 import { button, connected, dock, element, size, titled } from './elements.ts';
 import { ICONS } from './icons.ts';
 import { Layout } from './layout.ts';
@@ -26,8 +26,6 @@ export interface Acts {
   thick(width: number): void;
   listens(): Promise<Ears>;
   film(ears: Ears): void;
-  languages(): Promise<ReadonlyArray<Tongue>>;
-  speak(code: string): void;
 }
 
 /** A button, the key of its title, and the keys that do the same. */
@@ -61,7 +59,6 @@ export class Panels {
   private readonly actions = element('div', 'bar actions');
   private readonly colors = element('div', 'sheet');
   private readonly widths = element('div', 'sheet widths');
-  private readonly tongues = element('div', 'sheet tongues');
   private readonly filming = element('div', 'sheet filming');
   private readonly reel = button(ICONS.film);
   private readonly sound = element('input', '');
@@ -143,7 +140,7 @@ export class Panels {
   /** Removes everything temporary: what the buttons have opened, and the last error. */
   hush(): void {
     this.alarm.classList.add('hidden');
-    [this.colors, this.widths, this.tongues, this.filming].forEach((sheet) =>
+    [this.colors, this.widths, this.filming].forEach((sheet) =>
       sheet.classList.remove('open'),
     );
   }
@@ -258,32 +255,6 @@ export class Panels {
     return node;
   }
 
-  private tongueWell(acts: Acts): HTMLElement {
-    const open = connected(button(ICONS.language), () => {
-      acts
-        .languages()
-        .then((tongues) => this.offer(tongues, acts))
-        .catch((error: unknown) => this.complain(error));
-    });
-    return this.well(this.signed(open, 'menu.language', ''), this.tongues);
-  }
-
-  /** Shows the languages, or hides them if they are shown. */
-  private offer(tongues: ReadonlyArray<Tongue>, acts: Acts): void {
-    this.tongues.textContent = '';
-    tongues.forEach((tongue) => {
-      const row = connected(button(''), () => {
-        this.tongues.classList.remove('open');
-        acts.speak(tongue.code);
-      });
-      row.className = tongue.on ? 'tongue on' : 'tongue';
-      row.dir = 'auto';
-      row.textContent = tongue.title;
-      this.tongues.appendChild(row);
-    });
-    this.unfold(this.tongues);
-  }
-
   /** Shows the sheet above the buttons, or below them if there is no room; hides a shown one. */
   private unfold(sheet: HTMLElement): void {
     this.toggle(sheet);
@@ -330,7 +301,6 @@ export class Panels {
       keys.push(this.filmWell(acts));
     }
     keys.push(
-      this.tongueWell(acts),
       this.signed(
         connected(button(ICONS.close), () => acts.leave()),
         'close',

@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![Der Editor über einem Beispielbildschirm: Marker, Rahmen, Pfeil und Text](editor.png)
 
@@ -24,7 +24,7 @@ Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und ko
 - Ändert bereits Gezeichnetes: Ein Klick wählt eine Markierung, dann ziehen Sie sie oder ihre Enden, ändern Stärke und Farbe, tippen den Text neu oder löschen sie.
 - Kopiert das Bild, speichert es als PNG oder lädt es auf [Ihren eigenen Server](../server/README.md) und kopiert den Link.
 - Nimmt den Bereich als Video mit Ton auf: MP4 unter Windows, MOV unter macOS, WebM unter Linux. Sie wählen, ob der Ton des Computers und das Mikrofon aufgenommen werden; unter macOS vor Version 13 nur das Mikrofon. Die Schaltfläche „Beenden“, die Tastenkombination oder das Symbol beendet die Aufnahme.
-- Spricht 12 Sprachen. Die Sprache wird im Editor, in den Einstellungen und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
+- Spricht 14 Sprachen. Die Sprache wird in den Einstellungen und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
 - Sendet von sich aus nichts: kein Konto, keine Telemetrie, keine Suche nach Updates. Das Netz wird nur genutzt, um ein Bild auf den von Ihnen angegebenen Server zu laden.
 
 ## Tasten und Maus
@@ -51,7 +51,7 @@ Andere Tasten wählen Sie in den Einstellungen. Unter Windows starten dasselbe a
 
 Unter macOS ⌘ statt Strg.
 
-Markierungen werden gewählt, wenn kein Werkzeug aktiv ist. Ein Doppelklick oder Enter ändert einen Text. Das Mausrad ändert die Stärke.
+Ein Klick wählt eine Markierung bei jedem Werkzeug. Ein Doppelklick oder Enter ändert einen Text. Das Mausrad ändert die Stärke.
 
 Auch der Rest steht in den Einstellungen: was mit dem Video aufgenommen wird, der Ordner, die Sprache, das Hochladen und der Start mit dem System, der an ist, bis Sie ihn ausschalten. Die Einstellungen öffnet das Menü des Symbols oder der Start des Programms mit `--settings`. Auch ein zweiter Start ohne das macht einen Screenshot.
 
@@ -81,7 +81,7 @@ Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher versch
 | --- | --- |
 | Windows | Funktioniert unter Windows Server 2022 mit einem Bildschirm. Auch Video wurde dort geprüft; die Tonaufnahme von Geräten nicht, weil der Server keine hat. Unter Windows 10 und 11 noch nicht geprüft. |
 | macOS 10.13+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm mit dem Ton des Computers auf. Von Hand hat es noch niemand ausprobiert. |
-| Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
+| Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Auf einem virtuellen X11-Bildschirm von Ubuntu 26.04 funktionieren Tasten, Auswahl, Speichern und Video; unter Wayland ist es nicht geprüft. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
 | Firefox 128+ | Funktioniert in Firefox 161, ohne Fenster geprüft. Von Mozilla noch nicht signiert und muss nach einem Neustart von Firefox erneut geladen werden. |
 
 ## Installation

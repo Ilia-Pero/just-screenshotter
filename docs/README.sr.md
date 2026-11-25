@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · **Српски** · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md)
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · **Српски** · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![Уређивач преко пробног екрана: маркер, оквир, стрелица и текст](editor.png)
 
@@ -24,7 +24,7 @@
 - Мења већ нацртано: клик бира ознаку, а затим се она или њени крајеви превлаче, мењају се дебљина и боја, текст се куца поново или се ознака брише.
 - Копира слику, чува је као PNG или је отпрема на [ваш сервер](../server/README.md) и копира везу.
 - Снима област као видео са звуком: MP4 на Windows-у, MOV на macOS-у, WebM на Linux-у. Ви бирате да ли се снимају звук рачунара и микрофон; на macOS-у пре верзије 13 само микрофон. Снимање завршавају дугме „Заустави“, пречица или икона у траци.
-- Говори 12 језика. Језик се бира у уређивачу, у подешавањима и у инсталацији за Windows; до тада је то језик система.
+- Говори 14 језика. Језик се бира у подешавањима и у инсталацији за Windows; до тада је то језик система.
 - Сам не шаље ништа: нема налога, телеметрије ни провере ажурирања. Мрежу користи само да отпреми слику на сервер који сте задали.
 
 ## Тастери и миш
@@ -51,7 +51,7 @@
 
 На macOS-у ⌘ уместо Ctrl.
 
-Ознаке се бирају када није изабран алат. Двоклик или Enter мења текст. Точкић миша мења дебљину.
+Клик бира ознаку уз било који алат. Двоклик или Enter мења текст. Точкић миша мења дебљину.
 
 И остало је у подешавањима: шта се снима уз видео, фасцикла, језик, отпремање и покретање са системом, које је укључено док га не искључите. Подешавања отвара мени иконе у траци или покретање програма са `--settings`. Поновно покретање без тога такође прави снимак.
 
@@ -81,7 +81,7 @@
 | --- | --- |
 | Windows | Ради на Windows Server 2022 са једним монитором. Видео је тамо такође проверен, а снимање звука са уређаја није, јер их сервер нема. На Windows 10 и 11 још није проверено. |
 | macOS 10.13+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран са звуком рачунара. Ручно га још нико није испробао. |
-| Ubuntu 24.04+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран. Ручно га још нико није испробао. На Wayland-у пречицу задајте у подешавањима тастатуре: наредба је `just-screenshotter`. |
+| Ubuntu 24.04+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран. На виртуелном екрану X11 у Ubuntu-у 26.04 раде тастери, избор, чување и видео; на Wayland-у није проверено. Ручно га још нико није испробао. На Wayland-у пречицу задајте у подешавањима тастатуре: наредба је `just-screenshotter`. |
 | Firefox 128+ | Ради у Firefox-у 161, проверено без прозора. Mozilla га још није потписала, па га после поновног покретања Firefox-а треба поново учитати. |
 
 ## Инсталација

@@ -33,9 +33,5 @@ export const ICONS = {
       '<path d="M11.5 8.5a3 3 0 00-4.2 0l-2.6 2.6a3 3 0 004.2 4.2l1-1"/>',
   ),
   film: icon('<circle cx="10" cy="10" r="7"/><circle cx="10" cy="10" r="3" fill="currentColor"/>'),
-  language: icon(
-    '<circle cx="10" cy="10" r="7"/><path d="M3 10h14"/><path d="M10 3c2.4 2 3.4 4.4 3.4 7s-1 5-3.4 7"/>' +
-      '<path d="M10 3C7.6 5 6.6 7.4 6.6 10s1 5 3.4 7"/>',
-  ),
   close: icon('<path d="M5 5l10 10"/><path d="M15 5L5 15"/>'),
 };

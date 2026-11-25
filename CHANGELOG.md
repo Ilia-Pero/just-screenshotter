@@ -1,5 +1,12 @@
 # Changes
 
+## 0.4.0 (2026-11-25)
+
+- A mark can be changed at any moment: a click picks it with any tool, whatever has been drawn after it. A double click types a text anew with any tool.
+- Kazakh and Belarusian: 14 languages. The installer for Windows does not know Kazakh; it is chosen in the settings.
+- The language is chosen in the settings and no longer in the editor.
+- On Linux the editor fits the screen: it took the size of its window before the window was shown, and nothing could be selected.
+
 ## 0.3.0 (2026-11-25)
 
 - A window with the settings. The menu of the icon has become shorter.

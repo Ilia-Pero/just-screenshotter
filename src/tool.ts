@@ -47,14 +47,14 @@ export class Brush implements Tool {
     this.sprout = sprout;
   }
 
-  cursor(): string {
-    return 'crosshair';
+  cursor(over: boolean): string {
+    return over ? 'pointer' : 'crosshair';
   }
 
   gesture(session: Session, at: Point, color: string): Gesture {
-    return new Drawing(
-      session.released(),
-      this.sprout(at, new Ink(color, this.width, this.alpha)),
+    return session.touch(
+      at,
+      new Drawing(session.released(), this.sprout(at, new Ink(color, this.width, this.alpha))),
     );
   }
 

@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-**English** · [Русский](docs/README.ru.md) · [Español](docs/README.es.md) · [Ελληνικά](docs/README.el.md) · [עברית](docs/README.he.md) · [简体中文](docs/README.zh.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Српски](docs/README.sr.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md)
+**English** · [Русский](docs/README.ru.md) · [Español](docs/README.es.md) · [Ελληνικά](docs/README.el.md) · [עברית](docs/README.he.md) · [简体中文](docs/README.zh.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Српски](docs/README.sr.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Беларуская](docs/README.be.md) · [Қазақша](docs/README.kk.md)
 
 ![The editor over a sample screen: a marker, a frame, an arrow and a label](docs/editor.png)
 
@@ -24,7 +24,7 @@ Press Print Screen, select an area, draw on it, then copy, save or upload the pi
 - Changes what is already drawn: a click picks a mark, and then you drag it or its ends, set its thickness and color, type its text anew or delete it.
 - Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
 - Records the area as video with sound: MP4 on Windows, MOV on macOS, WebM on Linux. You choose whether to record the sound of the computer and the microphone; on macOS before 13, only the microphone. The button Stop, the shortcut or the icon in the tray ends the recording.
-- Speaks 12 languages. The language is chosen in the editor, in the settings and in the installer for Windows; until then it is the language of the system.
+- Speaks 14 languages. The language is chosen in the settings and in the installer for Windows; until then it is the language of the system.
 - Sends nothing anywhere by itself: there is no account, no telemetry and no update check. It uses the network only to upload a picture to the server you have set.
 
 ## Keys and mouse
@@ -51,7 +51,7 @@ You can choose other keys in the settings. On Windows buttons of the mouse can s
 
 On macOS, ⌘ takes the place of Ctrl.
 
-Marks are picked when no tool is chosen. A double click or Enter changes a text. The mouse wheel changes the thickness.
+A click picks a mark with any tool. A double click or Enter changes a text. The mouse wheel changes the thickness.
 
 The rest is in the settings too: what to record with video, the folder, the language, uploading and starting with the system, which is on until you turn it off. The settings are opened by the menu of the tray icon or by starting the program with `--settings`. Starting it for the second time without that also takes a screenshot.
 
@@ -81,7 +81,7 @@ Video is recorded by a separate process, which is gone with all its memory when 
 | --- | --- |
 | Windows | Works on Windows Server 2022 with one monitor. Video is checked there too; recording of sound from devices is not, because the server has none. Not checked on Windows 10 and 11 yet. |
 | macOS 10.13+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen with the sound of the computer. Nobody has tried it by hand yet. |
-| Ubuntu 24.04+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen. Nobody has tried it by hand yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
+| Ubuntu 24.04+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen. On a virtual X11 screen of Ubuntu 26.04 the keys, selecting, saving and video work; it has not been checked on Wayland. Nobody has tried it by hand yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
 | Firefox 128+ | Works in Firefox 161, checked without a window. Not signed by Mozilla yet, so it has to be loaded again after Firefox is restarted. |
 
 ## Install

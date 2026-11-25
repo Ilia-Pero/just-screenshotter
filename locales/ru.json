@@ -95,7 +95,7 @@
   "error.gstreamer": "Для видео нужен GStreamer. Установите пакеты gstreamer1.0-tools, gstreamer1.0-plugins-good и gstreamer1.0-pipewire.",
   "error.picture": "Это не картинка, файл не записан.",
   "error.clipboard": "Буфер обмена занят другой программой.",
-  "error.noserver": "Укажите адрес сервера и ключ в меню значка.",
+  "error.noserver": "Укажите адрес сервера и ключ в настройках.",
   "error.address": "Адрес должен начинаться с https://",
   "error.link": "Сервер ответил не ссылкой. Проверьте адрес.",
   "error.refused": "Сервер не принял ключ.",

@@ -95,7 +95,7 @@
   "error.gstreamer": "Video needs GStreamer. Install the packages gstreamer1.0-tools, gstreamer1.0-plugins-good and gstreamer1.0-pipewire.",
   "error.picture": "This is not a picture, so the file was not written.",
   "error.clipboard": "Another program keeps the clipboard busy.",
-  "error.noserver": "Set the server address and the key in the menu of the tray icon.",
+  "error.noserver": "Set the server address and the key in the settings.",
   "error.address": "The address must start with https://",
   "error.link": "The server answered with something that is not a link. Check the address.",
   "error.refused": "The server does not accept the key.",

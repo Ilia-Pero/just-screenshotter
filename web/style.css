@@ -187,31 +187,6 @@ body {
   background: #c62820;
 }
 
-.tongue {
-  display: block;
-  width: 100%;
-  min-width: 150px;
-  margin: 0;
-  padding: 4px 10px;
-  border: 0;
-  border-radius: 4px;
-  background: none;
-  color: #222;
-  font: inherit;
-  line-height: 1.4;
-  text-align: start;
-  cursor: pointer;
-}
-
-.tongue:hover {
-  background: #e6e6e6;
-}
-
-.tongue.on {
-  background: #2f6fdf;
-  color: #fff;
-}
-
 .swatch {
   display: inline-block;
   width: 22px;

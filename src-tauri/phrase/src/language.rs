@@ -19,6 +19,10 @@ pub const LANGUAGES: &[Language] = &[
         text: include_str!("../../../locales/en.json"),
     },
     Language {
+        code: "be",
+        text: include_str!("../../../locales/be.json"),
+    },
+    Language {
         code: "de",
         text: include_str!("../../../locales/de.json"),
     },
@@ -45,6 +49,10 @@ pub const LANGUAGES: &[Language] = &[
     Language {
         code: "ja",
         text: include_str!("../../../locales/ja.json"),
+    },
+    Language {
+        code: "kk",
+        text: include_str!("../../../locales/kk.json"),
     },
     Language {
         code: "ko",

@@ -8,10 +8,10 @@
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
 <a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
-<img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
+<img src="https://img.shields.io/badge/languages-14-0f766e" alt="14 languages">
 </p>
 
-[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano**
+[English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano** · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
 ![L’editor sopra uno schermo di esempio: un evidenziatore, una cornice, una freccia e un testo](editor.png)
 
@@ -24,7 +24,7 @@ Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o ca
 - Modifica ciò che è già disegnato: un clic sceglie un segno, poi lo si trascina o se ne spostano le estremità, si cambiano spessore e colore, si riscrive il testo o lo si elimina.
 - Copia l’immagine, la salva in PNG o la carica sul [tuo server](../server/README.md) e copia il link.
 - Registra l’area come video con audio: MP4 su Windows, MOV su macOS, WebM su Linux. Scegli tu se registrare l’audio del computer e il microfono; su macOS precedente a 13 solo il microfono. La registrazione termina con il pulsante Ferma, la scorciatoia o l’icona.
-- Parla 12 lingue. La lingua si sceglie nell’editor, nelle impostazioni e nel programma di installazione per Windows; fino ad allora è quella del sistema.
+- Parla 14 lingue. La lingua si sceglie nelle impostazioni e nel programma di installazione per Windows; fino ad allora è quella del sistema.
 - Non invia nulla da solo: nessun account, nessuna telemetria, nessun controllo degli aggiornamenti. Usa la rete solo per caricare un’immagine sul server che hai indicato.
 
 ## Tasti e mouse
@@ -51,7 +51,7 @@ Altri tasti si scelgono nelle impostazioni. Su Windows le stesse cose si avviano
 
 Su macOS, ⌘ al posto di Ctrl.
 
-I segni si scelgono quando nessuno strumento è attivo. Il doppio clic o Invio cambia un testo. La rotella del mouse cambia lo spessore.
+Un clic sceglie un segno con qualsiasi strumento. Il doppio clic o Invio cambia un testo. La rotella del mouse cambia lo spessore.
 
 Anche il resto è nelle impostazioni: che cosa registrare con il video, la cartella, la lingua, il caricamento e l’avvio con il sistema, attivo finché non lo disattivi. Le impostazioni si aprono dal menu dell’icona o avviando il programma con `--settings`. Anche avviarlo una seconda volta senza di esso cattura lo schermo.
 
@@ -81,7 +81,7 @@ Il video è registrato da un processo a parte, che alla fine scompare con tutta 
 | --- | --- |
 | Windows | Funziona su Windows Server 2022 con un monitor. Anche il video è stato verificato lì; la registrazione dell’audio dai dispositivi no, perché il server non ne ha. Non ancora verificato su Windows 10 e 11. |
 | macOS 10.13+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo con l’audio del computer. Nessuno l’ha ancora provato a mano. |
-| Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
+| Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Su uno schermo X11 virtuale di Ubuntu 26.04 funzionano i tasti, la selezione, il salvataggio e il video; su Wayland non è stato verificato. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
 | Firefox 128+ | Funziona in Firefox 161, verificata senza finestra. Non ancora firmata da Mozilla, quindi va ricaricata dopo il riavvio di Firefox. |
 
 ## Installazione

@@ -95,7 +95,7 @@
   "error.gstreamer": "录制视频需要 GStreamer。请安装软件包 gstreamer1.0-tools、gstreamer1.0-plugins-good 和 gstreamer1.0-pipewire。",
   "error.picture": "这不是图片，文件未保存。",
   "error.clipboard": "剪贴板正被其他程序占用。",
-  "error.noserver": "请在托盘图标菜单中设置服务器地址和密钥。",
+  "error.noserver": "请在设置中填写服务器地址和密钥。",
   "error.address": "地址必须以 https:// 开头",
   "error.link": "服务器返回的不是链接。请检查地址。",
   "error.refused": "服务器不接受该密钥。",

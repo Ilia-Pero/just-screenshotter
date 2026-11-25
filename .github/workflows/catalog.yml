@@ -1,0 +1,44 @@
+name: catalog
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+  workflow_dispatch:
+    inputs:
+      version:
+        description: The release to send
+        type: string
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  firefox:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: 24
+      - name: Firefox
+        env:
+          GH_TOKEN: ${{ github.token }}
+          AMO_KEY: ${{ secrets.AMO_KEY }}
+          AMO_SECRET: ${{ secrets.AMO_SECRET }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          if [ -z "$AMO_KEY" ]; then
+            echo '::notice::The extension is not sent: there is no key to the catalog of Firefox.'
+            exit
+          fi
+          gh release download "$VERSION" --pattern just-screenshotter-firefox.zip --dir "$RUNNER_TEMP"
+          git archive --format=zip --output="$RUNNER_TEMP/source.zip" "$VERSION"
+          awk -v tag="$VERSION" '/^## /{on = $2 == tag; next} on' CHANGELOG.md > "$RUNNER_TEMP/news.md"
+          node tools/catalog.ts "$VERSION" "$RUNNER_TEMP/just-screenshotter-firefox.zip" "$RUNNER_TEMP/source.zip" "$RUNNER_TEMP/news.md"

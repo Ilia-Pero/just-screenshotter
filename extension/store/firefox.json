@@ -1,0 +1,28 @@
+{
+  "id": "just-screenshotter@ilia-pero.github.io",
+  "license": "MIT",
+  "notes": "The scripts are bundled from TypeScript by esbuild and are not minified. The same files are built with Node.js 24 on Ubuntu 24.04 or any other system: npm ci && npm run extension. The package is the folder extension/packed/firefox; the source is in extension/src and src. No account is needed: open any page, press the button of the extension and choose the visible part or the whole page. The editor opens in a new tab. The extension sends nothing anywhere.",
+  "about": {
+    "slug": "just-screenshotter",
+    "default_locale": "en-US",
+    "categories": ["photos-music-videos"],
+    "name": {
+      "en-US": "Just Screenshotter",
+      "ru": "Просто скриншотер"
+    },
+    "summary": {
+      "en-US": "Takes a picture of a page and opens an editor over it. Sends nothing anywhere.",
+      "ru": "Снимает страницу и открывает редактор поверх снимка. Ничего никуда не отправляет."
+    },
+    "description": {
+      "en-US": "Takes a picture of the visible part of a page or of the whole page and opens an editor in a new tab. Select an area, draw on it with a pencil, a line, an arrow, a frame, an oval, a marker or a text, and copy the picture or save it as PNG. Everything drawn can be moved, recolored, resized or deleted later.\n\nThe keys are Alt+Shift+S for the visible part and Alt+Shift+P for the whole page. A whole page is put together from pieces while it is scrolled; parts that stay in their place on the screen are left on the first piece only. A picture is no taller than 32,000 pixels.\n\nThe extension looks at a page only when you ask it to. It has no account, no telemetry and no server, and it remembers only the language you have chosen. It speaks 14 languages. The code is open, under MIT.",
+      "ru": "Снимает видимую часть страницы или страницу целиком и открывает редактор в новой вкладке. Выделите область, порисуйте на ней карандашом, линией, стрелкой, рамкой, овалом, маркером или напишите текст и скопируйте снимок или сохраните его в PNG. Всё нарисованное можно потом передвинуть, перекрасить, изменить в размере или удалить.\n\nКлавиши: Alt+Shift+S для видимой части и Alt+Shift+P для всей страницы. Страница целиком собирается из кусков, пока она прокручивается; то, что стоит на экране на месте, остаётся только на первом куске. Высота снимка до 32 000 пикселей.\n\nРасширение смотрит на страницу, только когда вы попросите. У него нет учётной записи, телеметрии и сервера, а помнит оно только выбранный язык. Говорит на 14 языках. Код открыт, лицензия MIT."
+    },
+    "homepage": {
+      "en-US": "https://github.com/Ilia-Pero/just-screenshotter"
+    },
+    "support_url": {
+      "en-US": "https://github.com/Ilia-Pero/just-screenshotter/issues"
+    }
+  }
+}

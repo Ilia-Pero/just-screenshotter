@@ -62,7 +62,7 @@ A language is a file in `locales`. To correct one, change its texts and leave th
 
 ## Releases
 
-Set the version in `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` and `extension/web/manifest.json`, write the changes and the date into `CHANGELOG.md`, and push a tag such as `0.2.0`. GitHub then builds the installers, installs each of them, starts the program, and only after that publishes the release.
+Set the version in `package.json`, `src-tauri/Cargo.toml`, `src-tauri/tauri.conf.json` and `extension/web/manifest.json`, write the changes and the date into `CHANGELOG.md`, and push a tag such as `0.2.0`. GitHub then builds the installers, installs each of them, starts the program, and only after that publishes the release. The extension goes to the catalog of Firefox after it, with the texts of `extension/store/firefox.json`, if the repository has the secrets `AMO_KEY` and `AMO_SECRET`. The workflow `catalog` sends a release that is already out.
 
 ## Licenses of dependencies
 

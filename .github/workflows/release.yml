@@ -37,3 +37,9 @@ jobs:
           awk -v tag="$GITHUB_REF_NAME" '/^## /{on = $2 == tag; next} on' CHANGELOG.md > notes.md
           cat .github/release.md >> notes.md
           gh release create "$GITHUB_REF_NAME" installers/* --verify-tag --title "Just Screenshotter $GITHUB_REF_NAME" --notes-file notes.md
+  catalog:
+    needs: release
+    uses: ./.github/workflows/catalog.yml
+    with:
+      version: ${{ github.ref_name }}
+    secrets: inherit

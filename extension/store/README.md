@@ -25,7 +25,7 @@ Takes a picture of the visible part of a page or of the whole page and opens an 
 
 The keys are Alt+Shift+S for the visible part and Alt+Shift+P for the whole page. A whole page is put together from pieces while it is scrolled; parts that stay in their place on the screen are left on the first piece only. A picture is no taller than 32,000 pixels.
 
-The extension looks at a page only when you ask it to. It has no account, no telemetry and no server, and it remembers only the language you have chosen. It speaks 14 languages. The code is open, under MIT: https://github.com/Ilia-Pero/just-screenshotter
+The extension looks at a page only when you ask it to. It has no account, no telemetry and no server, and it remembers only the language you have chosen. It speaks 14 languages. The code is open, under MIT: <https://github.com/Ilia-Pero/just-screenshotter>
 
 ## Описание
 
@@ -33,7 +33,7 @@ The extension looks at a page only when you ask it to. It has no account, no tel
 
 Клавиши: Alt+Shift+S для видимой части и Alt+Shift+P для всей страницы. Страница целиком собирается из кусков, пока она прокручивается; то, что стоит на экране на месте, остаётся только на первом куске. Высота снимка до 32 000 пикселей.
 
-Расширение смотрит на страницу, только когда вы попросите. У него нет учётной записи, телеметрии и сервера, а помнит оно только выбранный язык. Говорит на 14 языках. Код открыт, лицензия MIT: https://github.com/Ilia-Pero/just-screenshotter
+Расширение смотрит на страницу, только когда вы попросите. У него нет учётной записи, телеметрии и сервера, а помнит оно только выбранный язык. Говорит на 14 языках. Код открыт, лицензия MIT: <https://github.com/Ilia-Pero/just-screenshotter>
 
 ## Single purpose
 

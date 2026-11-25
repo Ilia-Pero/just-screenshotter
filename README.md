@@ -24,8 +24,19 @@ Press Print Screen, select an area, draw on it, then copy, save or upload the pi
 - Changes what is already drawn: a click picks a mark, and then you drag it or its ends, set its thickness and color, type its text anew or delete it.
 - Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
 - Records the area as video with sound: MP4 on Windows, MOV on macOS, WebM on Linux. You choose whether to record the sound of the computer and the microphone; on macOS before 13, only the microphone. The button Stop, the shortcut or the icon in the tray ends the recording.
-- Speaks 12 languages. The language is chosen in the editor, in the menu of the icon and in the installer for Windows; until then it is the language of the system.
+- Speaks 12 languages. The language is chosen in the editor, in the settings and in the installer for Windows; until then it is the language of the system.
 - Sends nothing anywhere by itself: there is no account, no telemetry and no update check. It uses the network only to upload a picture to the server you have set.
+
+## Keys and mouse
+
+| What it does | Windows and Linux | macOS |
+| --- | --- | --- |
+| Screenshot of an area | Print Screen | ⌘⇧9 |
+| Screenshot of the whole screen | Shift + Print Screen | — |
+| Screenshot of the active window (Windows) | Alt + Print Screen | — |
+| Video of an area | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+You can choose other keys in the settings. On Windows buttons of the mouse can start the same: both at once, alone, with Shift or with Ctrl. This is off at first, because while the program watches the buttons, every movement of the mouse takes about 2 µs of processor time; at rest it takes nothing. On Wayland the desktop assigns the key.
 
 ## Keys in the editor
 
@@ -42,7 +53,7 @@ On macOS, ⌘ takes the place of Ctrl.
 
 Marks are picked when no tool is chosen. A double click or Enter changes a text. The mouse wheel changes the thickness.
 
-The menu of the tray icon has the shortcut, the folder, the language, the server address and starting with the system. Starting the program for the second time also takes a screenshot.
+The rest is in the settings too: what to record with video, the folder, the language, uploading and starting with the system, which is on until you turn it off. The settings are opened by the menu of the tray icon or by starting the program with `--settings`. Starting it for the second time without that also takes a screenshot.
 
 ## How light it is
 

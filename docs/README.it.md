@@ -24,8 +24,19 @@ Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o ca
 - Modifica ciò che è già disegnato: un clic sceglie un segno, poi lo si trascina o se ne spostano le estremità, si cambiano spessore e colore, si riscrive il testo o lo si elimina.
 - Copia l’immagine, la salva in PNG o la carica sul [tuo server](../server/README.md) e copia il link.
 - Registra l’area come video con audio: MP4 su Windows, MOV su macOS, WebM su Linux. Scegli tu se registrare l’audio del computer e il microfono; su macOS precedente a 13 solo il microfono. La registrazione termina con il pulsante Ferma, la scorciatoia o l’icona.
-- Parla 12 lingue. La lingua si sceglie nell’editor, nel menu dell’icona e nel programma di installazione per Windows; fino ad allora è quella del sistema.
+- Parla 12 lingue. La lingua si sceglie nell’editor, nelle impostazioni e nel programma di installazione per Windows; fino ad allora è quella del sistema.
 - Non invia nulla da solo: nessun account, nessuna telemetria, nessun controllo degli aggiornamenti. Usa la rete solo per caricare un’immagine sul server che hai indicato.
+
+## Tasti e mouse
+
+| Che cosa fanno | Windows e Linux | macOS |
+| --- | --- | --- |
+| Screenshot di un’area | Print Screen | ⌘⇧9 |
+| Screenshot di tutto lo schermo | Shift + Print Screen | — |
+| Screenshot della finestra attiva (Windows) | Alt + Print Screen | — |
+| Video di un’area | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+Altri tasti si scelgono nelle impostazioni. Su Windows le stesse cose si avviano con i pulsanti del mouse: entrambi insieme, da soli, con Maiusc o con Ctrl. All’inizio è disattivato, perché finché il programma osserva i pulsanti ogni movimento del mouse richiede circa 2 µs di processore; a riposo niente. Su Wayland il tasto si assegna nelle impostazioni del sistema.
 
 ## Tasti nell’editor
 
@@ -42,7 +53,7 @@ Su macOS, ⌘ al posto di Ctrl.
 
 I segni si scelgono quando nessuno strumento è attivo. Il doppio clic o Invio cambia un testo. La rotella del mouse cambia lo spessore.
 
-Nel menu dell’icona ci sono la scorciatoia, la cartella, la lingua, l’indirizzo del server e l’avvio con il sistema. Anche avviare il programma una seconda volta cattura lo schermo.
+Anche il resto è nelle impostazioni: che cosa registrare con il video, la cartella, la lingua, il caricamento e l’avvio con il sistema, attivo finché non lo disattivi. Le impostazioni si aprono dal menu dell’icona o avviando il programma con `--settings`. Anche avviarlo una seconda volta senza di esso cattura lo schermo.
 
 ## Quanto è leggero
 

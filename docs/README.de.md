@@ -24,8 +24,19 @@ Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und ko
 - Ändert bereits Gezeichnetes: Ein Klick wählt eine Markierung, dann ziehen Sie sie oder ihre Enden, ändern Stärke und Farbe, tippen den Text neu oder löschen sie.
 - Kopiert das Bild, speichert es als PNG oder lädt es auf [Ihren eigenen Server](../server/README.md) und kopiert den Link.
 - Nimmt den Bereich als Video mit Ton auf: MP4 unter Windows, MOV unter macOS, WebM unter Linux. Sie wählen, ob der Ton des Computers und das Mikrofon aufgenommen werden; unter macOS vor Version 13 nur das Mikrofon. Die Schaltfläche „Beenden“, die Tastenkombination oder das Symbol beendet die Aufnahme.
-- Spricht 12 Sprachen. Die Sprache wird im Editor, im Menü des Symbols und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
+- Spricht 12 Sprachen. Die Sprache wird im Editor, in den Einstellungen und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
 - Sendet von sich aus nichts: kein Konto, keine Telemetrie, keine Suche nach Updates. Das Netz wird nur genutzt, um ein Bild auf den von Ihnen angegebenen Server zu laden.
+
+## Tasten und Maus
+
+| Was sie tun | Windows und Linux | macOS |
+| --- | --- | --- |
+| Screenshot eines Bereichs | Print Screen | ⌘⇧9 |
+| Screenshot des ganzen Bildschirms | Shift + Print Screen | — |
+| Screenshot des aktiven Fensters (Windows) | Alt + Print Screen | — |
+| Video eines Bereichs | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+Andere Tasten wählen Sie in den Einstellungen. Unter Windows starten dasselbe auch die Maustasten: beide zugleich, allein, mit Umschalt oder mit Strg. Anfangs ist das aus, denn solange das Programm die Maustasten beobachtet, kostet jede Mausbewegung etwa 2 µs Prozessorzeit; in Ruhe nichts. Unter Wayland legt der Desktop die Taste fest.
 
 ## Tasten im Editor
 
@@ -42,7 +53,7 @@ Unter macOS ⌘ statt Strg.
 
 Markierungen werden gewählt, wenn kein Werkzeug aktiv ist. Ein Doppelklick oder Enter ändert einen Text. Das Mausrad ändert die Stärke.
 
-Im Menü des Symbols in der Taskleiste stehen die Tastenkombination, der Ordner, die Sprache, die Serveradresse und der Start mit dem System. Auch ein zweiter Start des Programms macht einen Screenshot.
+Auch der Rest steht in den Einstellungen: was mit dem Video aufgenommen wird, der Ordner, die Sprache, das Hochladen und der Start mit dem System, der an ist, bis Sie ihn ausschalten. Die Einstellungen öffnet das Menü des Symbols oder der Start des Programms mit `--settings`. Auch ein zweiter Start ohne das macht einen Screenshot.
 
 ## Wie leicht es ist
 

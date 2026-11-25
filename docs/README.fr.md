@@ -24,8 +24,19 @@ Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, 
 - Modifie ce qui est déjà dessiné : un clic choisit une marque, puis on la déplace ou on tire ses extrémités, on change son épaisseur et sa couleur, on réécrit son texte ou on la supprime.
 - Copie l’image, l’enregistre en PNG ou l’envoie sur [votre propre serveur](../server/README.md) et copie le lien.
 - Enregistre la zone en vidéo avec le son : MP4 sous Windows, MOV sous macOS, WebM sous Linux. Vous choisissez d’enregistrer ou non le son de l’ordinateur et le microphone ; sous macOS antérieur à 13, seulement le microphone. Le bouton Arrêter, le raccourci ou l’icône termine l’enregistrement.
-- Parle 12 langues. La langue se choisit dans l’éditeur, dans le menu de l’icône et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
+- Parle 12 langues. La langue se choisit dans l’éditeur, dans les réglages et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
 - N’envoie rien de lui-même : pas de compte, pas de télémétrie, pas de recherche de mises à jour. Il n’utilise le réseau que pour envoyer une image au serveur que vous avez indiqué.
+
+## Touches et souris
+
+| Ce qu’elles font | Windows et Linux | macOS |
+| --- | --- | --- |
+| Capture d’une zone | Print Screen | ⌘⇧9 |
+| Capture de tout l’écran | Shift + Print Screen | — |
+| Capture de la fenêtre active (Windows) | Alt + Print Screen | — |
+| Vidéo d’une zone | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+D’autres touches se choisissent dans les réglages. Sous Windows, les boutons de la souris lancent la même chose : les deux à la fois, seuls, avec Maj ou avec Ctrl. C’est désactivé au départ, car tant que le programme surveille les boutons, chaque mouvement de la souris prend environ 2 µs de processeur ; au repos, rien. Sous Wayland, la touche s’attribue dans les réglages du système.
 
 ## Touches dans l’éditeur
 
@@ -42,7 +53,7 @@ Sous macOS, ⌘ remplace Ctrl.
 
 Les marques se choisissent quand aucun outil n’est actif. Un double clic ou Entrée modifie un texte. La molette change l’épaisseur.
 
-Le menu de l’icône contient le raccourci, le dossier, la langue, l’adresse du serveur et le démarrage avec le système. Lancer le programme une seconde fois prend aussi une capture.
+Le reste est aussi dans les réglages : ce qui est enregistré avec la vidéo, le dossier, la langue, l’envoi et le démarrage avec le système, activé jusqu’à ce que vous le désactiviez. Les réglages s’ouvrent depuis le menu de l’icône ou en lançant le programme avec `--settings`. Le lancer une seconde fois sans cela prend aussi une capture.
 
 ## Sa légèreté
 

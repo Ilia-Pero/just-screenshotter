@@ -59,6 +59,9 @@ jobs:
             3 "$RUNNER_TEMP/film.${{ runner.os == 'Windows' && 'mp4' || runner.os == 'macOS' && 'mov' || 'webm' }}"
             1024 768 100 100 640 480)
           if [ "$RUNNER_OS" = Linux ]; then xvfb-run -a "${film[@]}"; else "${film[@]}"; fi
+      - name: Both buttons of the mouse
+        if: runner.os == 'Windows'
+        run: cargo run --manifest-path src-tauri/Cargo.toml --locked -p screenshotter-mouse --example chord
       - name: The sound of the computer in a film
         if: runner.os == 'macOS'
         run: |

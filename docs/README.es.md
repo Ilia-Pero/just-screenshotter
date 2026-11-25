@@ -24,8 +24,19 @@ Pulse Print Screen, seleccione un área, dibuje sobre ella y copie, guarde o sub
 - Cambia lo ya dibujado: un clic elige una marca y después puede arrastrarla o mover sus extremos, cambiar el grosor y el color, reescribir el texto o borrarla.
 - Copia la imagen, la guarda en PNG o la sube a [su propio servidor](../server/README.md) y copia el enlace.
 - Graba el área en vídeo con sonido: MP4 en Windows, MOV en macOS, WebM en Linux. Usted elige si grabar el sonido del ordenador y el micrófono; en macOS anterior a 13, solo el micrófono. La grabación termina con el botón Detener, el atajo o el icono de la bandeja.
-- Habla 12 idiomas. El idioma se elige en el editor, en el menú del icono y en el instalador para Windows; hasta entonces es el del sistema.
+- Habla 12 idiomas. El idioma se elige en el editor, en los ajustes y en el instalador para Windows; hasta entonces es el del sistema.
 - No envía nada por su cuenta: no hay cuenta, telemetría ni búsqueda de actualizaciones. Solo usa la red para subir una imagen al servidor que usted indique.
+
+## Teclas y ratón
+
+| Qué hacen | Windows y Linux | macOS |
+| --- | --- | --- |
+| Captura de un área | Print Screen | ⌘⇧9 |
+| Captura de toda la pantalla | Shift + Print Screen | — |
+| Captura de la ventana activa (Windows) | Alt + Print Screen | — |
+| Vídeo de un área | Ctrl + Shift + Print Screen | ⌘⇧8 |
+
+Otras teclas se eligen en los ajustes. En Windows lo mismo se inicia con los botones del ratón: los dos a la vez, solos, con Mayús o con Ctrl. Al principio está desactivado, porque mientras el programa vigila los botones cada movimiento del ratón cuesta unos 2 µs de procesador; en reposo, nada. En Wayland la tecla se asigna en los ajustes del sistema.
 
 ## Teclas en el editor
 
@@ -42,7 +53,7 @@ En macOS, ⌘ en lugar de Ctrl.
 
 Las marcas se eligen cuando no hay ninguna herramienta activa. Un doble clic o Enter cambia el texto. La rueda del ratón cambia el grosor.
 
-En el menú del icono de la bandeja están el atajo, la carpeta, el idioma, la dirección del servidor y el inicio con el sistema. Iniciar el programa por segunda vez también hace una captura.
+Lo demás también está en los ajustes: qué se graba con el vídeo, la carpeta, el idioma, la subida y el inicio con el sistema, activado hasta que usted lo desactive. Los ajustes se abren desde el menú del icono de la bandeja o iniciando el programa con `--settings`. Iniciarlo por segunda vez sin eso también hace una captura.
 
 ## Cuánto ocupa
 

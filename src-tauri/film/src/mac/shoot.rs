@@ -1,4 +1,4 @@
-//! Filming on macOS 13 and newer: the screen together with the sound of the computer.
+//! Filming that goes on.
 
 use std::sync::mpsc::{Receiver, RecvTimeoutError, Sender};
 use std::sync::Arc;
@@ -18,6 +18,7 @@ use super::booth::Booth;
 use super::clock::now;
 use super::ear::Ear;
 use super::eye::Eye;
+use super::lens::Lens;
 use super::movie::Movie;
 use super::place::url;
 
@@ -31,9 +32,36 @@ const SIP: Duration = Duration::from_millis(100);
 /// How long to wait for the first picture.
 const PATIENCE: Duration = Duration::from_secs(10);
 
+/// What looks at the screen until it is dropped.
+pub trait Sight {}
+
+impl Sight for Eye {}
+impl Sight for Lens {}
+
+/// Opens what looks at the screen.
+pub type Opened = fn(&Order, Arc<Booth>, &DispatchQueue) -> Result<Box<dyn Sight>, Failure>;
+
+/// Looks through the eye. It also hears the computer.
+pub fn eye(
+    order: &Order,
+    booth: Arc<Booth>,
+    queue: &DispatchQueue,
+) -> Result<Box<dyn Sight>, Failure> {
+    Ok(Box::new(Eye::open(order, booth, queue)?))
+}
+
+/// Looks through the lens.
+pub fn lens(
+    order: &Order,
+    booth: Arc<Booth>,
+    queue: &DispatchQueue,
+) -> Result<Box<dyn Sight>, Failure> {
+    Ok(Box::new(Lens::open(order, booth, queue)?))
+}
+
 /// Filming that goes on.
 struct Shoot {
-    eye: Eye,
+    sight: Box<dyn Sight>,
     ear: Option<Ear>,
     booth: Arc<Booth>,
     ears: Ears,
@@ -46,40 +74,40 @@ struct Shoot {
 /// # Errors
 ///
 /// The system does not show the screen, or the microphone cannot be used.
-pub fn film(order: &Order, bell: Sender<()>) -> Result<Box<dyn Take>, Failure> {
+pub fn film(order: &Order, bell: Sender<()>, opened: Opened) -> Result<Box<dyn Take>, Failure> {
     let area = order.area.within(order.monitor.width, order.monitor.height);
     let order = Order {
         area,
         ..order.clone()
     };
     let file = url(&order.file)?;
-    let movie = Movie::create(&file, &area, true)?;
-    let sources = 1 + usize::from(order.voice);
+    let sources = usize::from(order.sound) + usize::from(order.voice);
+    let movie = Movie::create(&file, &area, sources > 0)?;
     let booth = Arc::new(Booth::new(Desk::new(movie, sources), bell));
-    let opened = open(&order, &booth);
-    if opened.is_err() {
+    let shoot = open(&order, &booth, opened);
+    if shoot.is_err() {
         // What has gone wrong is known already.
         let _ = booth.finish(now());
     }
-    opened
+    shoot
 }
 
-/// Opens the eye and the ear, and waits for the first picture.
-fn open(order: &Order, booth: &Arc<Booth>) -> Result<Box<dyn Take>, Failure> {
+/// Opens what sees and hears, and waits for the first picture.
+fn open(order: &Order, booth: &Arc<Booth>, opened: Opened) -> Result<Box<dyn Take>, Failure> {
     let queue = DispatchQueue::new("just-screenshotter.film", DispatchQueueAttr::SERIAL);
     let ear = order
         .voice
-        .then(|| Ear::open(Arc::clone(booth), 1, &queue))
+        .then(|| Ear::open(Arc::clone(booth), usize::from(order.sound), &queue))
         .transpose()?;
-    let eye = Eye::open(order, Arc::clone(booth), &queue)?;
+    let sight = opened(order, Arc::clone(booth), &queue)?;
     // The sound comes later than the first picture does, and by now it comes.
     booth.start(now());
     let shoot = Shoot {
-        eye,
+        sight,
         ear,
         booth: Arc::clone(booth),
         ears: Ears {
-            sound: true,
+            sound: order.sound,
             voice: order.voice,
         },
         _awake: NSProcessInfo::processInfo().beginActivityWithOptions_reason(
@@ -112,9 +140,9 @@ impl Take for Shoot {
     fn finish(self: Box<Self>) -> Result<(), Failure> {
         let end = now();
         let Shoot {
-            eye, ear, booth, ..
+            sight, ear, booth, ..
         } = *self;
-        drop((eye, ear));
+        drop((sight, ear));
         booth.finish(end)
     }
 }

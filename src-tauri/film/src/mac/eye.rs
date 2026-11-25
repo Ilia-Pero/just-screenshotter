@@ -23,7 +23,7 @@ use crate::{Failure, Order};
 
 use super::booth::Booth;
 use super::clock::moment;
-use super::movie::{size, Picture, PACE};
+use super::movie::{size, Picture, NV12, PACE};
 use super::place::{display, from_top};
 
 /// Where the system keeps the library.
@@ -35,9 +35,6 @@ const SOUND: isize = 1;
 
 /// The code of a failure that means: a person has not allowed to record the screen.
 const DECLINED: isize = -3801;
-
-/// Pictures in the form encoders take, brightness and colour apart.
-const NV12: u32 = u32::from_be_bytes(*b"420v");
 
 /// How many pictures the stream keeps at once. One of them is the last one, which may be repeated.
 const QUEUE: isize = 6;
@@ -123,7 +120,8 @@ impl Eye {
                 delegate: &*witness,
             ];
             let stream = stream.ok_or_else(|| Phrase::new("error.permission"))?;
-            for kind in [SCREEN, SOUND] {
+            let kinds = [SCREEN].into_iter().chain(order.sound.then_some(SOUND));
+            for kind in kinds {
                 let added: Result<(), Retained<NSError>> = msg_send![
                     &*stream,
                     addStreamOutput: &*witness,
@@ -284,7 +282,7 @@ unsafe fn settings(order: &Order) -> Result<Retained<AnyObject>, Failure> {
         let () = msg_send![&*settings, setPixelFormat: NV12];
         let () = msg_send![&*settings, setQueueDepth: QUEUE];
         let () = msg_send![&*settings, setShowsCursor: true];
-        let () = msg_send![&*settings, setCapturesAudio: true];
+        let () = msg_send![&*settings, setCapturesAudio: order.sound];
         let () = msg_send![&*settings, setSampleRate: isize::try_from(RATE)?];
         let () = msg_send![&*settings, setChannelCount: isize::try_from(CHANNELS)?];
         Ok(settings)

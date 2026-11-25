@@ -32,6 +32,9 @@ use crate::{Area, Failure};
 
 use super::clock::time;
 
+/// Pictures in the form encoders take, brightness and colour apart.
+pub const NV12: u32 = u32::from_be_bytes(*b"420v");
+
 /// Pictures in a second.
 pub const PACE: u32 = 30;
 

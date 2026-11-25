@@ -28,7 +28,7 @@ mod windows;
 #[cfg(target_os = "linux")]
 pub use linux::Studio as Native;
 #[cfg(target_os = "macos")]
-pub use mac::Studio as Native;
+pub use mac::{Studio as Native, Veteran};
 #[cfg(target_os = "windows")]
 pub use windows::Studio as Native;
 

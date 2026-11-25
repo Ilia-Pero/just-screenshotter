@@ -11,7 +11,7 @@ use objc2_av_foundation::{
     AVCaptureDevice, AVCaptureDeviceInput, AVCaptureOutput, AVCaptureSession, AVMediaTypeAudio,
 };
 use objc2_core_audio_types::kAudioFormatLinearPCM;
-use objc2_core_media::{CMClock, CMSampleBuffer, CMSyncConvertTime};
+use objc2_core_media::CMSampleBuffer;
 use objc2_foundation::{NSDictionary, NSNumber, NSObject, NSString};
 use screenshotter_phrase::Phrase;
 
@@ -19,12 +19,12 @@ use crate::mix::{CHANNELS, RATE};
 use crate::Failure;
 
 use super::booth::Booth;
-use super::clock::moment;
+use super::clock::Session;
 use super::eye::samples;
 
 /// A microphone that is listened to.
 pub struct Ear {
-    session: Retained<AVCaptureSession>,
+    session: Session,
     _witness: Retained<Witness>,
 }
 
@@ -32,13 +32,8 @@ pub struct Ear {
 struct Listener {
     booth: Arc<Booth>,
     source: usize,
-    session: Retained<AVCaptureSession>,
+    session: Session,
 }
-
-// SAFETY: the session is asked only for its clock, and that may be done in any thread.
-unsafe impl Send for Listener {}
-// SAFETY: see above.
-unsafe impl Sync for Listener {}
 
 define_class!(
     // SAFETY: NSObject has no requirements for those who inherit from it.
@@ -59,25 +54,9 @@ define_class!(
             _connection: &AVCaptureConnection,
         ) {
             let listener = self.ivars();
-            // SAFETY: the buffer and the clocks are alive. The microphone has a clock of its own,
-            // and the film goes by the clock of the computer.
-            let heard = unsafe {
-                let heard = buffer.presentation_time_stamp();
-                listener
-                    .session
-                    .synchronizationClock()
-                    .map_or(heard, |own| {
-                        CMSyncConvertTime(
-                            heard,
-                            (*own).as_ref(),
-                            (*CMClock::host_time_clock()).as_ref(),
-                        )
-                    })
-            };
             if let Some(samples) = samples(buffer) {
-                listener
-                    .booth
-                    .hear(listener.source, moment(heard), &samples);
+                let moment = listener.session.moment(buffer);
+                listener.booth.hear(listener.source, moment, &samples);
             }
         }
     }
@@ -100,7 +79,7 @@ impl Ear {
     pub fn open(booth: Arc<Booth>, source: usize, queue: &DispatchQueue) -> Result<Ear, Failure> {
         // SAFETY: the objects are alive, and the queue lives as long as the output keeps it.
         unsafe {
-            let session = AVCaptureSession::new();
+            let session = Session::new(AVCaptureSession::new());
             let voice = voice()?;
             if !session.canAddInput(&voice) {
                 return Err(unheard("AVCaptureSession"));
@@ -139,7 +118,7 @@ impl Drop for Ear {
 }
 
 /// The microphone the system uses at the moment.
-pub fn voice() -> Result<Retained<AVCaptureDeviceInput>, Failure> {
+fn voice() -> Result<Retained<AVCaptureDeviceInput>, Failure> {
     // SAFETY: the constant and the device are alive.
     unsafe {
         let kind = AVMediaTypeAudio.ok_or_else(|| unheard("AVMediaTypeAudio"))?;
@@ -150,7 +129,7 @@ pub fn voice() -> Result<Retained<AVCaptureDeviceInput>, Failure> {
     }
 }
 
-pub fn unheard(reason: &str) -> Failure {
+fn unheard(reason: &str) -> Failure {
     Phrase::new("error.voice").with("reason", reason).into()
 }
 

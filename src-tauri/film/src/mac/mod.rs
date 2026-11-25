@@ -1,6 +1,6 @@
 //! Filming on macOS with what the system itself has. Since macOS 13 `ScreenCaptureKit` gives the
-//! sound of the computer together with the screen. Before that, and when the sound is not wanted,
-//! `AVFoundation` films the screen and the microphone.
+//! sound of the computer together with the screen. Before that `AVFoundation` gives the screen.
+//! The microphone and the file belong to `AVFoundation` on all systems.
 
 #![allow(unsafe_code)]
 
@@ -14,10 +14,10 @@ mod booth;
 mod clock;
 mod ear;
 mod eye;
+mod lens;
 mod movie;
 mod place;
-mod session;
-mod stream;
+mod shoot;
 
 /// The system that gives the sound of the computer.
 const HEARING: NSOperatingSystemVersion = NSOperatingSystemVersion {
@@ -25,6 +25,23 @@ const HEARING: NSOperatingSystemVersion = NSOperatingSystemVersion {
     minorVersion: 0,
     patchVersion: 0,
 };
+
+/// The camera of macOS before 13.
+pub struct Veteran;
+
+impl Camera for Veteran {
+    fn hears(&self) -> bool {
+        false
+    }
+
+    fn film(&self, order: &Order, bell: Sender<()>) -> Result<Box<dyn Take>, Failure> {
+        let order = Order {
+            sound: false,
+            ..order.clone()
+        };
+        shoot::film(&order, bell, shoot::lens)
+    }
+}
 
 /// The camera of macOS.
 ///
@@ -44,10 +61,10 @@ impl Camera for Studio {
     }
 
     fn film(&self, order: &Order, bell: Sender<()>) -> Result<Box<dyn Take>, Failure> {
-        if order.sound && self.hears() {
-            stream::film(order, bell)
+        if self.hears() {
+            shoot::film(order, bell, shoot::eye)
         } else {
-            session::film(order, bell)
+            Veteran.film(order, bell)
         }
     }
 }

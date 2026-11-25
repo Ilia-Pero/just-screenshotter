@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -14,14 +15,16 @@
 
 ![L’éditeur au-dessus d’un écran d’exemple : un surligneur, un cadre, une flèche et un texte](editor.png)
 
-Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, enregistrez ou envoyez l’image. Entre deux captures, le programme attend seulement la touche : il n’a ni fenêtre ni minuteur et n’occupe pas le processeur.
+Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, enregistrez ou envoyez l’image, ou enregistrez la zone en vidéo. Entre deux captures, le programme attend seulement la touche : il n’a ni fenêtre ni minuteur et n’occupe pas le processeur.
 
 ## Ce qu’il fait
 
 - Capture tous les écrans et ouvre l’éditeur par-dessus.
 - Dessine au crayon, avec une ligne, une flèche, un cadre, un surligneur et du texte, en huit couleurs.
+- Modifie ce qui est déjà dessiné : un clic choisit une marque, puis on la déplace ou on tire ses extrémités, on change son épaisseur et sa couleur, on réécrit son texte ou on la supprime.
 - Copie l’image, l’enregistre en PNG ou l’envoie sur [votre propre serveur](../server/README.md) et copie le lien.
-- Parle 12 langues. Il utilise d’abord celle du système ; une autre se choisit dans le menu.
+- Enregistre la zone en vidéo avec le son : MP4 sous Windows, MOV sous macOS, WebM sous Linux. Vous choisissez d’enregistrer ou non le son de l’ordinateur et le microphone ; sous macOS, seulement le microphone pour l’instant. Le bouton Arrêter, le raccourci ou l’icône termine l’enregistrement.
+- Parle 12 langues. La langue se choisit dans l’éditeur, dans le menu de l’icône et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
 - N’envoie rien de lui-même : pas de compte, pas de télémétrie, pas de recherche de mises à jour. Il n’utilise le réseau que pour envoyer une image au serveur que vous avez indiqué.
 
 ## Touches dans l’éditeur
@@ -32,9 +35,12 @@ Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, 
 | Ctrl+S | enregistre la zone dans `Images/Screenshots` |
 | Ctrl+U | envoie la zone, le lien va dans le presse-papiers |
 | Ctrl+Z | annule le dernier dessin |
+| Delete | supprime la marque choisie |
 | Esc | ferme l’éditeur |
 
 Sous macOS, ⌘ remplace Ctrl.
+
+Les marques se choisissent quand aucun outil n’est actif. Un double clic ou Entrée modifie un texte. La molette change l’épaisseur.
 
 Le menu de l’icône contient le raccourci, le dossier, la langue, l’adresse du serveur et le démarrage avec le système. Lancer le programme une seconde fois prend aussi une capture.
 
@@ -48,21 +54,31 @@ Mesuré le 24.11.2026 sous Windows Server 2022, écran 1920 × 1080, version opt
 | Mémoire au repos | 14 Mo avant la première capture, 25 Mo après sept |
 | Processus au repos | 1 |
 | De la touche à l’éditeur | 0,61–0,75 s sur sept essais |
-| Taille du programme | 5,0 Mo |
+| Taille du programme | 5,2 Mo |
 
 L’éditeur met ce temps à s’ouvrir parce que sa fenêtre est créée à chaque capture puis détruite. C’est le prix d’une charge nulle au repos.
+
+La vidéo est enregistrée par un processus à part, qui disparaît avec toute sa mémoire à la fin. Sur ce serveur sans carte graphique, 30 images par seconde en 1920 × 1080 occupent un cœur du processeur et 207 Mo ; en 800 × 600, 0,4 cœur et 78 Mo. Une carte graphique qui encode le H.264 prend ce travail en charge ; cela n’a pas encore été mesuré.
 
 ## État
 
 | Système | État |
 | --- | --- |
-| Windows | Fonctionne sous Windows Server 2022 avec un écran. Pas encore vérifié sous Windows 10 et 11. |
-| macOS 10.13+ | Se compile et passe les tests. Personne ne l’a encore lancé. |
-| Ubuntu 24.04+ | Se compile et passe les tests. Personne ne l’a encore lancé. Sous Wayland, attribuez le raccourci dans les réglages du clavier : la commande est `just-screenshotter`. |
+| Windows | Fonctionne sous Windows Server 2022 avec un écran. La vidéo y a été vérifiée aussi ; l’enregistrement du son des périphériques non, car le serveur n’en a pas. Pas encore vérifié sous Windows 10 et 11. |
+| macOS 10.13+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Personne ne l’a encore essayé à la main. |
+| Ubuntu 24.04+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Personne ne l’a encore essayé à la main. Sous Wayland, attribuez le raccourci dans les réglages du clavier : la commande est `just-screenshotter`. |
 
 ## Installation
 
-Il n’y a pas encore de fichiers prêts à télécharger, il faut donc compiler le programme. Il faut Node.js 24 ou plus récent et Rust, sous Windows aussi Microsoft C++ Build Tools, sous Ubuntu aussi `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+| Système | Fichier | Comment l’installer |
+| --- | --- | --- |
+| Windows 10 et 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Lancez-le. Si Windows ne connaît pas le programme : « Informations complémentaires », « Exécuter quand même ». |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Glissez le programme dans Applications et ouvrez-le. Quand macOS refuse, allez dans Réglages Système, « Confidentialité et sécurité », et cliquez sur « Ouvrir quand même ». |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub compile ces fichiers à partir du code de ce dépôt, installe chacun d’eux, lance le programme, puis seulement les publie. Ils n’ont pas de signature payante, Windows et macOS avertissent donc au premier lancement.
+
+Vous pouvez aussi compiler le programme vous-même. Il faut Node.js 24 ou plus récent et Rust, sous Windows aussi Microsoft C++ Build Tools, sous Ubuntu aussi `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -71,7 +87,7 @@ npm ci
 npm run tauri build
 ```
 
-L’installateur apparaît dans `src-tauri/target/release/bundle`. Il n’est pas signé, Windows et macOS demanderont donc si vous lui faites confiance.
+L’installateur apparaît dans `src-tauri/target/release/bundle`.
 
 ## Traductions
 

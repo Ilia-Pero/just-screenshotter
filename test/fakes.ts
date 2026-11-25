@@ -2,6 +2,7 @@ import { Box } from '../src/box.ts';
 import { Ink } from '../src/ink.ts';
 import { Point } from '../src/point.ts';
 import { Session } from '../src/session.ts';
+import type { Ruler } from '../src/ruler.ts';
 import type { Typing } from '../src/shape.ts';
 import type { Shot } from '../src/shot.ts';
 import { Sketch } from '../src/sketch.ts';
@@ -23,6 +24,13 @@ export class Sheet implements Shot {
 
   paint(): void {
     // There is nothing to draw on a blank sheet.
+  }
+}
+
+/** A ruler for which every letter is as wide as half of its size. */
+export class Even implements Ruler {
+  width(text: string, size: number): number {
+    return (text.length * size) / 2;
   }
 }
 
@@ -53,7 +61,7 @@ export function ink(width: number): Ink {
 
 /** A session over a sheet of 100 by 80, with nothing selected and the given tool. */
 export function fresh(tool: Tool): Session {
-  return new Session(new Sheet(100, 80), box(0, 0, 0, 0), new Sketch([]), tool, '#000000', 1);
+  return new Session(new Sheet(100, 80), box(0, 0, 0, 0), new Sketch([], []), tool, '#000000', 1);
 }
 
 /** The session after the mouse is dragged from one point to another. */

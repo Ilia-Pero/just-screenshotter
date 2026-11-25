@@ -100,7 +100,7 @@ body {
   border-radius: 50%;
 }
 
-.palette {
+.sheet {
   position: absolute;
   top: -3px;
   right: 100%;
@@ -114,8 +114,102 @@ body {
   white-space: nowrap;
 }
 
-.palette.open {
+.sheet.open {
   display: block;
+}
+
+.widths .slider {
+  width: 150px;
+  margin: 5px 4px 5px 6px;
+  vertical-align: middle;
+}
+
+.width {
+  display: inline-block;
+  width: 24px;
+  color: #333;
+  font-size: 12px;
+  line-height: 30px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.actions .well {
+  display: inline-block;
+  vertical-align: top;
+}
+
+.actions .sheet {
+  top: auto;
+  right: -3px;
+  bottom: 100%;
+  margin: 0 0 8px;
+}
+
+.actions .sheet.below {
+  top: 100%;
+  bottom: auto;
+  margin: 8px 0 0;
+}
+
+.filming {
+  padding: 8px 10px;
+  color: #222;
+  line-height: 1.4;
+}
+
+.tick {
+  display: block;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.tick input {
+  margin: 0 6px;
+  vertical-align: middle;
+}
+
+.start {
+  display: block;
+  width: 100%;
+  margin: 4px 0 0;
+  padding: 7px 12px;
+  border: 0;
+  border-radius: 4px;
+  background: #e5332a;
+  color: #fff;
+  font: inherit;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.start:hover {
+  background: #c62820;
+}
+
+.tongue {
+  display: block;
+  width: 100%;
+  min-width: 150px;
+  margin: 0;
+  padding: 4px 10px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: #222;
+  font: inherit;
+  line-height: 1.4;
+  text-align: start;
+  cursor: pointer;
+}
+
+.tongue:hover {
+  background: #e6e6e6;
+}
+
+.tongue.on {
+  background: #2f6fdf;
+  color: #fff;
 }
 
 .swatch {

@@ -1,5 +1,5 @@
 [workspace]
-members = ["capture", "phrase", "store", "upload"]
+members = ["capture", "film", "phrase", "store", "upload"]
 
 [workspace.lints.rust]
 unsafe_code = "deny"
@@ -25,6 +25,7 @@ tauri-build = { version = "2", features = [] }
 [dependencies]
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
 screenshotter-capture = { path = "capture" }
+screenshotter-film = { path = "film" }
 screenshotter-phrase = { path = "phrase" }
 screenshotter-store = { path = "store" }
 screenshotter-upload = { path = "upload" }
@@ -54,6 +55,9 @@ strip = true
 
 # The program is optimised for size, but a person waits for these crates.
 [profile.release.package.screenshotter-capture]
+opt-level = 3
+
+[profile.release.package.screenshotter-film]
 opt-level = 3
 
 [profile.release.package.png]

@@ -1,4 +1,4 @@
-/** What to draw with: colour, line width in screenshot pixels, and opacity. */
+/** What to draw with: colour, thickness in screenshot pixels, and opacity. */
 export class Ink {
   private readonly color: string;
   private readonly width: number;
@@ -20,7 +20,7 @@ export class Ink {
     ctx.lineJoin = 'round';
   }
 
-  /** The line width multiplied by the factor. */
+  /** The thickness multiplied by the factor. */
   times(factor: number): number {
     return this.width * factor;
   }
@@ -28,5 +28,13 @@ export class Ink {
   /** The colour in CSS notation. */
   css(): string {
     return this.color;
+  }
+
+  dyed(color: string): Ink {
+    return new Ink(color, this.width, this.alpha);
+  }
+
+  thick(width: number): Ink {
+    return new Ink(this.color, width, this.alpha);
   }
 }

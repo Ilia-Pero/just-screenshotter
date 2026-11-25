@@ -1,6 +1,9 @@
-import type { Desk } from './desk.ts';
+import type { Box } from './box.ts';
+import type { Desk, Ears, Tongue } from './desk.ts';
+import { LANGUAGES, spoken } from './languages.ts';
 import { developed } from './photo.ts';
 import type { Shot } from './shot.ts';
+import type { Words } from './words.ts';
 
 /** A pretended program window on the sample screenshot. Sizes are fractions of the screen. */
 interface Pane {
@@ -72,6 +75,28 @@ export class Sandbox implements Desk {
   share(png: Blob): Promise<void> {
     this.card('The picture would go to the server, and the link to the clipboard.', png);
     return Promise.resolve();
+  }
+
+  listens(): Promise<Ears> {
+    return Promise.resolve({ hears: true, sound: true, voice: false });
+  }
+
+  film(area: Box): Promise<void> {
+    const note = document.createElement('div');
+    note.className = 'card';
+    note.textContent = `A film of ${area.width()} by ${area.height()} would be made.`;
+    this.root.appendChild(note);
+    return this.leave();
+  }
+
+  languages(): Promise<ReadonlyArray<Tongue>> {
+    return Promise.resolve(
+      Object.keys(LANGUAGES).map((code) => ({ code, title: spoken(code).language, on: false })),
+    );
+  }
+
+  speak(code: string): Promise<Words> {
+    return Promise.resolve(spoken(code));
   }
 
   leave(): Promise<void> {

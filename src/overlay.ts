@@ -1,13 +1,26 @@
-import type { Desk } from './desk.ts';
+import type { Desk, Ears, Tongue } from './desk.ts';
 import type { Gesture } from './gesture.ts';
 import { Rest } from './gesture.ts';
-import { ESCAPE, LETTER_C, LETTER_S, LETTER_U, LETTER_Z } from './key.ts';
+import {
+  BACKSPACE,
+  DELETE,
+  ENTER,
+  ESCAPE,
+  LETTER_C,
+  LETTER_S,
+  LETTER_U,
+  LETTER_Z,
+  PAD_ENTER,
+} from './key.ts';
 import type { Acts, Panels } from './panels.ts';
 import { Point } from './point.ts';
 import type { Session } from './session.ts';
 import type { Typing } from './shape.ts';
+import { turned } from './thickness.ts';
 import type { Tool } from './tool.ts';
-import type { Words } from './words.ts';
+
+/** How far the wheel has to go to change the thickness once, in pixels. */
+const NOTCH = 50;
 
 /**
  * The editor: the screenshot on the canvas, the selection and the panels.
@@ -16,7 +29,6 @@ import type { Words } from './words.ts';
  */
 export class Overlay implements Acts {
   private readonly desk: Desk;
-  private readonly words: Words;
   private readonly ctx: CanvasRenderingContext2D;
   private readonly unit: number;
   private readonly panels: Panels;
@@ -24,10 +36,10 @@ export class Overlay implements Acts {
   private gesture: Gesture;
   private mode: 'idle' | 'dragging' | 'busy' = 'idle';
   private queued = false;
+  private rolled = 0;
 
   constructor(
     desk: Desk,
-    words: Words,
     ctx: CanvasRenderingContext2D,
     unit: number,
     panels: Panels,
@@ -35,7 +47,6 @@ export class Overlay implements Acts {
     gesture: Gesture,
   ) {
     this.desk = desk;
-    this.words = words;
     this.ctx = ctx;
     this.unit = unit;
     this.panels = panels;
@@ -44,8 +55,11 @@ export class Overlay implements Acts {
   }
 
   open(): void {
+    const canvas = this.ctx.canvas;
     this.panels.build(this);
-    this.ctx.canvas.addEventListener('mousedown', (event) => this.press(event));
+    canvas.addEventListener('mousedown', (event) => this.press(event));
+    canvas.addEventListener('dblclick', (event) => this.reword(event));
+    canvas.addEventListener('wheel', (event) => this.roll(event));
     window.addEventListener('mousemove', (event) => this.drag(event));
     window.addEventListener('mouseup', (event) => this.release(event));
     window.addEventListener('keydown', (event) => this.strike(event));
@@ -55,15 +69,15 @@ export class Overlay implements Acts {
   }
 
   copy(): void {
-    this.send('', (png) => this.desk.copy(png));
+    this.send(false, (png) => this.desk.copy(png));
   }
 
   save(): void {
-    this.send('', (png) => this.desk.save(png));
+    this.send(false, (png) => this.desk.save(png));
   }
 
   share(): void {
-    this.send(this.words.sharing, (png) => this.desk.share(png));
+    this.send(true, (png) => this.desk.share(png));
   }
 
   leave(): void {
@@ -74,12 +88,50 @@ export class Overlay implements Acts {
     this.alter((session) => session.undone());
   }
 
+  drop(): void {
+    this.alter((session) => session.dropped());
+  }
+
   equip(tool: Tool): void {
     this.alter((session) => session.equipped(tool));
   }
 
   dye(color: string): void {
     this.alter((session) => session.dyed(color));
+  }
+
+  thick(width: number): void {
+    this.alter((session) => session.thick(width));
+  }
+
+  listens(): Promise<Ears> {
+    return this.desk.listens();
+  }
+
+  film(ears: Ears): void {
+    const session = this.gesture.now();
+    if (this.mode !== 'idle' || session.place().blank()) {
+      return;
+    }
+    this.mode = 'busy';
+    this.desk.film(session.place(), session.sheet(), ears).catch((error: unknown) => {
+      this.mode = 'idle';
+      this.panels.complain(error);
+    });
+  }
+
+  languages(): Promise<ReadonlyArray<Tongue>> {
+    return this.desk.languages();
+  }
+
+  speak(code: string): void {
+    this.desk
+      .speak(code)
+      .then((words) => {
+        this.panels.speak(words);
+        this.paint();
+      })
+      .catch((error: unknown) => this.panels.complain(error));
   }
 
   private press(event: MouseEvent): void {
@@ -103,22 +155,28 @@ export class Overlay implements Acts {
   }
 
   private release(event: MouseEvent): void {
-    if (event.button !== 0 || this.mode !== 'dragging') {
-      return;
+    if (event.button === 0 && this.mode === 'dragging') {
+      this.end(this.gesture.moved(this.spot(event)));
     }
-    const before = this.gesture.now();
-    this.mode = 'busy';
-    this.gesture = this.gesture.moved(this.spot(event));
-    // The panels have to be within reach again: a click on them also ends typing.
-    this.paint();
-    this.gesture
-      .ended(this.typing)
-      .catch((error: unknown) => {
-        this.panels.complain(error);
-        return before;
-      })
-      .then((session) => this.rest(session))
-      .catch((error: unknown) => this.panels.complain(error));
+  }
+
+  /** A double click on a text starts typing it anew. */
+  private reword(event: MouseEvent): void {
+    if (this.mode === 'idle') {
+      this.end(this.gesture.now().twice(this.spot(event)));
+    }
+  }
+
+  /** The wheel changes the thickness. */
+  private roll(event: WheelEvent): void {
+    event.preventDefault();
+    this.rolled += event.deltaY;
+    const notches = Math.trunc(this.rolled / NOTCH);
+    this.rolled -= notches * NOTCH;
+    const width = this.gesture.now().thickness() / this.unit;
+    if (notches !== 0 && width > 0) {
+      this.thick(turned(width, -notches) * this.unit);
+    }
   }
 
   private strike(event: KeyboardEvent): void {
@@ -133,6 +191,15 @@ export class Overlay implements Acts {
       this.share();
     } else if (held && LETTER_Z.struck(event)) {
       this.undo();
+    } else if (DELETE.struck(event) || BACKSPACE.struck(event)) {
+      this.drop();
+    } else if (
+      this.mode === 'idle' &&
+      event.target === document.body &&
+      (ENTER.struck(event) || PAD_ENTER.struck(event))
+    ) {
+      // With the focus on a button, Enter presses the button.
+      this.end(this.gesture.now().rewrite());
     } else {
       return;
     }
@@ -146,6 +213,23 @@ export class Overlay implements Acts {
     }
   }
 
+  /** Waits for what the movement leads to: a person may have to type a text. */
+  private end(gesture: Gesture): void {
+    const before = this.gesture.now();
+    this.mode = 'busy';
+    this.gesture = gesture;
+    // The panels have to be within reach again: a click on them also ends typing.
+    this.paint();
+    gesture
+      .ended(this.typing)
+      .catch((error: unknown) => {
+        this.panels.complain(error);
+        return before;
+      })
+      .then((session) => this.rest(session))
+      .catch((error: unknown) => this.panels.complain(error));
+  }
+
   private rest(session: Session): void {
     this.gesture = new Rest(session);
     this.mode = 'idle';
@@ -153,13 +237,13 @@ export class Overlay implements Acts {
   }
 
   /** Hands the selected part over and closes the editor. After a failure the editor stays. */
-  private send(doing: string, deliver: (png: Blob) => Promise<void>): void {
+  private send(long: boolean, deliver: (png: Blob) => Promise<void>): void {
     const session = this.gesture.now();
     if (this.mode !== 'idle' || session.place().blank()) {
       return;
     }
     this.mode = 'busy';
-    this.panels.announce(doing);
+    this.panels.announce(long);
     session
       .cut()
       .png()

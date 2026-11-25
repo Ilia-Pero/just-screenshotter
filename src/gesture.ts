@@ -3,7 +3,7 @@ import type { Grip } from './grip.ts';
 import type { Point } from './point.ts';
 import type { Session } from './session.ts';
 import type { Draft, Typing } from './shape.ts';
-import { Sketch } from './sketch.ts';
+import { Nothing } from './shape.ts';
 
 /** One movement of the mouse, from pressing the button to releasing it. */
 export interface Gesture {
@@ -33,7 +33,7 @@ export class Rest implements Gesture {
   }
 
   paint(ctx: CanvasRenderingContext2D): void {
-    this.session.paint(ctx, new Sketch([]));
+    this.session.paint(ctx, new Nothing());
   }
 
   ended(): Promise<Session> {
@@ -62,7 +62,7 @@ export class Framing implements Gesture {
   }
 
   paint(ctx: CanvasRenderingContext2D): void {
-    this.now().paint(ctx, new Sketch([]));
+    this.now().paint(ctx, new Nothing());
   }
 
   ended(): Promise<Session> {
@@ -91,7 +91,7 @@ export class Moving implements Gesture {
   }
 
   paint(ctx: CanvasRenderingContext2D): void {
-    this.now().paint(ctx, new Sketch([]));
+    this.now().paint(ctx, new Nothing());
   }
 
   ended(): Promise<Session> {
@@ -120,7 +120,7 @@ export class Resizing implements Gesture {
   }
 
   paint(ctx: CanvasRenderingContext2D): void {
-    this.now().paint(ctx, new Sketch([]));
+    this.now().paint(ctx, new Nothing());
   }
 
   ended(): Promise<Session> {
@@ -151,6 +151,95 @@ export class Drawing implements Gesture {
   }
 
   ended(typing: Typing): Promise<Session> {
-    return this.draft.settled(typing).then((shape) => this.session.drawn(shape));
+    return this.draft.settled(typing).then((mark) => this.session.drawn(mark));
+  }
+}
+
+/** Dragging the picked mark. */
+export class Shifting implements Gesture {
+  private readonly session: Session;
+  private readonly from: Point;
+  private readonly to: Point;
+
+  constructor(session: Session, from: Point, to: Point) {
+    this.session = session;
+    this.from = from;
+    this.to = to;
+  }
+
+  moved(to: Point): Gesture {
+    return new Shifting(this.session, this.from, to);
+  }
+
+  now(): Session {
+    return this.session.shifted(this.to.minus(this.from));
+  }
+
+  paint(ctx: CanvasRenderingContext2D): void {
+    this.now().paint(ctx, new Nothing());
+  }
+
+  ended(): Promise<Session> {
+    return Promise.resolve(this.now());
+  }
+}
+
+/** Dragging one of the handles of the picked mark. */
+export class Pulling implements Gesture {
+  private readonly session: Session;
+  private readonly handle: number;
+  private readonly from: Point;
+  private readonly to: Point;
+
+  constructor(session: Session, handle: number, from: Point, to: Point) {
+    this.session = session;
+    this.handle = handle;
+    this.from = from;
+    this.to = to;
+  }
+
+  moved(to: Point): Gesture {
+    return new Pulling(this.session, this.handle, this.from, to);
+  }
+
+  /** A click on a handle without a movement changes nothing. */
+  now(): Session {
+    return this.from.distance(this.to) < 1
+      ? this.session
+      : this.session.pulled(this.handle, this.to);
+  }
+
+  paint(ctx: CanvasRenderingContext2D): void {
+    this.now().paint(ctx, new Nothing());
+  }
+
+  ended(): Promise<Session> {
+    return Promise.resolve(this.now());
+  }
+}
+
+/** Typing the text of the picked mark anew. */
+export class Retyping implements Gesture {
+  private readonly session: Session;
+
+  constructor(session: Session) {
+    this.session = session;
+  }
+
+  moved(): Gesture {
+    return this;
+  }
+
+  now(): Session {
+    return this.session;
+  }
+
+  /** The text being typed is in the field, so it is not drawn. */
+  paint(ctx: CanvasRenderingContext2D): void {
+    this.session.dropped().paint(ctx, new Nothing());
+  }
+
+  ended(typing: Typing): Promise<Session> {
+    return this.session.retyped(typing);
   }
 }

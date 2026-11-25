@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: read
@@ -44,14 +45,76 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev
+          sudo apt-get install -y gstreamer1.0-tools gstreamer1.0-plugins-base gstreamer1.0-plugins-good xvfb
       - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: src-tauri
       - run: npm ci
       - name: Linters and tests
         run: npm run build
+      - name: A film of the screen
+        shell: bash
+        run: |
+          film=(cargo run --manifest-path src-tauri/Cargo.toml --locked -p screenshotter-film --example film --
+            3 "$RUNNER_TEMP/film.${{ runner.os == 'Windows' && 'mp4' || runner.os == 'macOS' && 'mov' || 'webm' }}"
+            1024 768 100 100 640 480)
+          if [ "$RUNNER_OS" = Linux ]; then xvfb-run -a "${film[@]}"; else "${film[@]}"; fi
       - name: Installer
         run: npm run tauri build -- ${{ matrix.args }}
+      - name: Installing on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory installers
+          $file = Copy-Item src-tauri/target/release/bundle/nsis/*-setup.exe installers/just-screenshotter-windows.exe -PassThru
+          $folder = "$env:LOCALAPPDATA\Just Screenshotter"
+          $setup = Start-Process $file.FullName '/S' -Wait -PassThru
+          if ($setup.ExitCode -ne 0) { throw "The installer has failed: $($setup.ExitCode)" }
+          $program = Start-Process "$folder\just-screenshotter.exe" -PassThru
+          if ($program.WaitForExit(10000)) { throw "The program has ended: $($program.ExitCode)" }
+          $program.Kill()
+          $program.WaitForExit()
+          Start-Process "$folder\uninstall.exe" '/S', "_?=$folder" -Wait
+          if (Test-Path "$folder\just-screenshotter.exe") { throw 'The program is still there' }
+      - name: Installing on macOS
+        if: runner.os == 'macOS'
+        run: |
+          mkdir installers
+          cp src-tauri/target/universal-apple-darwin/release/bundle/dmg/*.dmg installers/just-screenshotter-macos.dmg
+          disk="$RUNNER_TEMP/disk"
+          app='/Applications/Just Screenshotter.app'
+          program="$app/Contents/MacOS/just-screenshotter"
+          hdiutil attach -nobrowse -mountpoint "$disk" installers/just-screenshotter-macos.dmg
+          cp -R "$disk/Just Screenshotter.app" /Applications
+          hdiutil detach "$disk"
+          codesign --verify --deep --strict --verbose=2 "$app"
+          codesign --display --verbose=2 --entitlements - "$app"
+          lipo "$program" -verify_arch x86_64 arm64
+          vtool -arch x86_64 -show-build "$program" | grep -E '(minos|version) +10\.13'
+          "$program" &
+          sleep 10
+          kill $!
+      - name: Installing on Ubuntu
+        if: runner.os == 'Linux'
+        run: |
+          mkdir installers
+          cp src-tauri/target/release/bundle/deb/*.deb installers/just-screenshotter-ubuntu.deb
+          for system in ubuntu:24.04 ubuntu:26.04; do
+            docker run --rm -v "$PWD/installers:/installers:ro" "$system" bash -c '
+              set -e
+              export DEBIAN_FRONTEND=noninteractive
+              apt-get update -qq
+              apt-get install -qq -y /installers/just-screenshotter-ubuntu.deb
+              apt-get install -qq -y xvfb xauth dbus-daemon
+              status=0
+              xvfb-run -a dbus-run-session -- timeout 10 just-screenshotter || status=$?
+              test "$status" -eq 124'
+          done
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: installer-${{ runner.os }}
+          path: installers/
+          if-no-files-found: error
   server:
     runs-on: ubuntu-24.04
     defaults:

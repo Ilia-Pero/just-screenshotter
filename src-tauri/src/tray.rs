@@ -4,6 +4,7 @@ use std::thread;
 
 use screenshotter_phrase::{Language, Phrase, LANGUAGES};
 use screenshotter_store::{Failure, Settings};
+use tauri::image::Image;
 use tauri::menu::{CheckMenuItem, IsMenuItem, Menu, MenuItem, PredefinedMenuItem, Submenu};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::{AppHandle, Manager, WebviewUrl, WebviewWindowBuilder, Wry};
@@ -12,6 +13,7 @@ use tauri_plugin_dialog::DialogExt;
 use tauri_plugin_opener::OpenerExt;
 
 use crate::files::{folder, settings};
+use crate::studio::Studio;
 use crate::{hotkey, snap, tell};
 
 const TRAY: &str = "tray";
@@ -57,14 +59,40 @@ pub fn install(app: &AppHandle, chosen: &Settings) -> Result<(), Failure> {
     Ok(())
 }
 
-/// Shows in the menu what the settings say now.
-fn refresh(app: &AppHandle) -> Result<(), Failure> {
+/// Shows in the menu and on the icon what is going on now.
+pub fn refresh(app: &AppHandle) -> Result<(), Failure> {
     let chosen = settings(app)?.read()?;
     if let Some(tray) = app.tray_by_id(TRAY) {
+        let filming = app.state::<Studio>().busy();
+        let icon = app
+            .default_window_icon()
+            .cloned()
+            .ok_or("The build has no icon")?;
+        tray.set_icon(Some(if filming { marked(&icon) } else { icon }))?;
         tray.set_menu(Some(menu(app, &chosen)?))?;
-        tray.set_tooltip(Some(tooltip(&chosen)))?;
+        tray.set_tooltip(Some(if filming {
+            said("filming")
+        } else {
+            tooltip(&chosen)
+        }))?;
     }
     Ok(())
+}
+
+/// The icon with a red spot: a film is being made.
+fn marked(icon: &Image<'_>) -> Image<'static> {
+    let width = icon.width() as usize;
+    let height = icon.height() as usize;
+    let radius = width * 5 / 16;
+    let mut pixels = icon.rgba().to_vec();
+    for (index, pixel) in pixels.as_chunks_mut::<4>().0.iter_mut().enumerate() {
+        let across = (index % width.max(1) + radius).abs_diff(width);
+        let down = (index / width.max(1) + radius).abs_diff(height);
+        if across * across + down * down <= radius * radius {
+            *pixel = [229, 51, 42, 255];
+        }
+    }
+    Image::new_owned(pixels, icon.width(), icon.height())
 }
 
 /// Does what the menu item says.
@@ -107,10 +135,15 @@ fn menu(app: &AppHandle, chosen: &Settings) -> Result<Menu<Wry>, Failure> {
         &said("menu.autostart"),
         app.autolaunch().is_enabled().unwrap_or(false),
     )?;
+    let first = if app.state::<Studio>().busy() {
+        "menu.stop"
+    } else {
+        "menu.shoot"
+    };
     Ok(Menu::with_items(
         app,
         &[
-            &item(app, "shoot", "menu.shoot")?,
+            &item(app, "shoot", first)?,
             &item(app, "folder", "menu.folder")?,
             &PredefinedMenuItem::separator(app)?,
             keys(app, chosen)?.as_ref(),
@@ -264,9 +297,11 @@ fn assign(app: &AppHandle, code: &str) -> Result<(), Failure> {
     file.write(&before.with_hotkey(code))
 }
 
-fn speak(app: &AppHandle, code: &str) -> Result<(), Failure> {
+/// Makes the whole program speak the language with the code. An empty code returns the choice
+/// to the system.
+pub fn speak(app: &AppHandle, code: &str) -> Result<(), Failure> {
     let file = settings(app)?;
     file.write(&file.read()?.with_language(code))?;
     Language::choose(code);
-    Ok(())
+    refresh(app)
 }

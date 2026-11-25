@@ -16,24 +16,32 @@ export class Entry implements Typing {
     this.unit = unit;
   }
 
-  /** The typed text. Enter or a click elsewhere accepts it, Esc drops it. */
-  words(at: Point, ink: Ink, size: number): Promise<string> {
+  /** The typed text. Enter or a click elsewhere accepts it, Esc returns the text as it was. */
+  words(at: Point, ink: Ink, text: string): Promise<string> {
     return new Promise((resolve) => {
       const field = document.createElement('input');
       // Removing the field fires blur, so the second call has to be ignored.
       let open = true;
-      const finish = (text: string): void => {
+      const finish = (typed: string): void => {
         if (open) {
           open = false;
-          resolve(text);
+          document.removeEventListener('mousedown', outside, true);
+          resolve(typed);
           field.remove();
+        }
+      };
+      // Besides blur: a window without the focus does not fire it.
+      const outside = (event: MouseEvent): void => {
+        if (event.target !== field) {
+          finish(field.value);
         }
       };
       field.type = 'text';
       field.className = 'entry';
+      field.value = text;
       field.style.left = `${at.x / this.unit}px`;
       field.style.top = `${at.y / this.unit}px`;
-      field.style.fontSize = `${size / this.unit}px`;
+      field.style.fontSize = `${ink.times(1 / this.unit)}px`;
       field.style.color = ink.css();
       field.addEventListener('keydown', (event) => {
         event.stopPropagation();
@@ -41,12 +49,14 @@ export class Entry implements Typing {
           finish(field.value);
         }
         if (ESCAPE.struck(event)) {
-          finish('');
+          finish(text);
         }
       });
       field.addEventListener('blur', () => finish(field.value));
+      document.addEventListener('mousedown', outside, true);
       this.layer.appendChild(field);
       field.focus();
+      field.select();
     });
   }
 }

@@ -1,6 +1,7 @@
 node_modules/
 target/
 src-tauri/gen/
+src-tauri/licenses.txt
 web/*.js
 *.map
 __pycache__/

@@ -27,6 +27,8 @@ export class Key {
 export const ESCAPE = new Key('Escape', 27);
 export const ENTER = new Key('Enter', 13);
 export const PAD_ENTER = new Key('NumpadEnter', 13);
+export const DELETE = new Key('Delete', 46);
+export const BACKSPACE = new Key('Backspace', 8);
 export const LETTER_C = new Key('KeyC', 67);
 export const LETTER_S = new Key('KeyS', 83);
 export const LETTER_U = new Key('KeyU', 85);

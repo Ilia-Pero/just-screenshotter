@@ -1,9 +1,11 @@
+import type { Box } from './box.ts';
 import type { Ink } from './ink.ts';
 import { Point } from './point.ts';
-import type { Draft, Shape } from './shape.ts';
+import type { Draft, Mark } from './shape.ts';
+import { Span } from './span.ts';
 
 /** An arrow: a line with a triangular head at its end. */
-export class Arrow implements Draft {
+export class Arrow implements Draft, Mark {
   private readonly from: Point;
   private readonly to: Point;
   private readonly ink: Ink;
@@ -53,7 +55,44 @@ export class Arrow implements Draft {
     return new Arrow(this.from, to, this.ink);
   }
 
-  settled(): Promise<Shape> {
+  settled(): Promise<Mark> {
+    return Promise.resolve(this);
+  }
+
+  touched(at: Point, reach: number): boolean {
+    return new Span(this.from, this.to).distance(at) <= reach + this.ink.times(0.5);
+  }
+
+  bounds(): Box {
+    return new Span(this.from, this.to).bounds();
+  }
+
+  /** The beginning and the end. */
+  handles(): ReadonlyArray<Point> {
+    return [this.from, this.to];
+  }
+
+  pulled(handle: number, to: Point): Mark {
+    return handle === 0 ? new Arrow(to, this.to, this.ink) : new Arrow(this.from, to, this.ink);
+  }
+
+  shifted(by: Point): Mark {
+    return new Arrow(this.from.plus(by), this.to.plus(by), this.ink);
+  }
+
+  tint(): Ink {
+    return this.ink;
+  }
+
+  tinted(ink: Ink): Mark {
+    return new Arrow(this.from, this.to, ink);
+  }
+
+  worded(): boolean {
+    return false;
+  }
+
+  retyped(): Promise<Mark> {
     return Promise.resolve(this);
   }
 }

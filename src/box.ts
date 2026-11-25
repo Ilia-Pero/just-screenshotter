@@ -60,6 +60,14 @@ export class Box {
     return new Box(this.first.plus(by), this.second.plus(by));
   }
 
+  /** The rectangle with a margin of the given width around it. */
+  padded(margin: number): Box {
+    return new Box(
+      new Point(this.left() - margin, this.top() - margin),
+      new Point(this.right() + margin, this.bottom() + margin),
+    );
+  }
+
   /** The same rectangle with every coordinate multiplied by the factor. */
   scaled(factor: number): Box {
     return new Box(this.first.times(factor), this.second.times(factor));

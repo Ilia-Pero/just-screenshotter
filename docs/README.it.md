@@ -7,6 +7,7 @@
 <p align="center">
 <a href="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml"><img src="https://github.com/Ilia-Pero/just-screenshotter/actions/workflows/build.yml/badge.svg" alt="build"></a>
 <a href="../LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT"></a>
+<a href="https://github.com/Ilia-Pero/just-screenshotter/releases/latest"><img src="https://img.shields.io/github/v/release/Ilia-Pero/just-screenshotter?label=download&color=0f766e" alt="download"></a>
 <img src="https://img.shields.io/badge/languages-12-0f766e" alt="12 languages">
 </p>
 
@@ -14,14 +15,16 @@
 
 ![L’editor sopra uno schermo di esempio: un evidenziatore, una cornice, una freccia e un testo](editor.png)
 
-Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o carica l’immagine. Tra uno screenshot e l’altro il programma aspetta solo il tasto: non ha finestre né timer e non occupa il processore.
+Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o carica l’immagine, oppure registra l’area come video. Tra uno screenshot e l’altro il programma aspetta solo il tasto: non ha finestre né timer e non occupa il processore.
 
 ## Che cosa fa
 
 - Cattura tutti i monitor e apre l’editor sopra di essi.
 - Disegna con matita, linea, freccia, cornice, evidenziatore e testo in otto colori.
+- Modifica ciò che è già disegnato: un clic sceglie un segno, poi lo si trascina o se ne spostano le estremità, si cambiano spessore e colore, si riscrive il testo o lo si elimina.
 - Copia l’immagine, la salva in PNG o la carica sul [tuo server](../server/README.md) e copia il link.
-- Parla 12 lingue. All’inizio usa quella del sistema; un’altra si sceglie nel menu.
+- Registra l’area come video con audio: MP4 su Windows, MOV su macOS, WebM su Linux. Scegli tu se registrare l’audio del computer e il microfono; su macOS per ora solo il microfono. La registrazione termina con il pulsante Ferma, la scorciatoia o l’icona.
+- Parla 12 lingue. La lingua si sceglie nell’editor, nel menu dell’icona e nel programma di installazione per Windows; fino ad allora è quella del sistema.
 - Non invia nulla da solo: nessun account, nessuna telemetria, nessun controllo degli aggiornamenti. Usa la rete solo per caricare un’immagine sul server che hai indicato.
 
 ## Tasti nell’editor
@@ -32,9 +35,12 @@ Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o ca
 | Ctrl+S | salva l’area in `Immagini/Screenshots` |
 | Ctrl+U | carica l’area, il link va negli appunti |
 | Ctrl+Z | annulla l’ultimo disegno |
+| Delete | elimina il segno scelto |
 | Esc | chiude l’editor |
 
 Su macOS, ⌘ al posto di Ctrl.
+
+I segni si scelgono quando nessuno strumento è attivo. Il doppio clic o Invio cambia un testo. La rotella del mouse cambia lo spessore.
 
 Nel menu dell’icona ci sono la scorciatoia, la cartella, la lingua, l’indirizzo del server e l’avvio con il sistema. Anche avviare il programma una seconda volta cattura lo schermo.
 
@@ -48,21 +54,31 @@ Misurato il 24.11.2026 su Windows Server 2022, schermo 1920 × 1080, build ottim
 | Memoria a riposo | 14 MB prima del primo screenshot, 25 MB dopo sette |
 | Processi a riposo | 1 |
 | Dal tasto all’editor | 0,61–0,75 s in sette prove |
-| Dimensione del programma | 5,0 MB |
+| Dimensione del programma | 5,2 MB |
 
 L’editor impiega questo tempo perché la sua finestra viene creata per ogni screenshot e poi distrutta. È il prezzo del carico nullo a riposo.
+
+Il video è registrato da un processo a parte, che alla fine scompare con tutta la sua memoria. Su questo server, senza scheda video, 30 fotogrammi al secondo a 1920 × 1080 occupano un core del processore e 207 MB; a 800 × 600, 0,4 core e 78 MB. Una scheda video che codifica H.264 si fa carico di questo lavoro; non è ancora stato misurato.
 
 ## Stato
 
 | Sistema | Stato |
 | --- | --- |
-| Windows | Funziona su Windows Server 2022 con un monitor. Non ancora verificato su Windows 10 e 11. |
-| macOS 10.13+ | Si compila e supera i test. Nessuno l’ha ancora avviato. |
-| Ubuntu 24.04+ | Si compila e supera i test. Nessuno l’ha ancora avviato. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
+| Windows | Funziona su Windows Server 2022 con un monitor. Anche il video è stato verificato lì; la registrazione dell’audio dai dispositivi no, perché il server non ne ha. Non ancora verificato su Windows 10 e 11. |
+| macOS 10.13+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. |
+| Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
 
 ## Installazione
 
-Non ci sono ancora file pronti da scaricare, quindi il programma va compilato. Servono Node.js 24 o successivo e Rust, su Windows anche Microsoft C++ Build Tools, su Ubuntu anche `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
+| Sistema | File | Come si installa |
+| --- | --- | --- |
+| Windows 10 e 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Avvialo. Se Windows non conosce il programma: «Ulteriori informazioni», «Esegui comunque». |
+| macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Trascina il programma in Applicazioni e aprilo. Quando macOS rifiuta, vai in Impostazioni di Sistema, «Privacy e sicurezza», e fai clic su «Apri comunque». |
+| Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+
+GitHub compila questi file dal codice di questo repository, installa ciascuno, avvia il programma e solo dopo li pubblica. Non hanno una firma a pagamento, quindi Windows e macOS avvisano al primo avvio.
+
+Puoi anche compilare il programma da te. Servono Node.js 24 o successivo e Rust, su Windows anche Microsoft C++ Build Tools, su Ubuntu anche `libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev`.
 
 ```sh
 git clone https://github.com/Ilia-Pero/just-screenshotter
@@ -71,7 +87,7 @@ npm ci
 npm run tauri build
 ```
 
-L’installer compare in `src-tauri/target/release/bundle`. Non è firmato, quindi Windows e macOS chiederanno se ti fidi.
+L’installer compare in `src-tauri/target/release/bundle`.
 
 ## Traduzioni
 

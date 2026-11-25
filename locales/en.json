@@ -1,5 +1,6 @@
 {
   "language": "English",
+  "code": "en",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "Screenshot",
@@ -65,7 +66,7 @@
   "settings.clear": "Remove the key",
   "settings.press": "Press the keys…",
   "settings.unfit": "Add Ctrl, Alt or another key to it",
-  "settings.busy": "Another program uses the keys marked red.",
+  "settings.busy": "Keys marked with “!” are used by another program.",
   "settings.cost": "While the buttons of the mouse are watched, the program takes a little processor time when the mouse moves.",
   "settings.film": "Video",
   "settings.folder": "Folder for screenshots and video",

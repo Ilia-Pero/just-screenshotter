@@ -1,4 +1,9 @@
-/* The window with the settings. */
+/* The window with the settings. Lines of controls are at least three times as bright or as dark as
+   what is around them, and nothing to press is smaller than 24 pixels. */
+
+:root {
+  color-scheme: light dark;
+}
 
 html,
 body {
@@ -6,21 +11,43 @@ body {
 }
 
 body {
-  padding: 8px 24px 24px;
-  background: #f4f5f7;
+  padding: 16px;
+  background: #eef0f3;
   color: #1f2328;
-  font: 14px/1.45 -apple-system, "Segoe UI", Ubuntu, sans-serif;
+  font: 14px/1.5 -apple-system, "Segoe UI", Ubuntu, sans-serif;
   -webkit-user-select: none;
   user-select: none;
 }
 
+section {
+  margin-bottom: 12px;
+  padding: 16px 20px;
+  border: 1px solid #d5d9df;
+  border-radius: 10px;
+  background: #fff;
+}
+
+section:last-child {
+  margin-bottom: 0;
+}
+
+.unseen {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
 h2 {
-  margin: 20px 0 8px;
+  margin: 0 0 8px;
   font-size: 15px;
+  line-height: 1.4;
 }
 
 p {
-  margin: 6px 0;
+  margin: 8px 0 0;
 }
 
 table {
@@ -30,7 +57,7 @@ table {
 
 td,
 th {
-  padding: 5px 0;
+  padding: 4px 0;
   text-align: start;
   font-weight: normal;
 }
@@ -40,35 +67,30 @@ th {
   font-size: 12px;
 }
 
-td + td,
-th + th {
-  padding-inline-start: 10px;
-}
-
 [dir="ltr"] td + td,
 [dir="ltr"] th + th {
-  padding-left: 10px;
+  padding-left: 12px;
 }
 
 [dir="rtl"] td + td,
 [dir="rtl"] th + th {
-  padding-right: 10px;
+  padding-right: 12px;
 }
 
-td:nth-child(2) {
-  width: 250px;
+.keys {
+  width: 248px;
   white-space: nowrap;
 }
 
-td:nth-child(3) {
-  width: 160px;
+.mice {
+  width: 168px;
 }
 
 button,
 select {
   box-sizing: border-box;
   height: 32px;
-  border: 1px solid #b9bfc8;
+  border: 1px solid #868d97;
   border-radius: 6px;
   background: #fff;
   color: inherit;
@@ -85,12 +107,17 @@ select {
   padding: 0 6px;
 }
 
-button:hover {
+button:hover,
+select:hover {
   border-color: #2f6fdf;
 }
 
+button:active {
+  background: #e3e9f2;
+}
+
 button:disabled {
-  border-color: #b9bfc8;
+  border-color: #868d97;
   opacity: 0.5;
   cursor: default;
 }
@@ -103,7 +130,7 @@ input:focus {
 }
 
 .key {
-  width: 208px;
+  width: 200px;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: start;
@@ -123,6 +150,12 @@ input:focus {
   color: #b3261e;
 }
 
+/* The color is not the only sign. */
+.key.busy::before {
+  content: "! ";
+  font-weight: 700;
+}
+
 .clear {
   width: 32px;
   margin: 0 4px;
@@ -130,16 +163,20 @@ input:focus {
   border-color: transparent;
   background: none;
   color: #57606a;
+  font-size: 16px;
 }
 
 .row {
   display: block;
-  margin: 8px 0;
+  padding: 4px 0;
+  cursor: pointer;
 }
 
 .row input {
+  width: 16px;
+  height: 16px;
   margin: 0 8px 0 0;
-  vertical-align: -1px;
+  vertical-align: -3px;
 }
 
 [dir="rtl"] .row input {
@@ -148,7 +185,7 @@ input:focus {
 
 .path {
   display: block;
-  margin: 4px 0 8px;
+  margin: 0 0 8px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   -webkit-user-select: text;
@@ -156,11 +193,11 @@ input:focus {
 }
 
 .buttons button {
-  margin: 0 8px 0 0;
+  margin: 8px 8px 0 0;
 }
 
 [dir="rtl"] .buttons button {
-  margin: 0 0 0 8px;
+  margin: 8px 0 0 8px;
 }
 
 .tongue {
@@ -180,23 +217,71 @@ input:focus {
   display: none;
 }
 
+/* In a narrow window every action takes a place of its own. */
+@media (max-width: 640px) {
+  tr:first-child {
+    display: none;
+  }
+
+  tr {
+    display: block;
+    padding: 4px 0;
+  }
+
+  .act {
+    display: block;
+    padding-bottom: 0;
+  }
+
+  .keys,
+  .mice {
+    display: inline-block;
+    width: auto;
+  }
+
+  [dir="ltr"] td + td,
+  [dir="rtl"] td + td {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .mice select {
+    width: 200px;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   body {
-    background: #1b1d21;
+    background: #17191c;
     color: #e6e8eb;
+  }
+
+  section {
+    border-color: #363b43;
+    background: #23262b;
   }
 
   th,
   .note,
   .key.empty,
   .clear {
-    color: #9aa4af;
+    color: #a3abb6;
   }
 
   button,
   select {
-    border-color: #3a3f47;
-    background: #25282d;
+    border-color: #6c737d;
+    background: #2b2f35;
+  }
+
+  button:active {
+    background: #3a4049;
+  }
+
+  button:focus,
+  select:focus,
+  input:focus {
+    outline-color: #6ea0f2;
   }
 
   .clear {
@@ -211,5 +296,9 @@ input:focus {
   .bad,
   .key.busy {
     color: #ff8a80;
+  }
+
+  .key.busy {
+    border-color: #ff8a80;
   }
 }

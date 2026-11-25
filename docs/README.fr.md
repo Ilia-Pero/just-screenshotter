@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · **Français** · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![L’éditeur au-dessus d’un écran d’exemple : un surligneur, un cadre, une flèche et un texte](editor.png)
+![L’éditeur au-dessus d’un écran d’exemple : un surligneur, un ovale, une flèche et un texte](editor.png)
 
 Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, enregistrez ou envoyez l’image, ou enregistrez la zone en vidéo. Entre deux captures, le programme attend seulement la touche : il n’a ni fenêtre ni minuteur et n’occupe pas le processeur.
 

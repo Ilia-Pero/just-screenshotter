@@ -5,6 +5,7 @@ export interface Browser {
   };
   readonly commands: {
     readonly onCommand: { addListener(listener: (name: string) => void): void };
+    getAll(): Promise<ReadonlyArray<Command>>;
   };
   readonly runtime: {
     readonly onMessage: {
@@ -42,6 +43,12 @@ export interface Browser {
     }): Promise<ReadonlyArray<Tab>>;
     remove(tab: number): Promise<void>;
   };
+}
+
+/** A command a person can call with keys. The keys may be empty. */
+export interface Command {
+  readonly name?: string;
+  readonly shortcut?: string;
 }
 
 export interface Tab {

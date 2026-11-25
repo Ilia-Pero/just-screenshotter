@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · **日本語** · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![サンプル画面上のエディター：マーカー、枠、矢印、文字](editor.png)
+![サンプル画面上のエディター：マーカー、楕円、矢印、文字](editor.png)
 
 Print Screen を押し、範囲を選び、書き込んでから、画像をコピー、保存、アップロードします。範囲を動画として録画することもできます。撮影の合間はキーを待つだけで、ウィンドウもタイマーもなく、プロセッサーを使いません。
 

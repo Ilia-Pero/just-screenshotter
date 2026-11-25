@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · **한국어** · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![예시 화면 위의 편집기: 형광펜, 테두리, 화살표, 글자](editor.png)
+![예시 화면 위의 편집기: 형광펜, 타원, 화살표, 글자](editor.png)
 
 Print Screen을 누르고 영역을 고른 뒤 그 위에 그리고, 그림을 복사하거나 저장하거나 업로드합니다. 영역을 동영상으로 녹화할 수도 있습니다. 촬영 사이에는 키를 기다리기만 합니다. 창도 타이머도 없으며 프로세서를 쓰지 않습니다.
 

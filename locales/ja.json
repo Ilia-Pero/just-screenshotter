@@ -1,5 +1,6 @@
 {
   "language": "日本語",
+  "code": "ja",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "スクリーンショット",
@@ -65,7 +66,7 @@
   "settings.clear": "キーを外す",
   "settings.press": "キーを押してください…",
   "settings.unfit": "Ctrl や Alt などを加えてください",
-  "settings.busy": "赤いキーはほかのプログラムが使っています。",
+  "settings.busy": "「!」の付いたキーはほかのプログラムが使っています。",
   "settings.cost": "マウスのボタンを見張っている間は、マウスを動かすとプロセッサーをわずかに使います。",
   "settings.film": "動画",
   "settings.folder": "スクリーンショットと動画のフォルダー",

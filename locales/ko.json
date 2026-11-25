@@ -1,5 +1,6 @@
 {
   "language": "한국어",
+  "code": "ko",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "스크린샷",
@@ -65,7 +66,7 @@
   "settings.clear": "키 지우기",
   "settings.press": "키를 누르세요…",
   "settings.unfit": "Ctrl, Alt 등 다른 키를 더하세요",
-  "settings.busy": "빨간 키는 다른 프로그램이 쓰고 있습니다.",
+  "settings.busy": "\"!\" 표시가 있는 키는 다른 프로그램이 쓰고 있습니다.",
   "settings.cost": "마우스 버튼을 지켜보는 동안에는 마우스를 움직일 때 프로세서 시간을 조금 씁니다.",
   "settings.film": "동영상",
   "settings.folder": "스크린샷과 동영상 폴더",

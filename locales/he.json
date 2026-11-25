@@ -1,5 +1,6 @@
 {
   "language": "עברית",
+  "code": "he",
   "direction": "rtl",
   "name": "Just Screenshotter",
   "file": "צילום מסך",
@@ -65,7 +66,7 @@
   "settings.clear": "הסרת המקש",
   "settings.press": "לחצו על המקשים…",
   "settings.unfit": "הוסיפו Ctrl, ‏Alt או מקש אחר",
-  "settings.busy": "במקשים המסומנים באדום משתמשת תוכנה אחרת.",
+  "settings.busy": "המקשים המסומנים ב־\"!\" תפוסים על ידי תוכנה אחרת.",
   "settings.cost": "כל עוד התוכנה עוקבת אחרי לחצני העכבר, תנועת העכבר גוזלת מעט זמן מעבד.",
   "settings.film": "וידאו",
   "settings.folder": "תיקייה לצילומי מסך ולווידאו",

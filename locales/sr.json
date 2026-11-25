@@ -1,5 +1,6 @@
 {
   "language": "Српски",
+  "code": "sr",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "Снимак екрана",
@@ -65,7 +66,7 @@
   "settings.clear": "Уклони тастер",
   "settings.press": "Притисните тастере…",
   "settings.unfit": "Додајте Ctrl, Alt или други тастер",
-  "settings.busy": "Тастере означене црвеним користи други програм.",
+  "settings.busy": "Тастере са знаком „!“ користи други програм.",
   "settings.cost": "Док програм прати дугмад миша, померање миша троши мало процесорског времена.",
   "settings.film": "Видео",
   "settings.folder": "Фасцикла за снимке и видео",

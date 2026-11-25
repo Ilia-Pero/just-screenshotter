@@ -38,6 +38,11 @@ function made<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
+/** A part of the window under a title. */
+function part(title: string, ...children: ReadonlyArray<HTMLElement>): HTMLElement {
+  return holding(made('section', '', ''), made('h2', '', title), ...children);
+}
+
 /** The element with the children inside. */
 function holding<T extends HTMLElement>(node: T, ...children: ReadonlyArray<HTMLElement>): T {
   children.forEach((child) => node.appendChild(child));
@@ -76,6 +81,7 @@ export class Room {
 
   private draw(words: Words, state: State, tongues: ReadonlyArray<Tongue>): void {
     document.title = words.settings;
+    document.documentElement.lang = words.code;
     this.root.dir = words.direction;
     this.root.textContent = '';
     this.alarm.classList.add('hidden');
@@ -90,30 +96,35 @@ export class Room {
     holding(
       this.root,
       this.alarm,
-      made('h2', '', words['settings.start']),
-      ...this.keys(words, state, show),
-      made('h2', '', words['settings.film']),
-      this.tick(words['film.sound'], state.ears.sound, state.ears.hears, (on) =>
-        show(this.cabinet.hear(on, state.ears.voice)),
+      made('h1', 'unseen', words.settings),
+      part(words['settings.start'], ...this.keys(words, state, show)),
+      part(
+        words['settings.film'],
+        this.tick(words['film.sound'], state.ears.sound, state.ears.hears, (on) =>
+          show(this.cabinet.hear(on, state.ears.voice)),
+        ),
+        this.tick(words['film.voice'], state.ears.voice, true, (on) =>
+          show(this.cabinet.hear(state.ears.sound, on)),
+        ),
       ),
-      this.tick(words['film.voice'], state.ears.voice, true, (on) =>
-        show(this.cabinet.hear(state.ears.sound, on)),
+      part(
+        words['settings.folder'],
+        made('span', 'path', state.folder),
+        holding(
+          made('div', 'buttons', ''),
+          this.button(words['settings.change'], () => show(this.cabinet.relocate())),
+          this.button(words['menu.folder'], () => this.run(this.cabinet.folder())),
+          this.button(words['menu.server'], () => this.run(this.cabinet.uploading())),
+        ),
       ),
-      made('h2', '', words['settings.folder']),
-      made('span', 'path', state.folder),
-      holding(
-        made('div', 'buttons', ''),
-        this.button(words['settings.change'], () => show(this.cabinet.relocate())),
-        this.button(words['menu.folder'], () => this.run(this.cabinet.folder())),
-        this.button(words['menu.server'], () => this.run(this.cabinet.uploading())),
+      part(words['menu.language'], this.tongue(words, tongues)),
+      part(
+        words['settings.program'],
+        this.tick(words['menu.autostart'], state.launch, true, (on) =>
+          show(this.cabinet.launch(on)),
+        ),
+        this.updates(words, state),
       ),
-      made('h2', '', words['menu.language']),
-      this.tongue(tongues),
-      made('h2', '', words['settings.program']),
-      this.tick(words['menu.autostart'], state.launch, true, (on) =>
-        show(this.cabinet.launch(on)),
-      ),
-      this.updates(words, state),
     );
   }
 
@@ -173,11 +184,11 @@ export class Room {
     state.acts.forEach((row) => {
       const line = holding(
         made('tr', '', ''),
-        made('td', '', words[ACTS[row.code] ?? 'act.area']),
-        holding(made('td', '', ''), ...this.key(words, state, row, show)),
+        made('td', 'act', words[ACTS[row.code] ?? 'act.area']),
+        holding(made('td', 'keys', ''), ...this.key(words, state, row, show)),
       );
       if (state.mice) {
-        line.appendChild(holding(made('td', '', ''), this.mouse(words, state, row, show)));
+        line.appendChild(holding(made('td', 'mice', ''), this.mouse(words, state, row, show)));
       }
       table.appendChild(line);
     });
@@ -203,6 +214,10 @@ export class Room {
     );
     const clear = this.button('×', () => take(''));
     button.classList.add('key');
+    button.setAttribute(
+      'aria-label',
+      `${words[ACTS[row.code] ?? 'act.area']}: ${button.textContent ?? ''}`,
+    );
     button.classList.toggle('empty', row.key === '');
     button.classList.toggle('busy', row.busy);
     clear.className = row.key === '' ? 'hidden' : 'clear';
@@ -241,6 +256,7 @@ export class Room {
     window.addEventListener('keydown', struck, true);
     window.addEventListener('keyup', released, true);
     button.classList.add('listening');
+    button.removeAttribute('aria-label');
     button.textContent = words['settings.press'];
     this.deafen = () => {
       window.removeEventListener('keydown', struck, true);
@@ -269,11 +285,14 @@ export class Room {
       row.mouse,
       (mouse) => show(this.cabinet.arrange(chosen(state.acts, row.code, { mouse }))),
     );
-    select.setAttribute('aria-label', words['settings.mouse']);
+    select.setAttribute(
+      'aria-label',
+      `${words[ACTS[row.code] ?? 'act.area']}: ${words['settings.mouse']}`,
+    );
     return select;
   }
 
-  private tongue(tongues: ReadonlyArray<Tongue>): HTMLElement {
+  private tongue(words: Words, tongues: ReadonlyArray<Tongue>): HTMLElement {
     const on = tongues.filter((tongue) => tongue.on).map((tongue) => tongue.code);
     const select = this.select(
       tongues,
@@ -281,11 +300,12 @@ export class Room {
       (code) => {
         this.cabinet
           .speak(code)
-          .then((words) => this.enter(words))
+          .then((said) => this.enter(said))
           .catch((error: unknown) => this.complain(error));
       },
     );
     select.className = 'tongue';
+    select.setAttribute('aria-label', words['menu.language']);
     return select;
   }
 

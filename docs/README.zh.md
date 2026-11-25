@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · **简体中文** · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![示例屏幕上的编辑器：荧光笔、方框、箭头和文字](editor.png)
+![示例屏幕上的编辑器：荧光笔、椭圆、箭头和文字](editor.png)
 
 按下 Print Screen，选择区域，在上面绘制，然后复制、保存或上传图片，也可以把该区域录成视频。两次截图之间，程序只等待按键：没有窗口，没有定时器，不占用处理器。
 

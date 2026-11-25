@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · **Italiano** · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![L’editor sopra uno schermo di esempio: un evidenziatore, una cornice, una freccia e un testo](editor.png)
+![L’editor sopra uno schermo di esempio: un evidenziatore, un ovale, una freccia e un testo](editor.png)
 
 Premi Print Screen, seleziona un’area, disegnaci sopra e poi copia, salva o carica l’immagine, oppure registra l’area come video. Tra uno screenshot e l’altro il programma aspetta solo il tasto: non ha finestre né timer e non occupa il processore.
 

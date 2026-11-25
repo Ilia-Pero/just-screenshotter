@@ -13,7 +13,7 @@
 
 **English** · [Русский](docs/README.ru.md) · [Español](docs/README.es.md) · [Ελληνικά](docs/README.el.md) · [עברית](docs/README.he.md) · [简体中文](docs/README.zh.md) · [日本語](docs/README.ja.md) · [한국어](docs/README.ko.md) · [Српски](docs/README.sr.md) · [Français](docs/README.fr.md) · [Deutsch](docs/README.de.md) · [Italiano](docs/README.it.md) · [Беларуская](docs/README.be.md) · [Қазақша](docs/README.kk.md)
 
-![The editor over a sample screen: a marker, a frame, an arrow and a label](docs/editor.png)
+![The editor over a sample screen: a marker, an oval, an arrow and a label](docs/editor.png)
 
 Press Print Screen, select an area, draw on it, then copy, save or upload the picture, or record the area as video. Between screenshots the program only waits for the key: it has no windows, no timers, and takes no processor time.
 

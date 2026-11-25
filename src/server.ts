@@ -34,6 +34,7 @@ function show(words: Words): Promise<void> {
 }
 
 function open(words: Words): Promise<void> {
+  document.documentElement.lang = words.code;
   document.documentElement.dir = words.direction;
   part('intro', HTMLParagraphElement).textContent = words['server.intro'];
   part('address-title', HTMLLabelElement).textContent = words['server.address'];

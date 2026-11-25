@@ -1,5 +1,6 @@
 {
   "language": "Español",
+  "code": "es",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "Captura",
@@ -65,7 +66,7 @@
   "settings.clear": "Quitar la tecla",
   "settings.press": "Pulse las teclas…",
   "settings.unfit": "Añada Ctrl, Alt u otra tecla",
-  "settings.busy": "Las teclas marcadas en rojo las usa otro programa.",
+  "settings.busy": "Otro programa usa las teclas marcadas con «!».",
   "settings.cost": "Mientras el programa vigila los botones del ratón, mover el ratón gasta un poco de procesador.",
   "settings.film": "Vídeo",
   "settings.folder": "Carpeta para capturas y vídeo",

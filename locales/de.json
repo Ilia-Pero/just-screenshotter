@@ -1,5 +1,6 @@
 {
   "language": "Deutsch",
+  "code": "de",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "Screenshot",
@@ -65,7 +66,7 @@
   "settings.clear": "Taste entfernen",
   "settings.press": "Tasten drücken…",
   "settings.unfit": "Nehmen Sie Strg, Alt oder eine andere Taste dazu",
-  "settings.busy": "Die rot markierten Tasten benutzt ein anderes Programm.",
+  "settings.busy": "Die mit „!“ markierten Tasten benutzt ein anderes Programm.",
   "settings.cost": "Solange das Programm die Maustasten beobachtet, kostet das Bewegen der Maus etwas Prozessorzeit.",
   "settings.film": "Video",
   "settings.folder": "Ordner für Screenshots und Videos",

@@ -8,7 +8,8 @@
 - An oval. With Shift, an oval is a circle and a frame is a square.
 - The wheel over a mark picked by a click changes this mark only. In 0.4.0 it changed the tool too.
 - A button in the settings looks for a newer version. The program does not do this by itself.
-- The extension for Chrome, Yandex Browser, Edge and Opera.
+- The extension for Chrome, Yandex Browser, Edge and Opera. Its window names the keys.
+- The settings are laid out in parts and fit a narrow window. Lines of controls and letters on buttons have enough contrast, what is pressed is never smaller than 24 pixels, a key taken by another program is marked with a sign and not with a color alone, and screen readers are told which tool and which color are on.
 
 ## 0.4.0 (2026-11-25)
 

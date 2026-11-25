@@ -1,5 +1,6 @@
 {
   "language": "Italiano",
+  "code": "it",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "Schermata",
@@ -65,7 +66,7 @@
   "settings.clear": "Togli il tasto",
   "settings.press": "Premi i tasti…",
   "settings.unfit": "Aggiungi Ctrl, Alt o un altro tasto",
-  "settings.busy": "I tasti in rosso sono usati da un altro programma.",
+  "settings.busy": "I tasti contrassegnati con «!» sono usati da un altro programma.",
   "settings.cost": "Finché il programma osserva i pulsanti del mouse, muovere il mouse richiede un po’ di tempo del processore.",
   "settings.film": "Video",
   "settings.folder": "Cartella per screenshot e video",

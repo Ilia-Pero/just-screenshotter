@@ -15,7 +15,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · **עברית** · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![העורך מעל מסך לדוגמה: מרקר, מסגרת, חץ וכיתוב](editor.png)
+![העורך מעל מסך לדוגמה: מרקר, אליפסה, חץ וכיתוב](editor.png)
 
 לחצו על Print Screen, בחרו אזור, ציירו עליו והעתיקו, שמרו או העלו את התמונה, או הקליטו את האזור כווידאו. בין צילום לצילום התוכנה רק ממתינה למקש: אין לה חלונות ואין טיימרים, והיא אינה מעסיקה את המעבד.
 

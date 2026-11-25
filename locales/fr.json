@@ -1,5 +1,6 @@
 {
   "language": "Français",
+  "code": "fr",
   "direction": "ltr",
   "name": "Just Screenshotter",
   "file": "Capture",
@@ -65,7 +66,7 @@
   "settings.clear": "Retirer la touche",
   "settings.press": "Appuyez sur les touches…",
   "settings.unfit": "Ajoutez Ctrl, Alt ou une autre touche",
-  "settings.busy": "Les touches en rouge sont utilisées par un autre programme.",
+  "settings.busy": "Les touches marquées d’un « ! » sont utilisées par un autre programme.",
   "settings.cost": "Tant que le programme surveille les boutons de la souris, bouger la souris prend un peu de temps processeur.",
   "settings.film": "Vidéo",
   "settings.folder": "Dossier des captures et des vidéos",

@@ -21,6 +21,7 @@ function part(name: string): HTMLElement {
 
 function open(words: Words, progress: Progress): void {
   const opened = Date.now() - progress.time;
+  document.documentElement.lang = words.code;
   const spot = part('spot');
   const time = part('time');
   const stop = document.createElement('button');

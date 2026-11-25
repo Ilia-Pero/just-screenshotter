@@ -15,6 +15,7 @@ const buttons: ReadonlyArray<readonly [Wish, HTMLButtonElement]> = [
   ['visible', part('visible', HTMLButtonElement)],
   ['page', part('page', HTMLButtonElement)],
 ];
+const name = part('name', HTMLSpanElement);
 const language = part('language', HTMLSelectElement);
 const alarm = part('alarm', HTMLParagraphElement);
 
@@ -32,9 +33,17 @@ async function complain(): Promise<void> {
 
 async function show(): Promise<void> {
   const said = await words();
+  const commands = await browser.commands.getAll();
+  document.documentElement.lang = said.code;
   document.documentElement.dir = said.direction;
+  name.textContent = said.name;
   buttons.forEach(([wish, button]) => {
-    button.textContent = said[`tab.${wish}`];
+    const title = document.createElement('span');
+    const keys = document.createElement('kbd');
+    title.textContent = said[`tab.${wish}`];
+    keys.textContent = commands.find((command) => command.name === wish)?.shortcut ?? '';
+    button.textContent = '';
+    button.append(title, keys);
   });
   language.setAttribute('aria-label', said['menu.language']);
   language.textContent = '';

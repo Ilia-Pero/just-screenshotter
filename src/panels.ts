@@ -35,6 +35,12 @@ interface Sign {
   readonly tail: string;
 }
 
+/** A button of the palette, and its colour. */
+interface Swatch {
+  readonly node: HTMLElement;
+  readonly value: string;
+}
+
 /** A key combination the way this system writes it. */
 function chord(letter: string): string {
   return /Mac/.test(navigator.platform) ? ` (⌘${letter})` : ` (Ctrl+${letter})`;
@@ -69,6 +75,7 @@ export class Panels {
   private readonly undo = button(ICONS.undo);
   private readonly drop = button(ICONS.drop);
   private readonly gauge = button(ICONS.thickness);
+  private readonly swatches: Swatch[] = [];
   private readonly signs: Sign[] = [];
   private readonly texts: Sign[] = [];
   private readonly kit: Tool[];
@@ -98,8 +105,10 @@ export class Panels {
       node.dir = 'auto';
     });
     this.brushKeys(acts).forEach((key) => this.tools.appendChild(key));
+    this.tools.appendChild(element('div', 'rule'));
     this.tools.appendChild(this.colorWell(acts));
     this.tools.appendChild(this.widthWell(acts));
+    this.tools.appendChild(element('div', 'rule'));
     connected(this.undo, () => acts.undo());
     connected(this.drop, () => acts.drop());
     this.tools.appendChild(this.signed(this.undo, 'undo', chord('Z')));
@@ -114,6 +123,7 @@ export class Panels {
   /** Writes everything in the language of the words. */
   speak(words: Words): void {
     this.words = words;
+    document.documentElement.lang = words.code;
     this.hint.textContent = words.hint;
     this.signs.forEach((sign) => titled(sign.node, words[sign.title] + sign.tail));
     this.texts.forEach((text) => {
@@ -127,6 +137,11 @@ export class Panels {
     this.undo.disabled = !session.begun();
     this.drop.disabled = !session.picked();
     this.dot.style.background = session.hue();
+    this.swatches.forEach((swatch) => {
+      const on = swatch.value === session.hue();
+      swatch.node.classList.toggle('on', on);
+      swatch.node.setAttribute('aria-pressed', String(on));
+    });
     this.measure(session);
     this.badge.textContent = `${box.width()} × ${box.height()}`;
     this.hint.classList.toggle('hidden', !box.blank());
@@ -140,9 +155,7 @@ export class Panels {
   /** Removes everything temporary: what the buttons have opened, and the last error. */
   hush(): void {
     this.alarm.classList.add('hidden');
-    [this.colors, this.widths, this.filming].forEach((sheet) =>
-      sheet.classList.remove('open'),
-    );
+    [this.colors, this.widths, this.filming].forEach((sheet) => this.fold(sheet, false));
   }
 
   complain(error: unknown): void {
@@ -166,10 +179,13 @@ export class Panels {
   private brushKeys(acts: Acts): ReadonlyArray<HTMLButtonElement> {
     const keys: ReadonlyArray<HTMLButtonElement> = this.choices.map((choice, index) => {
       const key = button(choice.icon);
+      key.setAttribute('aria-pressed', 'false');
       connected(key, () => {
         const on = !key.classList.contains('on');
-        keys.forEach((other) => other.classList.remove('on'));
-        key.classList.toggle('on', on);
+        keys.forEach((other) => {
+          other.classList.toggle('on', on && other === key);
+          other.setAttribute('aria-pressed', String(on && other === key));
+        });
         acts.equip((on && this.kit[index]) || new Hand());
       });
       return this.signed(key, choice.title, '');
@@ -182,11 +198,12 @@ export class Panels {
     this.dot.style.background = RED;
     PALETTE.forEach((color) => {
       const swatch = connected(button(''), () => {
-        this.colors.classList.remove('open');
+        this.fold(this.colors, false);
         acts.dye(color.value);
       });
       swatch.className = 'swatch';
       swatch.style.background = color.value;
+      this.swatches.push({ node: swatch, value: color.value });
       this.colors.appendChild(this.signed(swatch, color.title, ''));
     });
     pick.appendChild(this.dot);
@@ -264,6 +281,7 @@ export class Panels {
 
   private well(key: HTMLElement, sheet: HTMLElement): HTMLElement {
     const well = element('div', 'well');
+    key.setAttribute('aria-expanded', 'false');
     well.appendChild(key);
     well.appendChild(sheet);
     return well;
@@ -272,7 +290,13 @@ export class Panels {
   private toggle(sheet: HTMLElement): void {
     const open = !sheet.classList.contains('open');
     this.hush();
+    this.fold(sheet, open);
+  }
+
+  /** Opens the sheet or folds it, and tells so to those who do not see it. */
+  private fold(sheet: HTMLElement, open: boolean): void {
     sheet.classList.toggle('open', open);
+    sheet.previousElementSibling?.setAttribute('aria-expanded', String(open));
   }
 
   private actionKeys(acts: Acts): ReadonlyArray<HTMLElement> {
@@ -315,7 +339,7 @@ export class Panels {
     const width = session.thickness() / this.unit;
     this.gauge.disabled = width === 0;
     if (width === 0) {
-      this.widths.classList.remove('open');
+      this.fold(this.widths, false);
     } else {
       this.slider.value = String(width);
       this.width.textContent = String(Math.round(width));

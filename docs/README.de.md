@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · [Español](README.es.md) · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · **Deutsch** · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![Der Editor über einem Beispielbildschirm: Marker, Rahmen, Pfeil und Text](editor.png)
+![Der Editor über einem Beispielbildschirm: Marker, Oval, Pfeil und Text](editor.png)
 
 Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und kopieren, speichern oder senden Sie das Bild oder nehmen Sie den Bereich als Video auf. Zwischen den Aufnahmen wartet das Programm nur auf die Taste: Es hat keine Fenster, keine Timer und belegt den Prozessor nicht.
 

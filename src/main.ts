@@ -9,6 +9,7 @@ const bridge = window.__TAURI_INTERNALS__;
 
 /** Explains why the editor has not opened. */
 function apologise(words: Words, error: unknown): void {
+  document.documentElement.lang = words.code;
   document.body.textContent = filled(words.broken, 'reason', String(error));
   window.addEventListener('keydown', (event) => {
     if (ESCAPE.struck(event)) {

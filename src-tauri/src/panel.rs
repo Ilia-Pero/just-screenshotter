@@ -23,7 +23,7 @@ use crate::{files, hotkey, stage, tell, tray};
 const PANEL: &str = "panel";
 
 /// The size of the window, in logical pixels.
-const SIZE: (f64, f64) = (620.0, 660.0);
+const SIZE: (f64, f64) = (720.0, 700.0);
 
 /// Opens the window. In a thread of its own: on Windows a window cannot be created from an event
 /// handler.
@@ -36,7 +36,7 @@ pub fn open(app: &AppHandle) {
                 WebviewWindowBuilder::new(&app, PANEL, WebviewUrl::App("panel.html".into()))
                     .title(Phrase::new("settings").to_string())
                     .inner_size(SIZE.0, SIZE.1)
-                    .min_inner_size(460.0, 360.0)
+                    .min_inner_size(420.0, 360.0)
                     .center(),
             )
             .build()

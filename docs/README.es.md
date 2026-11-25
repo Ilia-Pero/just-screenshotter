@@ -13,7 +13,7 @@
 
 [English](../README.md) · [Русский](README.ru.md) · **Español** · [Ελληνικά](README.el.md) · [עברית](README.he.md) · [简体中文](README.zh.md) · [日本語](README.ja.md) · [한국어](README.ko.md) · [Српски](README.sr.md) · [Français](README.fr.md) · [Deutsch](README.de.md) · [Italiano](README.it.md) · [Беларуская](README.be.md) · [Қазақша](README.kk.md)
 
-![El editor sobre una pantalla de muestra: un marcador, un marco, una flecha y un texto](editor.png)
+![El editor sobre una pantalla de muestra: un marcador, un óvalo, una flecha y un texto](editor.png)
 
 Pulse Print Screen, seleccione un área, dibuje sobre ella y copie, guarde o suba la imagen, o grabe el área en vídeo. Entre capturas el programa solo espera la tecla: no tiene ventanas ni temporizadores y no ocupa el procesador.
 

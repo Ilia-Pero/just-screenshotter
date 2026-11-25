@@ -72,6 +72,8 @@ fn open(order: &Order, booth: &Arc<Booth>) -> Result<Box<dyn Take>, Failure> {
         .then(|| Ear::open(Arc::clone(booth), 1, &queue))
         .transpose()?;
     let eye = Eye::open(order, Arc::clone(booth), &queue)?;
+    // The sound comes later than the first picture does, and by now it comes.
+    booth.start(now());
     let shoot = Shoot {
         eye,
         ear,
@@ -88,21 +90,11 @@ fn open(order: &Order, booth: &Arc<Booth>) -> Result<Box<dyn Take>, Failure> {
     let asked = Instant::now();
     while !booth.began() {
         if asked.elapsed() > PATIENCE {
-            shoot.close();
             return Err("macOS does not show the screen".into());
         }
         thread::sleep(SIP);
     }
     Ok(Box::new(shoot))
-}
-
-impl Shoot {
-    fn close(&self) {
-        self.eye.close();
-        if let Some(ear) = &self.ear {
-            ear.close();
-        }
-    }
 }
 
 impl Take for Shoot {
@@ -119,7 +111,10 @@ impl Take for Shoot {
 
     fn finish(self: Box<Self>) -> Result<(), Failure> {
         let end = now();
-        self.close();
-        self.booth.finish(end)
+        let Shoot {
+            eye, ear, booth, ..
+        } = *self;
+        drop((eye, ear));
+        booth.finish(end)
     }
 }

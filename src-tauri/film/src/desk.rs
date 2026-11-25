@@ -43,11 +43,14 @@ pub trait Tape {
     fn erase(&self);
 }
 
-/// A desk with a tape. The film begins with the first picture.
+/// A desk with a tape. The film begins with the first picture after it is started.
 pub struct Desk<T: Tape> {
     tape: T,
     sources: usize,
     mix: Mix,
+    started: bool,
+    /// The last picture that came before the start.
+    waiting: Option<T::Picture>,
     /// When the film began.
     origin: Option<i64>,
     /// The last picture and its moment.
@@ -63,6 +66,8 @@ impl<T: Tape> Desk<T> {
             tape,
             sources,
             mix: Mix::new(sources),
+            started: false,
+            waiting: None,
             origin: None,
             shown: None,
             written: 0,
@@ -74,12 +79,29 @@ impl<T: Tape> Desk<T> {
         self.origin.is_some()
     }
 
+    /// Starts the film. If a picture has come already, it is seen since the moment.
+    ///
+    /// # Errors
+    ///
+    /// The film cannot be written any more.
+    pub fn start(&mut self, moment: i64) -> Result<(), Failure> {
+        self.started = true;
+        match self.waiting.take() {
+            Some(picture) => self.see(picture, moment),
+            None => Ok(()),
+        }
+    }
+
     /// Takes a picture. A picture older than the last one is left out.
     ///
     /// # Errors
     ///
     /// The film cannot be written any more.
     pub fn see(&mut self, picture: T::Picture, moment: i64) -> Result<(), Failure> {
+        if !self.started {
+            self.waiting = Some(picture);
+            return Ok(());
+        }
         if self.origin.is_none() {
             self.tape.begin(moment);
             self.origin = Some(moment);
@@ -211,6 +233,7 @@ mod tests {
     fn begun(sources: usize) -> (Lines, Desk<Lines>) {
         let lines = Lines::default();
         let mut desk = Desk::new(lines.clone(), sources);
+        desk.start(0).unwrap();
         desk.see("sky", 100).unwrap();
         (lines, desk)
     }
@@ -222,7 +245,26 @@ mod tests {
 
     #[test]
     fn has_not_begun_without_a_picture() {
-        assert!(!Desk::new(Lines::default(), 1).began());
+        let mut desk = Desk::new(Lines::default(), 1);
+        desk.start(0).unwrap();
+        assert!(!desk.began());
+    }
+
+    #[test]
+    fn has_not_begun_before_the_start() {
+        let mut desk = Desk::new(Lines::default(), 1);
+        desk.see("sky", 100).unwrap();
+        assert!(!desk.began());
+    }
+
+    #[test]
+    fn begins_at_the_start_with_the_last_picture_before_it() {
+        let lines = Lines::default();
+        let mut desk = Desk::new(lines.clone(), 1);
+        desk.see("sky", 100).unwrap();
+        desk.see("sea", 200).unwrap();
+        desk.start(300).unwrap();
+        assert_eq!(*lines.lines.borrow(), ["begin 300", "sea 300"]);
     }
 
     #[test]
@@ -243,6 +285,7 @@ mod tests {
     fn leaves_out_sound_before_the_first_picture() {
         let lines = Lines::default();
         let mut desk = Desk::new(lines.clone(), 1);
+        desk.start(0).unwrap();
         desk.hear(0, 100, &[7, 7]);
         desk.see("sky", 100).unwrap();
         desk.turn(101).unwrap();

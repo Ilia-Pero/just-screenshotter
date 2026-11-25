@@ -30,6 +30,12 @@ impl Booth {
         open(&self.desk).began()
     }
 
+    /// Starts the film.
+    pub fn start(&self, moment: i64) {
+        let started = open(&self.desk).start(moment);
+        self.note(started);
+    }
+
     /// Takes a picture.
     pub fn see(&self, picture: Picture, moment: i64) {
         let seen = open(&self.desk).see(picture, moment);

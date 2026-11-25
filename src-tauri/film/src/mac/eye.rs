@@ -142,9 +142,11 @@ impl Eye {
             })
         }
     }
+}
 
+impl Drop for Eye {
     /// Closes the eye. It gives nothing after that.
-    pub fn close(&self) {
+    fn drop(&mut self) {
         let (answer, answered) = answer();
         // SAFETY: the stream is alive, and it keeps the block until it is called.
         unsafe {

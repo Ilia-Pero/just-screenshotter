@@ -128,9 +128,11 @@ impl Ear {
             })
         }
     }
+}
 
+impl Drop for Ear {
     /// Listens no more.
-    pub fn close(&self) {
+    fn drop(&mut self) {
         // SAFETY: the object is alive.
         unsafe { self.session.stopRunning() };
     }

@@ -55,6 +55,10 @@
 
 И остало је у подешавањима: шта се снима уз видео, фасцикла, језик, отпремање и покретање са системом, које је укључено док га не искључите. Подешавања отвара мени иконе у траци или покретање програма са `--settings`. Поновно покретање без тога такође прави снимак.
 
+## Додатак за Firefox
+
+Снима видљиви део странице или целу страницу и отвара исти уређивач у новој картици: изабрати, цртати, копирати, сачувати. Тастери су Alt+Shift+S и Alt+Shift+P. Гледа страницу само кад то затражите, ништа не шаље и памти само језик. Не снима видео, а висина снимка је до 32.000 пиксела.
+
 ## Колико је лаган
 
 Измерено 24.11.2026. на Windows Server 2022, екран 1920 × 1080, оптимизована верзија:
@@ -78,6 +82,7 @@
 | Windows | Ради на Windows Server 2022 са једним монитором. Видео је тамо такође проверен, а снимање звука са уређаја није, јер их сервер нема. На Windows 10 и 11 још није проверено. |
 | macOS 10.13+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран са звуком рачунара. Ручно га још нико није испробао. |
 | Ubuntu 24.04+ | Гради се и пролази тестове; на машини GitHub-а се инсталира, покреће и снима екран. Ручно га још нико није испробао. На Wayland-у пречицу задајте у подешавањима тастатуре: наредба је `just-screenshotter`. |
+| Firefox 128+ | Ради у Firefox-у 161, проверено без прозора. Mozilla га још није потписала, па га после поновног покретања Firefox-а треба поново учитати. |
 
 ## Инсталација
 
@@ -86,6 +91,7 @@
 | Windows 10 и 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Покрените је. Ако Windows не познаје програм: „Више информација“, „Ипак покрени“. |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Превуците програм у Applications и отворите га. Кад macOS одбије, отворите System Settings, „Privacy & Security“, и притисните „Open Anyway“. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Отворите `about:debugging`, „Овај Firefox“, „Учитај привремени додатак“, и изаберите датотеку. После поновног покретања Firefox-а учитајте је поново. |
 
 GitHub гради ове датотеке из кода овог репозиторијума, сваку инсталира, покреће програм, па их тек онда објављује. Немају плаћени потпис, зато Windows и macOS упозоравају при првом покретању.
 

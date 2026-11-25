@@ -55,6 +55,10 @@ macOS では Ctrl の代わりに ⌘ を使います。
 
 そのほかも設定にあります。動画と一緒に録音するもの、フォルダー、言語、アップロード、システム起動時の開始です。起動時の開始は、オフにするまでオンです。設定はトレイアイコンのメニューか、`--settings` を付けた起動で開きます。付けずにもう一度起動しても撮影します。
 
+## Firefox 拡張機能
+
+ページの見えている部分またはページ全体を撮影し、同じエディターを新しいタブで開きます。選択、書き込み、コピー、保存ができます。キーは Alt+Shift+S と Alt+Shift+P です。頼まれたときだけページを見て、何も送信せず、言語だけを覚えます。動画は録らず、画像の高さは 32,000 ピクセルまでです。
+
 ## 軽さ
 
 2026-11-24、Windows Server 2022、1920 × 1080 の画面、リリースビルドで測定：
@@ -78,6 +82,7 @@ macOS では Ctrl の代わりに ⌘ を使います。
 | Windows | Windows Server 2022 とモニター 1 台で動作します。動画もそこで確認しました。音声デバイスからの録音は、サーバーにデバイスがないため確認していません。Windows 10 と 11 ではまだ確認していません。 |
 | macOS 10.13+ | ビルドとテストは通り、GitHub のマシンでインストール、起動、パソコンの音を含む画面の録画ができます。まだ誰も手で試していません。 |
 | Ubuntu 24.04+ | ビルドとテストは通り、GitHub のマシンでインストール、起動、画面の録画ができます。まだ誰も手で試していません。Wayland ではキーボードの設定でショートカットを割り当ててください。コマンドは `just-screenshotter` です。 |
+| Firefox 128+ | Firefox 161 で動作します（ウィンドウなしで確認）。Mozilla の署名がまだないため、Firefox を再起動すると読み込み直す必要があります。 |
 
 ## インストール
 
@@ -86,6 +91,7 @@ macOS では Ctrl の代わりに ⌘ を使います。
 | Windows 10 と 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 実行します。Windows が警告したら「詳細情報」、「実行」を選びます。 |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | プログラムを「アプリケーション」にドラッグして開きます。macOS に拒否されたら、システム設定の「プライバシーとセキュリティ」で「このまま開く」を押します。 |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | `about:debugging` を開き、「この Firefox」、「一時的なアドオンを読み込む」、このファイルを選びます。Firefox を再起動したら読み込み直します。 |
 
 GitHub はこのリポジトリのコードからこれらのファイルをビルドし、それぞれをインストールしてプログラムを起動し、そのうえで公開します。有料の署名がないため、Windows と macOS は初回起動時に警告します。
 

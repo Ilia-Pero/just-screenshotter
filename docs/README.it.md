@@ -55,6 +55,10 @@ I segni si scelgono quando nessuno strumento è attivo. Il doppio clic o Invio c
 
 Anche il resto è nelle impostazioni: che cosa registrare con il video, la cartella, la lingua, il caricamento e l’avvio con il sistema, attivo finché non lo disattivi. Le impostazioni si aprono dal menu dell’icona o avviando il programma con `--settings`. Anche avviarlo una seconda volta senza di esso cattura lo schermo.
 
+## L’estensione per Firefox
+
+Cattura la parte visibile di una pagina o la pagina intera e apre lo stesso editor in una nuova scheda: selezionare, disegnare, copiare, salvare. I tasti sono Alt+Maiusc+S e Alt+Maiusc+P. Guarda una pagina solo quando lo chiedi, non invia nulla e ricorda solo la lingua. Non registra video, e un’immagine è alta al massimo 32.000 pixel.
+
 ## Quanto è leggero
 
 Misurato il 24.11.2026 su Windows Server 2022, schermo 1920 × 1080, build ottimizzata:
@@ -78,6 +82,7 @@ Il video è registrato da un processo a parte, che alla fine scompare con tutta 
 | Windows | Funziona su Windows Server 2022 con un monitor. Anche il video è stato verificato lì; la registrazione dell’audio dai dispositivi no, perché il server non ne ha. Non ancora verificato su Windows 10 e 11. |
 | macOS 10.13+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo con l’audio del computer. Nessuno l’ha ancora provato a mano. |
 | Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
+| Firefox 128+ | Funziona in Firefox 161, verificata senza finestra. Non ancora firmata da Mozilla, quindi va ricaricata dopo il riavvio di Firefox. |
 
 ## Installazione
 
@@ -86,6 +91,7 @@ Il video è registrato da un processo a parte, che alla fine scompare con tutta 
 | Windows 10 e 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Avvialo. Se Windows non conosce il programma: «Ulteriori informazioni», «Esegui comunque». |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Trascina il programma in Applicazioni e aprilo. Quando macOS rifiuta, vai in Impostazioni di Sistema, «Privacy e sicurezza», e fai clic su «Apri comunque». |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Apri `about:debugging`, «Questo Firefox», «Carica componente aggiuntivo temporaneo», e scegli il file. Dopo il riavvio di Firefox ricaricalo. |
 
 GitHub compila questi file dal codice di questo repository, installa ciascuno, avvia il programma e solo dopo li pubblica. Non hanno una firma a pagamento, quindi Windows e macOS avvisano al primo avvio.
 

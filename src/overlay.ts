@@ -68,6 +68,7 @@ export class Overlay implements Acts {
     window.addEventListener('mouseup', (event) => this.release(event));
     window.addEventListener('keydown', (event) => this.strike(event));
     window.addEventListener('resize', () => this.refresh());
+    window.addEventListener('scroll', () => this.refresh());
     window.addEventListener('contextmenu', (event) => event.preventDefault());
     this.paint();
     this.propose();
@@ -289,8 +290,8 @@ export class Overlay implements Acts {
 
   private spot(event: MouseEvent): Point {
     return new Point(
-      Math.round(event.clientX * this.unit),
-      Math.round(event.clientY * this.unit),
+      Math.round(event.pageX * this.unit),
+      Math.round(event.pageY * this.unit),
     );
   }
 }

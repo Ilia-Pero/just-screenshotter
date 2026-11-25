@@ -83,6 +83,10 @@ export class Sandbox implements Desk {
     return Promise.resolve();
   }
 
+  films(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+
   listens(): Promise<Ears> {
     return Promise.resolve({ hears: true, sound: true, voice: false });
   }

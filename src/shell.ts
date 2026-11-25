@@ -55,6 +55,10 @@ export class Shell implements Desk {
     return this.bytes(png).then((data) => this.bridge.invoke<void>('share', data));
   }
 
+  films(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+
   listens(): Promise<Ears> {
     return this.bridge.invoke<Ears>('listens');
   }

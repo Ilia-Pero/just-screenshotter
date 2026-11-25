@@ -57,6 +57,10 @@
 
 גם השאר נמצא בהגדרות: מה מקליטים עם הווידאו, התיקייה, השפה, ההעלאה והפעלה עם המערכת, שפועלת עד שתכבו אותה. את ההגדרות פותחים מתפריט הסמל שבמגש או בהפעלת התוכנה עם `--settings`. הפעלה נוספת בלעדיו גם היא מצלמת את המסך.
 
+## ההרחבה ל־Firefox
+
+מצלמת את החלק הנראה של דף או את הדף כולו ופותחת את אותו העורך בלשונית חדשה: לבחור, לצייר, להעתיק, לשמור. המקשים הם Alt+Shift+S ו־Alt+Shift+P. היא מסתכלת על דף רק כשאתם מבקשים, אינה שולחת דבר וזוכרת רק את השפה. היא אינה מקליטה וידאו, וגובה הצילום עד 32,000 פיקסלים.
+
 ## כמה היא קלה
 
 נמדד ב־24.11.2026 ב־Windows Server 2022, מסך 1920 × 1080, גרסה ממוטבת:
@@ -80,6 +84,7 @@
 | Windows | עובדת ב־Windows Server 2022 עם מסך אחד. גם הווידאו נבדק שם; הקלטת צליל מהתקנים לא נבדקה, כי בשרת אין כאלה. עדיין לא נבדקה ב־Windows 10 ו־11. |
 | macOS 10.13+ | נבנית ועוברת את הבדיקות; במחשב של GitHub היא מותקנת, מופעלת ומקליטה את המסך עם הצליל של המחשב. איש עדיין לא ניסה אותה ביד. |
 | Ubuntu 24.04+ | נבנית ועוברת את הבדיקות; במחשב של GitHub היא מותקנת, מופעלת ומקליטה את המסך. איש עדיין לא ניסה אותה ביד. ב־Wayland מגדירים את הקיצור בהגדרות המקלדת: הפקודה היא `just-screenshotter`. |
+| Firefox 128+ | עובדת ב־Firefox 161, נבדקה ללא חלון. Mozilla עדיין לא חתמה עליה, ולכן צריך לטעון אותה שוב אחרי הפעלה מחדש של Firefox. |
 
 ## התקנה
 
@@ -88,6 +93,7 @@
 | Windows 10 ו־11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | הפעילו אותו. אם Windows אינה מכירה את התוכנה: "מידע נוסף", "הפעל בכל זאת". |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | גררו את התוכנה ליישומים ופתחו אותה. כש־macOS מסרבת, פתחו את הגדרות המערכת, "פרטיות ואבטחה", ולחצו על "פתח בכל זאת". |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | פתחו את `about:debugging`, "This Firefox", "Load Temporary Add-on", ובחרו את הקובץ. אחרי הפעלה מחדש של Firefox טענו אותו שוב. |
 
 GitHub בונה את הקבצים האלה מהקוד של מאגר זה, מתקין כל אחד מהם, מפעיל את התוכנה ורק אז מפרסם אותם. אין להם חתימה בתשלום, ולכן Windows ו־macOS מזהירות בהפעלה הראשונה.
 

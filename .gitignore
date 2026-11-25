@@ -3,5 +3,7 @@ target/
 src-tauri/gen/
 src-tauri/licenses.txt
 web/*.js
+extension/web/*.js
+extension/web/style.css
 *.map
 __pycache__/

@@ -44,6 +44,8 @@ export interface Desk {
   shares(): Promise<boolean>;
   /** Uploads the picture and puts the link on the clipboard. */
   share(png: Blob): Promise<void>;
+  /** Whether the area can be filmed. */
+  films(): Promise<boolean>;
   /** What can be recorded together with video, and what was recorded the last time. */
   listens(): Promise<Ears>;
   /** Closes the editor and films the area of the screen. The sheet is the whole screenshot. */

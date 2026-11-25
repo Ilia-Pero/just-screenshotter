@@ -28,7 +28,7 @@ function easel(root: HTMLElement, sheet: Box): CanvasRenderingContext2D {
 
 /** Takes the screenshot from the desktop and opens the editor over it. */
 export function start(desk: Desk, root: HTMLElement, words: Words): Promise<void> {
-  return Promise.all([desk.shot(), desk.shares(), desk.opening()]).then((ready) => {
+  return Promise.all([desk.shot(), desk.shares(), desk.opening(), desk.films()]).then((ready) => {
     const shot = ready[0];
     const sheet = shot.bounds();
     const unit = sheet.width() / root.clientWidth;
@@ -38,7 +38,7 @@ export function start(desk: Desk, root: HTMLElement, words: Words): Promise<void
       desk,
       ctx,
       unit,
-      new Panels(root, words, unit, ready[1], brushes(unit, new Tape(ctx))),
+      new Panels(root, words, unit, ready[1], ready[3], brushes(unit, new Tape(ctx))),
       new Entry(root, unit),
       new Rest(new Session(shot, opening.area, new Sketch([], []), new Hand(), RED, unit)),
       opening.film,

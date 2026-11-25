@@ -55,6 +55,10 @@
 
 其余也在设置中：录视频时录什么声音、文件夹、语言、上传，以及开机启动（默认开启，可关闭）。设置可从托盘图标的菜单打开，也可用 `--settings` 启动程序打开。不带它再次启动程序也会截图。
 
+## Firefox 扩展
+
+截取页面的可见部分或整个页面，并在新标签页中打开同样的编辑器：选择、绘制、复制、保存。按键为 Alt+Shift+S 和 Alt+Shift+P。只有在您要求时才查看页面，不发送任何内容，只记住语言。不录视频，截图高度最多 32,000 像素。
+
 ## 有多轻
 
 2026-11-24 在 Windows Server 2022、1920 × 1080 屏幕上用发布版测得：
@@ -78,6 +82,7 @@
 | Windows | 在 Windows Server 2022 上用一台显示器可以使用。视频也在那里检查过；未检查从设备录音，因为该服务器没有音频设备。尚未在 Windows 10 和 11 上检查。 |
 | macOS 10.13+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕和电脑声音。还没有人手动试过。 |
 | Ubuntu 24.04+ | 可以构建并通过测试；在 GitHub 的机器上能安装、启动并录制屏幕。还没有人手动试过。在 Wayland 上，请在键盘设置中指定快捷键，命令为 `just-screenshotter`。 |
+| Firefox 128+ | 在 Firefox 161 中可用，已在无窗口模式下检查。尚未经 Mozilla 签名，重启 Firefox 后需要重新加载。 |
 
 ## 安装
 
@@ -86,6 +91,7 @@
 | Windows 10 和 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | 运行它。如果 Windows 不认识该程序：“更多信息”、“仍要运行”。 |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | 把程序拖到“应用程序”并打开。macOS 拒绝时，打开“系统设置”中的“隐私与安全性”，点按“仍要打开”。 |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | 打开 `about:debugging`，选择“此 Firefox”、“临时载入附加组件”和该文件。重启 Firefox 后需重新载入。 |
 
 GitHub 用本仓库的代码构建这些文件，逐个安装并启动程序，然后才发布。它们没有付费签名，因此 Windows 和 macOS 会在首次启动时发出警告。
 

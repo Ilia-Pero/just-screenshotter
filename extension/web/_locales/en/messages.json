@@ -1,0 +1,11 @@
+{
+  "description": {
+    "message": "Takes a picture of a page and opens an editor over it. Sends nothing anywhere."
+  },
+  "visible": {
+    "message": "Visible part of the page"
+  },
+  "page": {
+    "message": "Whole page"
+  }
+}

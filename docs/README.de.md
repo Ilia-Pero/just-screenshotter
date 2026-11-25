@@ -55,6 +55,10 @@ Markierungen werden gewählt, wenn kein Werkzeug aktiv ist. Ein Doppelklick oder
 
 Auch der Rest steht in den Einstellungen: was mit dem Video aufgenommen wird, der Ordner, die Sprache, das Hochladen und der Start mit dem System, der an ist, bis Sie ihn ausschalten. Die Einstellungen öffnet das Menü des Symbols oder der Start des Programms mit `--settings`. Auch ein zweiter Start ohne das macht einen Screenshot.
 
+## Die Firefox-Erweiterung
+
+Nimmt den sichtbaren Teil einer Seite oder die ganze Seite auf und öffnet denselben Editor in einem neuen Tab: auswählen, zeichnen, kopieren, speichern. Die Tasten sind Alt+Umschalt+S und Alt+Umschalt+P. Sie sieht eine Seite nur an, wenn Sie es wollen, sendet nichts und merkt sich nur die Sprache. Video nimmt sie nicht auf, und ein Bild ist höchstens 32.000 Pixel hoch.
+
 ## Wie leicht es ist
 
 Gemessen am 24.11.2026 unter Windows Server 2022, Bildschirm 1920 × 1080, optimierter Build:
@@ -78,6 +82,7 @@ Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher versch
 | Windows | Funktioniert unter Windows Server 2022 mit einem Bildschirm. Auch Video wurde dort geprüft; die Tonaufnahme von Geräten nicht, weil der Server keine hat. Unter Windows 10 und 11 noch nicht geprüft. |
 | macOS 10.13+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm mit dem Ton des Computers auf. Von Hand hat es noch niemand ausprobiert. |
 | Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
+| Firefox 128+ | Funktioniert in Firefox 161, ohne Fenster geprüft. Von Mozilla noch nicht signiert und muss nach einem Neustart von Firefox erneut geladen werden. |
 
 ## Installation
 
@@ -86,6 +91,7 @@ Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher versch
 | Windows 10 und 11 | [just-screenshotter-windows.exe](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-windows.exe) | Starten Sie sie. Wenn Windows das Programm nicht kennt: „Weitere Informationen“, „Trotzdem ausführen“. |
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Ziehen Sie das Programm in „Programme“ und öffnen Sie es. Wenn macOS es ablehnt, öffnen Sie die Systemeinstellungen, „Datenschutz und Sicherheit“, und klicken Sie auf „Dennoch öffnen“. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
+| Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Öffnen Sie `about:debugging`, „Dieser Firefox“, „Temporäres Add-on laden“, und wählen Sie die Datei. Nach einem Neustart von Firefox laden Sie sie erneut. |
 
 GitHub baut diese Dateien aus dem Code dieses Repositorys, installiert jede, startet das Programm und veröffentlicht sie erst dann. Sie haben keine bezahlte Signatur, deshalb warnen Windows und macOS beim ersten Start.
 

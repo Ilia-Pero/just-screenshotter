@@ -81,7 +81,7 @@ Video is recorded by a separate process, which is gone with all its memory when 
 | --- | --- |
 | Windows | Works on Windows Server 2022 with one monitor. Video is checked there too; recording of sound from devices is not, because the server has none. Not checked on Windows 10 and 11 yet. |
 | macOS 10.13+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen with the sound of the computer. Nobody has tried it by hand yet. |
-| Ubuntu 24.04+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen. Nobody has tried it by hand yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
+| Ubuntu 24.04+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen. On a virtual X11 screen of Ubuntu 26.04 the keys, selecting, saving and video work; it has not been checked on Wayland. Nobody has tried it by hand yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
 | Firefox 128+ | Works in Firefox 161, checked without a window. Not signed by Mozilla yet, so it has to be loaded again after Firefox is restarted. |
 
 ## Install

@@ -81,7 +81,7 @@ Il video è registrato da un processo a parte, che alla fine scompare con tutta 
 | --- | --- |
 | Windows | Funziona su Windows Server 2022 con un monitor. Anche il video è stato verificato lì; la registrazione dell’audio dai dispositivi no, perché il server non ne ha. Non ancora verificato su Windows 10 e 11. |
 | macOS 10.13+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo con l’audio del computer. Nessuno l’ha ancora provato a mano. |
-| Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
+| Ubuntu 24.04+ | Si compila e supera i test; su una macchina di GitHub si installa, si avvia e registra lo schermo. Su uno schermo X11 virtuale di Ubuntu 26.04 funzionano i tasti, la selezione, il salvataggio e il video; su Wayland non è stato verificato. Nessuno l’ha ancora provato a mano. Su Wayland assegna la scorciatoia nelle impostazioni della tastiera: il comando è `just-screenshotter`. |
 | Firefox 128+ | Funziona in Firefox 161, verificata senza finestra. Non ancora firmata da Mozilla, quindi va ricaricata dopo il riavvio di Firefox. |
 
 ## Installazione

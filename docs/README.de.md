@@ -81,7 +81,7 @@ Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher versch
 | --- | --- |
 | Windows | Funktioniert unter Windows Server 2022 mit einem Bildschirm. Auch Video wurde dort geprüft; die Tonaufnahme von Geräten nicht, weil der Server keine hat. Unter Windows 10 und 11 noch nicht geprüft. |
 | macOS 10.13+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm mit dem Ton des Computers auf. Von Hand hat es noch niemand ausprobiert. |
-| Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
+| Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Auf einem virtuellen X11-Bildschirm von Ubuntu 26.04 funktionieren Tasten, Auswahl, Speichern und Video; unter Wayland ist es nicht geprüft. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
 | Firefox 128+ | Funktioniert in Firefox 161, ohne Fenster geprüft. Von Mozilla noch nicht signiert und muss nach einem Neustart von Firefox erneut geladen werden. |
 
 ## Installation

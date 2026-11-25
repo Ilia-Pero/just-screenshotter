@@ -81,7 +81,7 @@ La vidéo est enregistrée par un processus à part, qui disparaît avec toute s
 | --- | --- |
 | Windows | Fonctionne sous Windows Server 2022 avec un écran. La vidéo y a été vérifiée aussi ; l’enregistrement du son des périphériques non, car le serveur n’en a pas. Pas encore vérifié sous Windows 10 et 11. |
 | macOS 10.13+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran avec le son de l’ordinateur. Personne ne l’a encore essayé à la main. |
-| Ubuntu 24.04+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Personne ne l’a encore essayé à la main. Sous Wayland, attribuez le raccourci dans les réglages du clavier : la commande est `just-screenshotter`. |
+| Ubuntu 24.04+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Sur un écran X11 virtuel d’Ubuntu 26.04, les touches, la sélection, l’enregistrement et la vidéo fonctionnent ; sous Wayland, cela n’a pas été vérifié. Personne ne l’a encore essayé à la main. Sous Wayland, attribuez le raccourci dans les réglages du clavier : la commande est `just-screenshotter`. |
 | Firefox 128+ | Fonctionne dans Firefox 161, vérifiée sans fenêtre. Pas encore signée par Mozilla, il faut donc la recharger après un redémarrage de Firefox. |
 
 ## Installation

@@ -81,7 +81,7 @@ El vídeo lo graba un proceso aparte, que desaparece con toda su memoria al term
 | --- | --- |
 | Windows | Funciona en Windows Server 2022 con un monitor. El vídeo también se ha probado ahí; la grabación de sonido desde dispositivos no, porque el servidor no los tiene. Aún no se ha probado en Windows 10 y 11. |
 | macOS 10.13+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla con el sonido del ordenador. Nadie lo ha probado a mano todavía. |
-| Ubuntu 24.04+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla. Nadie lo ha probado a mano todavía. En Wayland, asigne el atajo en los ajustes del teclado: la orden es `just-screenshotter`. |
+| Ubuntu 24.04+ | Se compila y pasa las pruebas; en una máquina de GitHub se instala, se inicia y graba la pantalla. En una pantalla X11 virtual de Ubuntu 26.04 funcionan las teclas, la selección, el guardado y el vídeo; en Wayland no se ha comprobado. Nadie lo ha probado a mano todavía. En Wayland, asigne el atajo en los ajustes del teclado: la orden es `just-screenshotter`. |
 | Firefox 128+ | Funciona en Firefox 161, probada sin ventana. Mozilla aún no la ha firmado, así que hay que cargarla de nuevo tras reiniciar Firefox. |
 
 ## Instalación

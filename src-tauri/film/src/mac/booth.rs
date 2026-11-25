@@ -30,6 +30,11 @@ impl Booth {
         open(&self.desk).began()
     }
 
+    /// Whether the source has said something.
+    pub fn heard(&self, source: usize) -> bool {
+        open(&self.desk).heard(source)
+    }
+
     /// Starts the film.
     pub fn start(&self, moment: i64) {
         let started = open(&self.desk).start(moment);

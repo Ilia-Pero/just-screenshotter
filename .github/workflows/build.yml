@@ -59,6 +59,20 @@ jobs:
             3 "$RUNNER_TEMP/film.${{ runner.os == 'Windows' && 'mp4' || runner.os == 'macOS' && 'mov' || 'webm' }}"
             1024 768 100 100 640 480)
           if [ "$RUNNER_OS" = Linux ]; then xvfb-run -a "${film[@]}"; else "${film[@]}"; fi
+      - name: The sound of the computer in a film
+        if: runner.os == 'macOS'
+        run: |
+          while true; do afplay /System/Library/Sounds/Ping.aiff; done & player=$!
+          cargo run --manifest-path src-tauri/Cargo.toml --locked -p screenshotter-film --example film -- 5 "$RUNNER_TEMP/heard.mov" 1024 768 100 100 640 480
+          kill $player
+          afconvert -f WAVE -d LEI16 "$RUNNER_TEMP/heard.mov" "$RUNNER_TEMP/heard.wav"
+          python3 - "$RUNNER_TEMP/heard.wav" <<'END'
+          import array, sys, wave
+          film = wave.open(sys.argv[1])
+          peak = max(map(abs, array.array('h', film.readframes(film.getnframes()))))
+          print('peak', peak)
+          sys.exit(peak < 1000)
+          END
       - name: Installer
         run: npm run tauri build -- ${{ matrix.args }}
       - name: Installing on Windows

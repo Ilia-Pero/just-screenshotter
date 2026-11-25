@@ -22,15 +22,18 @@ use super::lens::Lens;
 use super::movie::Movie;
 use super::place::url;
 
-/// How late a picture or sound may come and still get into the film: 0.3 of a second.
+/// How late a picture or sound may come and still get into the film: a second.
 #[allow(clippy::cast_possible_wrap)]
-const LAG: i64 = RATE as i64 * 3 / 10;
+const LAG: i64 = RATE as i64;
 
 /// How often to write down what has come.
 const SIP: Duration = Duration::from_millis(100);
 
 /// How long to wait for the first picture.
 const PATIENCE: Duration = Duration::from_secs(10);
+
+/// How long to wait for the microphone: some of them do not wake up at once.
+const WAKING: Duration = Duration::from_secs(2);
 
 /// What looks at the screen until it is dropped.
 pub trait Sight {}
@@ -100,7 +103,10 @@ fn open(order: &Order, booth: &Arc<Booth>, opened: Opened) -> Result<Box<dyn Tak
         .then(|| Ear::open(Arc::clone(booth), usize::from(order.sound), &queue))
         .transpose()?;
     let sight = opened(order, Arc::clone(booth), &queue)?;
-    // The sound comes later than the first picture does, and by now it comes.
+    // The sound comes later than the first picture does. By now the computer is heard, and the
+    // microphone may still be silent.
+    let voice = usize::from(order.sound);
+    until(WAKING, || booth.heard(voice));
     booth.start(now());
     let shoot = Shoot {
         sight,
@@ -115,14 +121,22 @@ fn open(order: &Order, booth: &Arc<Booth>, opened: Opened) -> Result<Box<dyn Tak
             &NSString::from_str("The screen is being filmed"),
         ),
     };
-    let asked = Instant::now();
-    while !booth.began() {
-        if asked.elapsed() > PATIENCE {
-            return Err("macOS does not show the screen".into());
-        }
-        thread::sleep(SIP);
+    if !until(PATIENCE, || booth.began()) {
+        return Err("macOS does not show the screen".into());
     }
     Ok(Box::new(shoot))
+}
+
+/// Waits until it is so, but no longer than the patience lasts. False if it is not so.
+fn until(patience: Duration, so: impl Fn() -> bool) -> bool {
+    let asked = Instant::now();
+    while !so() {
+        if asked.elapsed() > patience {
+            return false;
+        }
+        thread::sleep(SIP / 4);
+    }
+    true
 }
 
 impl Take for Shoot {

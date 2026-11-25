@@ -46,7 +46,8 @@ pub trait Tape {
 /// A desk with a tape. The film begins with the first picture after it is started.
 pub struct Desk<T: Tape> {
     tape: T,
-    sources: usize,
+    /// Which sources have said something.
+    heard: Vec<bool>,
     mix: Mix,
     started: bool,
     /// The last picture that came before the start.
@@ -64,7 +65,7 @@ impl<T: Tape> Desk<T> {
     pub fn new(tape: T, sources: usize) -> Self {
         Self {
             tape,
-            sources,
+            heard: vec![false; sources],
             mix: Mix::new(sources),
             started: false,
             waiting: None,
@@ -77,6 +78,11 @@ impl<T: Tape> Desk<T> {
     /// Whether the film has begun.
     pub fn began(&self) -> bool {
         self.origin.is_some()
+    }
+
+    /// Whether the source has said something. A source nobody knows has nothing to say.
+    pub fn heard(&self, source: usize) -> bool {
+        self.heard.get(source).copied().unwrap_or(true)
     }
 
     /// Starts the film. If a picture has come already, it is seen since the moment.
@@ -115,6 +121,9 @@ impl<T: Tape> Desk<T> {
 
     /// Takes what a source has said since the moment. What was said before the film is left out.
     pub fn hear(&mut self, source: usize, moment: i64, samples: &[i16]) {
+        if let Some(heard) = self.heard.get_mut(source) {
+            *heard = true;
+        }
         let Some(origin) = self.origin else { return };
         let early = usize::try_from(origin - moment)
             .unwrap_or(0)
@@ -138,7 +147,7 @@ impl<T: Tape> Desk<T> {
         }
         if let Some(origin) = self
             .origin
-            .filter(|_| self.sources > 0 && self.tape.roomy())
+            .filter(|_| !self.heard.is_empty() && self.tape.roomy())
         {
             let mixed = self.mix.take(u64::try_from(until - origin).unwrap_or(0));
             if !mixed.is_empty() {
@@ -265,6 +274,18 @@ mod tests {
         desk.see("sea", 200).unwrap();
         desk.start(300).unwrap();
         assert_eq!(*lines.lines.borrow(), ["begin 300", "sea 300"]);
+    }
+
+    #[test]
+    fn has_not_heard_a_silent_source() {
+        assert!(!begun(1).1.heard(0));
+    }
+
+    #[test]
+    fn has_heard_a_source_before_the_start() {
+        let mut desk = Desk::new(Lines::default(), 1);
+        desk.hear(0, 5, &[1, 2]);
+        assert!(desk.heard(0));
     }
 
     #[test]

@@ -8,7 +8,8 @@
   "pencil": "Оловка",
   "line": "Линија",
   "arrow": "Стрелица",
-  "frame": "Оквир",
+  "frame": "Оквир, уз Shift квадрат",
+  "oval": "Овал, уз Shift круг",
   "marker": "Маркер",
   "text": "Текст",
   "color": "Боја",
@@ -70,6 +71,12 @@
   "settings.folder": "Фасцикла за снимке и видео",
   "settings.change": "Промени…",
   "settings.program": "Програм",
+  "update.check": "Провери ажурирања",
+  "update.checking": "Проверавам…",
+  "update.latest": "Ово је најновија верзија.",
+  "update.found": "Изашла је верзија {version}.",
+  "update.get": "Преузми",
+  "update.news": "Шта је ново",
   "act.area": "Снимак области",
   "act.screen": "Снимак целог екрана",
   "act.window": "Снимак активног прозора",
@@ -102,5 +109,6 @@
   "error.nowhere": "Сервер не прима снимке екрана на овој адреси.",
   "error.large": "Снимак екрана је превелик за сервер.",
   "error.code": "Сервер је одговорио грешком {code}.",
-  "error.silent": "Сервер не одговара. ({reason})"
+  "error.silent": "Сервер не одговара. ({reason})",
+  "error.update": "Провера ажурирања није успела: {reason}"
 }

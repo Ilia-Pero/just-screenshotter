@@ -10,6 +10,7 @@ use tauri::{AppHandle, Manager, Monitor, WebviewUrl, WebviewWindow, WebviewWindo
 
 use crate::act::Act;
 use crate::album::{Album, Opening};
+use crate::spelling;
 
 /// How labels of editor windows begin.
 const OVERLAY: &str = "overlay-";
@@ -155,6 +156,7 @@ fn overlay(app: &AppHandle, label: &str, monitor: &Monitor) -> Result<(), Failur
         .always_on_top(true)
         .visible(false);
     let window = observed(builder).build()?;
+    spelling::teach(&window)?;
     cover(&window, monitor)
 }
 

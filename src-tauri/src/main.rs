@@ -11,6 +11,7 @@ mod files;
 mod hotkey;
 mod mice;
 mod panel;
+mod spelling;
 mod stage;
 mod studio;
 mod tray;
@@ -66,6 +67,10 @@ fn setup(app: &AppHandle) -> Result<(), Failure> {
         }
     };
     Language::choose(&chosen.language);
+    // Without spelling the editor works as well.
+    if let Err(failure) = spelling::wake(app) {
+        eprintln!("{failure}");
+    }
     tray::install(app, &chosen)?;
     // The other keys are extra: if they are taken, the window with the settings shows it.
     if app
@@ -172,7 +177,10 @@ fn run() -> Result<(), Box<dyn Error>> {
             panel::hear,
             panel::relocate,
             panel::folder,
-            panel::uploading
+            panel::uploading,
+            panel::update,
+            panel::download,
+            panel::news
         ])
         .setup(|app| {
             // No icon in the Dock: the program lives in the menu bar only.

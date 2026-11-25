@@ -8,7 +8,8 @@
   "pencil": "연필",
   "line": "선",
   "arrow": "화살표",
-  "frame": "테두리",
+  "frame": "사각형, Shift로 정사각형",
+  "oval": "타원, Shift로 원",
   "marker": "형광펜",
   "text": "텍스트",
   "color": "색상",
@@ -70,6 +71,12 @@
   "settings.folder": "스크린샷과 동영상 폴더",
   "settings.change": "변경…",
   "settings.program": "프로그램",
+  "update.check": "업데이트 확인",
+  "update.checking": "확인 중…",
+  "update.latest": "최신 버전입니다.",
+  "update.found": "버전 {version}이(가) 나왔습니다.",
+  "update.get": "내려받기",
+  "update.news": "바뀐 점",
   "act.area": "영역 스크린샷",
   "act.screen": "전체 화면 스크린샷",
   "act.window": "활성 창 스크린샷",
@@ -102,5 +109,6 @@
   "error.nowhere": "이 주소에서는 서버가 스크린샷을 받지 않습니다.",
   "error.large": "스크린샷이 서버에 올리기에는 너무 큽니다.",
   "error.code": "서버가 오류 {code}을(를) 반환했습니다.",
-  "error.silent": "서버가 응답하지 않습니다. ({reason})"
+  "error.silent": "서버가 응답하지 않습니다. ({reason})",
+  "error.update": "업데이트를 확인하지 못했습니다: {reason}"
 }

@@ -89,6 +89,12 @@ button:hover {
   border-color: #2f6fdf;
 }
 
+button:disabled {
+  border-color: #b9bfc8;
+  opacity: 0.5;
+  cursor: default;
+}
+
 button:focus,
 select:focus,
 input:focus {

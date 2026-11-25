@@ -6,7 +6,7 @@ import { Segment } from '../src/segment.ts';
 import type { Session } from '../src/session.ts';
 import { Stroke } from '../src/stroke.ts';
 import { Brush, Hand, Quill } from '../src/tool.ts';
-import { Even, Script, dragged, framed, fresh, point } from './fakes.ts';
+import { Even, Script, Sized, dragged, framed, fresh, point } from './fakes.ts';
 
 const pencil = new Brush(3, 1, (at, ink) => new Stroke([at], ink));
 const line = new Brush(3, 1, (at, ink) => new Segment(at, at, ink));
@@ -197,6 +197,19 @@ test('the next mark is as thick as the picked one has become', async () => {
 
 test('a mark picked without a tool does not bring the thickness back', async () => {
   assert.equal((await handed()).thick(9).thickness(), 0);
+});
+
+test('a mark picked by a click changes alone', async () => {
+  const drawing = (await pointed()).equipped(pencil);
+  const picked = await dragged(drawing, point(30, 20), point(30, 20), '');
+  assert.equal(picked.thick(9).released().thickness(), 3);
+});
+
+test('the next text is as large as the one resized while it was typed', async () => {
+  const typed = await (await framed(text))
+    .press(point(20, 20))
+    .ended(new Sized('Hello', 30));
+  assert.equal(typed.released().thickness(), 30);
 });
 
 test('without a picked mark, the thickness of the tool changes', async () => {

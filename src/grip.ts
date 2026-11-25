@@ -35,6 +35,13 @@ export class Grip {
     );
   }
 
+  /** The same, but a handle at a corner makes the rectangle a square. */
+  squared(box: Box, to: Point): Box {
+    return this.across === 0 || this.down === 0
+      ? this.pulled(box, to)
+      : this.pulled(box, to.squared(new Grip(-this.across, -this.down).spot(box)));
+  }
+
   cursor(): string {
     if (this.across === 0) {
       return 'ns-resize';

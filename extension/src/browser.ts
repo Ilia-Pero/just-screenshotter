@@ -86,7 +86,7 @@ declare global {
   var chrome: Browser | undefined;
 }
 
-/** Firefox has the one name, Chromium the other. */
+/** Firefox has the one name, Chromium the other; newer ones have both. */
 function found(): Browser {
   const known = globalThis.browser ?? globalThis.chrome;
   if (known === undefined) {
@@ -98,4 +98,4 @@ function found(): Browser {
 export const browser = found();
 
 /** Whether the browser lets extensions take no more than two pictures a second. */
-export const unhurried = globalThis.browser === undefined;
+export const unhurried = !browser.runtime.getURL('').startsWith('moz-extension:');

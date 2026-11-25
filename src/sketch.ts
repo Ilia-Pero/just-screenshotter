@@ -62,6 +62,11 @@ export class Sketch implements Shape {
     return new Sketch(this.steps, found.slice(-1), true);
   }
 
+  /** True if a person has picked a mark: one that has just been drawn is picked by itself. */
+  taken(): boolean {
+    return this.held && this.choice.length > 0;
+  }
+
   /** True if a person has picked the mark at the point. */
   holding(at: Point, reach: number): boolean {
     return this.held && this.picked().some((mark) => mark.touched(at, reach));

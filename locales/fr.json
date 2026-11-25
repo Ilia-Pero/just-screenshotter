@@ -8,7 +8,8 @@
   "pencil": "Crayon",
   "line": "Ligne",
   "arrow": "Flèche",
-  "frame": "Cadre",
+  "frame": "Cadre, carré avec Maj",
+  "oval": "Ovale, cercle avec Maj",
   "marker": "Surligneur",
   "text": "Texte",
   "color": "Couleur",
@@ -70,6 +71,12 @@
   "settings.folder": "Dossier des captures et des vidéos",
   "settings.change": "Changer…",
   "settings.program": "Programme",
+  "update.check": "Rechercher des mises à jour",
+  "update.checking": "Recherche…",
+  "update.latest": "C’est la dernière version.",
+  "update.found": "La version {version} est disponible.",
+  "update.get": "Télécharger",
+  "update.news": "Nouveautés",
   "act.area": "Capture d’une zone",
   "act.screen": "Capture de tout l’écran",
   "act.window": "Capture de la fenêtre active",
@@ -102,5 +109,6 @@
   "error.nowhere": "Le serveur n’accepte pas les captures à cette adresse.",
   "error.large": "La capture est trop volumineuse pour le serveur.",
   "error.code": "Le serveur a renvoyé l’erreur {code}.",
-  "error.silent": "Le serveur ne répond pas. ({reason})"
+  "error.silent": "Le serveur ne répond pas. ({reason})",
+  "error.update": "Impossible de rechercher des mises à jour : {reason}"
 }

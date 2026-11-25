@@ -8,7 +8,8 @@
   "pencil": "Аловак",
   "line": "Лінія",
   "arrow": "Стрэлка",
-  "frame": "Рамка",
+  "frame": "Рамка, з Shift квадрат",
+  "oval": "Авал, з Shift круг",
   "marker": "Маркер",
   "text": "Тэкст",
   "color": "Колер",
@@ -70,6 +71,12 @@
   "settings.folder": "Папка для здымкаў і відэа",
   "settings.change": "Змяніць…",
   "settings.program": "Праграма",
+  "update.check": "Праверыць абнаўленні",
+  "update.checking": "Правяраю…",
+  "update.latest": "Гэта апошняя версія.",
+  "update.found": "Выйшла версія {version}.",
+  "update.get": "Спампаваць",
+  "update.news": "Што новага",
   "act.area": "Здымак вобласці",
   "act.screen": "Здымак усяго экрана",
   "act.window": "Здымак актыўнага акна",
@@ -102,5 +109,6 @@
   "error.nowhere": "Па гэтым адрасе сервер здымкі не прымае.",
   "error.large": "Здымак занадта вялікі для сервера.",
   "error.code": "Сервер адказаў памылкай {code}.",
-  "error.silent": "Сервер не адказвае. ({reason})"
+  "error.silent": "Сервер не адказвае. ({reason})",
+  "error.update": "Праверыць абнаўленні не ўдалося: {reason}"
 }

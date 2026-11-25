@@ -1,5 +1,7 @@
 [workspace]
-members = ["capture", "film", "keys", "mouse", "phrase", "store", "upload"]
+members = [
+    "capture", "film", "keys", "mouse", "phrase", "release", "spelling", "store", "upload",
+]
 
 [workspace.lints.rust]
 unsafe_code = "deny"
@@ -12,7 +14,7 @@ needless_pass_by_value = "allow"
 
 [package]
 name = "just-screenshotter"
-version = "0.4.0"
+version = "0.5.0"
 edition = "2021"
 description = "A screenshot tool with zero idle load"
 license = "MIT"
@@ -28,6 +30,7 @@ screenshotter-capture = { path = "capture" }
 screenshotter-film = { path = "film" }
 screenshotter-mouse = { path = "mouse" }
 screenshotter-phrase = { path = "phrase" }
+screenshotter-release = { path = "release" }
 screenshotter-store = { path = "store" }
 screenshotter-upload = { path = "upload" }
 serde = { version = "1", features = ["derive"] }
@@ -44,10 +47,12 @@ clipboard-win = "5"
 tauri-plugin-clipboard-manager = "2"
 
 [target.'cfg(not(target_os = "linux"))'.dependencies]
+screenshotter-spelling = { path = "spelling" }
 tauri-plugin-global-shortcut = "2"
 
 [target.'cfg(target_os = "linux")'.dependencies]
 screenshotter-keys = { path = "keys" }
+webkit2gtk = "2"
 
 [lints]
 workspace = true

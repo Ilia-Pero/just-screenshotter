@@ -12,6 +12,7 @@ export const ICONS = {
   line: icon('<path d="M4 16L16 4"/>'),
   arrow: icon('<path d="M4 16L16 4"/><path d="M9 4h7v7"/>'),
   frame: icon('<rect x="3" y="5" width="14" height="10" rx="1"/>'),
+  oval: icon('<ellipse cx="10" cy="10" rx="7.5" ry="5.5"/>'),
   marker: icon('<path d="M5.5 13.5l8-8" stroke-width="5" opacity="0.45"/><path d="M4 17.5h12"/>'),
   text: icon('<path d="M5 5h10"/><path d="M10 5v11"/>'),
   thickness: icon(

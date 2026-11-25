@@ -8,7 +8,8 @@
   "pencil": "עיפרון",
   "line": "קו",
   "arrow": "חץ",
-  "frame": "מסגרת",
+  "frame": "מסגרת, עם Shift ריבוע",
+  "oval": "אליפסה, עם Shift עיגול",
   "marker": "מרקר",
   "text": "טקסט",
   "color": "צבע",
@@ -70,6 +71,12 @@
   "settings.folder": "תיקייה לצילומי מסך ולווידאו",
   "settings.change": "שינוי…",
   "settings.program": "התוכנה",
+  "update.check": "בדיקת עדכונים",
+  "update.checking": "בודק…",
+  "update.latest": "זו הגרסה האחרונה.",
+  "update.found": "יצאה גרסה {version}.",
+  "update.get": "הורדה",
+  "update.news": "מה חדש",
   "act.area": "צילום של אזור",
   "act.screen": "צילום של כל המסך",
   "act.window": "צילום של החלון הפעיל",
@@ -102,5 +109,6 @@
   "error.nowhere": "השרת אינו מקבל צילומי מסך בכתובת זו.",
   "error.large": "צילום המסך גדול מדי עבור השרת.",
   "error.code": "השרת השיב בשגיאה {code}.",
-  "error.silent": "השרת אינו מגיב. ({reason})"
+  "error.silent": "השרת אינו מגיב. ({reason})",
+  "error.update": "בדיקת העדכונים נכשלה: {reason}"
 }

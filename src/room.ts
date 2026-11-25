@@ -3,6 +3,7 @@ import { chosen } from './cabinet.ts';
 import { Chord } from './chord.ts';
 import type { Tongue } from './desk.ts';
 import type { Words } from './words.ts';
+import { filled } from './words.ts';
 
 /** Names of actions. */
 const ACTS: Readonly<Record<string, keyof Words>> = {
@@ -112,8 +113,42 @@ export class Room {
       this.tick(words['menu.autostart'], state.launch, true, (on) =>
         show(this.cabinet.launch(on)),
       ),
-      made('p', 'note', `${words.name} ${state.version}`),
+      this.updates(words, state),
     );
+  }
+
+  /** The version, and the button that looks for a newer one. */
+  private updates(words: Words, state: State): HTMLElement {
+    const note = made('p', 'note', `${words.name} ${state.version}`);
+    const keys = made('div', 'buttons', '');
+    const check = this.button(words['update.check'], () => {
+      note.textContent = words['update.checking'];
+      check.disabled = true;
+      this.cabinet
+        .update()
+        .then((release) => {
+          if (release.newer) {
+            note.textContent = filled(words['update.found'], 'version', release.version);
+            keys.textContent = '';
+            holding(
+              keys,
+              this.button(words['update.get'], () => this.run(this.cabinet.download())),
+              this.button(words['update.news'], () => this.run(this.cabinet.news())),
+            );
+          } else {
+            note.textContent = `${words.name} ${state.version}. ${words['update.latest']}`;
+          }
+        })
+        .catch((error: unknown) => {
+          note.textContent = String(error);
+        })
+        .then(() => {
+          check.disabled = false;
+        })
+        .catch((error: unknown) => this.complain(error));
+    });
+    note.setAttribute('role', 'status');
+    return holding(made('div', '', ''), note, holding(keys, check));
   }
 
   /** The table of actions, or an explanation why there is none. */

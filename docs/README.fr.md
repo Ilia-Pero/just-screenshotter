@@ -20,12 +20,12 @@ Appuyez sur Print Screen, sélectionnez une zone, dessinez dessus, puis copiez, 
 ## Ce qu’il fait
 
 - Capture tous les écrans et ouvre l’éditeur par-dessus.
-- Dessine au crayon, avec une ligne, une flèche, un cadre, un surligneur et du texte, en huit couleurs.
+- Dessine au crayon, avec une ligne, une flèche, un cadre, un ovale, un surligneur et du texte, en huit couleurs.
 - Modifie ce qui est déjà dessiné : un clic choisit une marque, puis on la déplace ou on tire ses extrémités, on change son épaisseur et sa couleur, on réécrit son texte ou on la supprime.
 - Copie l’image, l’enregistre en PNG ou l’envoie sur [votre propre serveur](../server/README.md) et copie le lien.
 - Enregistre la zone en vidéo avec le son : MP4 sous Windows, MOV sous macOS, WebM sous Linux. Vous choisissez d’enregistrer ou non le son de l’ordinateur et le microphone ; sous macOS antérieur à 13, seulement le microphone. Le bouton Arrêter, le raccourci ou l’icône termine l’enregistrement.
 - Parle 14 langues. La langue se choisit dans les réglages et dans l’installateur pour Windows ; jusque-là, c’est celle du système.
-- N’envoie rien de lui-même : pas de compte, pas de télémétrie, pas de recherche de mises à jour. Il n’utilise le réseau que pour envoyer une image au serveur que vous avez indiqué.
+- N’envoie rien de lui-même : pas de compte, pas de télémétrie. Il n’utilise le réseau que pour envoyer une image au serveur que vous avez indiqué et pour rechercher une nouvelle version quand vous appuyez sur le bouton des réglages.
 
 ## Touches et souris
 
@@ -53,9 +53,13 @@ Sous macOS, ⌘ remplace Ctrl.
 
 Un clic choisit une marque avec n’importe quel outil. Un double clic ou Entrée modifie un texte. La molette change l’épaisseur.
 
+Dans un texte, Entrée commence une nouvelle ligne ; un clic ailleurs ou Échap termine le texte. La molette change la taille des lettres. Le système souligne les fautes en russe et en anglais, et le bouton droit de la souris propose des corrections. Avec Maj, le cadre devient un carré et l’ovale un cercle.
+
 Le reste est aussi dans les réglages : ce qui est enregistré avec la vidéo, le dossier, la langue, l’envoi et le démarrage avec le système, activé jusqu’à ce que vous le désactiviez. Les réglages s’ouvrent depuis le menu de l’icône ou en lançant le programme avec `--settings`. Le lancer une seconde fois sans cela prend aussi une capture.
 
-## L’extension pour Firefox
+## L’extension pour le navigateur
+
+Pour Firefox et pour les navigateurs basés sur Chromium : Chrome, Yandex Browser, Edge, Opera.
 
 Capture la partie visible d’une page ou la page entière et ouvre le même éditeur dans un nouvel onglet : sélectionner, dessiner, copier, enregistrer. Les touches sont Alt+Maj+S et Alt+Maj+P. Elle ne regarde une page que si vous le demandez, n’envoie rien et ne retient que la langue. Elle n’enregistre pas de vidéo, et une capture ne dépasse pas 32 000 pixels de haut.
 
@@ -83,6 +87,7 @@ La vidéo est enregistrée par un processus à part, qui disparaît avec toute s
 | macOS 10.13+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran avec le son de l’ordinateur. Personne ne l’a encore essayé à la main. |
 | Ubuntu 24.04+ | Se compile et passe les tests ; sur une machine de GitHub, il s’installe, démarre et enregistre l’écran. Sur un écran X11 virtuel d’Ubuntu 26.04, les touches, la sélection, l’enregistrement et la vidéo fonctionnent ; sous Wayland, cela n’a pas été vérifié. Personne ne l’a encore essayé à la main. Sous Wayland, attribuez le raccourci dans les réglages du clavier : la commande est `just-screenshotter`. |
 | Firefox 128+ | Fonctionne dans Firefox 161, vérifiée sans fenêtre. Pas encore signée par Mozilla, il faut donc la recharger après un redémarrage de Firefox. |
+| Chrome, Yandex Browser, Edge, Opera | Fonctionne dans Edge 158, vérifiée sans fenêtre. Les autres n’ont pas été vérifiés ; il faut Chromium 120 ou plus récent. |
 
 ## Installation
 
@@ -92,6 +97,7 @@ La vidéo est enregistrée par un processus à part, qui disparaît avec toute s
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Glissez le programme dans Applications et ouvrez-le. Quand macOS refuse, allez dans Réglages Système, « Confidentialité et sécurité », et cliquez sur « Ouvrir quand même ». |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
 | Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Ouvrez `about:debugging`, « Ce Firefox », « Charger un module complémentaire temporaire », et choisissez le fichier. Après un redémarrage de Firefox, rechargez-le. |
+| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Décompressez-le, ouvrez `chrome://extensions`, activez le « Mode développeur », appuyez sur « Charger l’extension non empaquetée » et choisissez le dossier ; gardez-le. Yandex Browser ne fait confiance qu’aux catalogues et peut désactiver l’extension. |
 
 GitHub compile ces fichiers à partir du code de ce dépôt, installe chacun d’eux, lance le programme, puis seulement les publie. Ils n’ont pas de signature payante, Windows et macOS avertissent donc au premier lancement.
 

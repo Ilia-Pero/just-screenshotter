@@ -20,12 +20,12 @@ Print Screen を押し、範囲を選び、書き込んでから、画像をコ�
 ## できること
 
 - すべてのモニターを撮影し、その上にエディターを開きます。
-- 鉛筆、直線、矢印、枠、マーカー、文字を 8 色で書き込めます。
+- 鉛筆、直線、矢印、枠、楕円、マーカー、文字を 8 色で書き込めます。
 - 書き込んだものを後から変更できます。クリックで選び、本体や端をドラッグし、太さと色を変え、文字を打ち直し、削除できます。
 - 画像をコピーするか、PNG で保存するか、[自分のサーバー](../server/README.md)にアップロードしてリンクをコピーします。
 - 範囲を音声付きの動画として録画します。Windows は MP4、macOS は MOV、Linux は WebM です。パソコンの音とマイクを録音するかは選べます。macOS 13 より前ではマイクだけです。録画は「停止」ボタン、ショートカット、トレイアイコンで終わります。
 - 14 の言語に対応しています。言語は設定と Windows のインストーラーで選べます。選ぶまではシステムの言語です。
-- 自分からは何も送信しません。アカウント、テレメトリー、更新確認はありません。ネットワークは、設定したサーバーに画像をアップロードするときだけ使います。
+- 自分からは何も送信しません。アカウントもテレメトリーもありません。ネットワークは、設定したサーバーに画像をアップロードするときと、設定のボタンで新しい版を確認するときだけ使います。
 
 ## キーとマウス
 
@@ -53,9 +53,13 @@ macOS では Ctrl の代わりに ⌘ を使います。
 
 どの道具でも、クリックで書き込みを選べます。ダブルクリックか Enter で文字を変更し、ホイールで太さを変えます。
 
+文字の入力中は Enter で改行し、ほかの場所のクリックか Esc で終わります。ホイールで文字の大きさを変えます。ロシア語と英語の間違いにはシステムが下線を引き、右クリックで候補を選べます。Shift を押すと枠は正方形、楕円は円になります。
+
 そのほかも設定にあります。動画と一緒に録音するもの、フォルダー、言語、アップロード、システム起動時の開始です。起動時の開始は、オフにするまでオンです。設定はトレイアイコンのメニューか、`--settings` を付けた起動で開きます。付けずにもう一度起動しても撮影します。
 
-## Firefox 拡張機能
+## ブラウザー拡張機能
+
+Firefox と Chromium ベースのブラウザー（Chrome、Yandex ブラウザー、Edge、Opera）で使えます。
 
 ページの見えている部分またはページ全体を撮影し、同じエディターを新しいタブで開きます。選択、書き込み、コピー、保存ができます。キーは Alt+Shift+S と Alt+Shift+P です。頼まれたときだけページを見て、何も送信せず、言語だけを覚えます。動画は録らず、画像の高さは 32,000 ピクセルまでです。
 
@@ -83,6 +87,7 @@ macOS では Ctrl の代わりに ⌘ を使います。
 | macOS 10.13+ | ビルドとテストは通り、GitHub のマシンでインストール、起動、パソコンの音を含む画面の録画ができます。まだ誰も手で試していません。 |
 | Ubuntu 24.04+ | ビルドとテストは通り、GitHub のマシンでインストール、起動、画面の録画ができます。Ubuntu 26.04 の仮想 X11 画面では、キー、選択、保存、動画が動作します。Wayland では未確認です。まだ誰も手で試していません。Wayland ではキーボードの設定でショートカットを割り当ててください。コマンドは `just-screenshotter` です。 |
 | Firefox 128+ | Firefox 161 で動作します（ウィンドウなしで確認）。Mozilla の署名がまだないため、Firefox を再起動すると読み込み直す必要があります。 |
+| Chrome、Yandex ブラウザー、Edge、Opera | Edge 158 で動作します（ウィンドウなしで確認）。ほかは未確認で、Chromium 120 以降が必要です。 |
 
 ## インストール
 
@@ -92,6 +97,7 @@ macOS では Ctrl の代わりに ⌘ を使います。
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | プログラムを「アプリケーション」にドラッグして開きます。macOS に拒否されたら、システム設定の「プライバシーとセキュリティ」で「このまま開く」を押します。 |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
 | Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | `about:debugging` を開き、「この Firefox」、「一時的なアドオンを読み込む」、このファイルを選びます。Firefox を再起動したら読み込み直します。 |
+| Chrome、Yandex ブラウザー、Edge、Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | 展開して `chrome://extensions` を開き、「デベロッパー モード」をオンにし、「パッケージ化されていない拡張機能を読み込む」でフォルダーを選びます。フォルダーは消さないでください。Yandex ブラウザーはストアだけを信頼するため、無効にすることがあります。 |
 
 GitHub はこのリポジトリのコードからこれらのファイルをビルドし、それぞれをインストールしてプログラムを起動し、そのうえで公開します。有料の署名がないため、Windows と macOS は初回起動時に警告します。
 

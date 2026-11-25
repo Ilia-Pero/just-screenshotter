@@ -1,20 +1,22 @@
 import { Box } from './box.ts';
+import type { Form } from './form.ts';
 import { GRIPS } from './grip.ts';
 import type { Ink } from './ink.ts';
 import { Point } from './point.ts';
 import type { Draft, Mark } from './shape.ts';
-import { Span } from './span.ts';
 
-/** A rectangular frame around something worth pointing at. */
+/** A frame around something worth pointing at. Its form is a rectangle or an oval. */
 export class Frame implements Draft, Mark {
   private readonly from: Point;
   private readonly to: Point;
   private readonly ink: Ink;
+  private readonly form: Form;
 
-  constructor(from: Point, to: Point, ink: Ink) {
+  constructor(from: Point, to: Point, ink: Ink, form: Form) {
     this.from = from;
     this.to = to;
     this.ink = ink;
+    this.form = form;
   }
 
   blank(): boolean {
@@ -26,13 +28,13 @@ export class Frame implements Draft, Mark {
     this.ink.soak(ctx);
     ctx.lineJoin = 'miter';
     ctx.beginPath();
-    this.bounds().trace(ctx);
+    this.form.trace(ctx, this.bounds());
     ctx.stroke();
     ctx.restore();
   }
 
-  extended(to: Point): Draft {
-    return new Frame(this.from, to, this.ink);
+  extended(to: Point, even: boolean): Draft {
+    return new Frame(this.from, even ? to.squared(this.from) : to, this.ink, this.form);
   }
 
   settled(): Promise<Mark> {
@@ -41,14 +43,7 @@ export class Frame implements Draft, Mark {
 
   /** Only the line itself counts: what is inside the frame belongs to the screenshot. */
   touched(at: Point, reach: number): boolean {
-    const right = new Point(this.to.x, this.from.y);
-    const left = new Point(this.from.x, this.to.y);
-    return [
-      new Span(this.from, right),
-      new Span(right, this.to),
-      new Span(this.to, left),
-      new Span(left, this.from),
-    ].some((side) => side.distance(at) <= reach + this.ink.times(0.5));
+    return this.form.distance(this.bounds(), at) <= reach + this.ink.times(0.5);
   }
 
   bounds(): Box {
@@ -59,22 +54,25 @@ export class Frame implements Draft, Mark {
     return GRIPS.map((grip) => grip.spot(this.bounds()));
   }
 
-  pulled(handle: number, to: Point): Mark {
+  pulled(handle: number, to: Point, even: boolean): Mark {
     return GRIPS.filter((_, index) => index === handle)
-      .map((grip) => grip.pulled(this.bounds(), to))
+      .map((grip) =>
+        even ? grip.squared(this.bounds(), to) : grip.pulled(this.bounds(), to),
+      )
       .reduce<Mark>(
         (_, box) =>
           new Frame(
             new Point(box.left(), box.top()),
             new Point(box.right(), box.bottom()),
             this.ink,
+            this.form,
           ),
         this,
       );
   }
 
   shifted(by: Point): Mark {
-    return new Frame(this.from.plus(by), this.to.plus(by), this.ink);
+    return new Frame(this.from.plus(by), this.to.plus(by), this.ink, this.form);
   }
 
   tint(): Ink {
@@ -82,7 +80,7 @@ export class Frame implements Draft, Mark {
   }
 
   tinted(ink: Ink): Mark {
-    return new Frame(this.from, this.to, ink);
+    return new Frame(this.from, this.to, ink, this.form);
   }
 
   worded(): boolean {

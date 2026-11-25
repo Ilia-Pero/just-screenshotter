@@ -8,7 +8,8 @@
   "pencil": "铅笔",
   "line": "直线",
   "arrow": "箭头",
-  "frame": "方框",
+  "frame": "矩形框，按住 Shift 画正方形",
+  "oval": "椭圆框，按住 Shift 画圆",
   "marker": "荧光笔",
   "text": "文字",
   "color": "颜色",
@@ -70,6 +71,12 @@
   "settings.folder": "截图和视频的文件夹",
   "settings.change": "更改…",
   "settings.program": "程序",
+  "update.check": "检查更新",
+  "update.checking": "正在检查…",
+  "update.latest": "已是最新版本。",
+  "update.found": "新版本 {version} 已发布。",
+  "update.get": "下载",
+  "update.news": "更新内容",
   "act.area": "区域截图",
   "act.screen": "全屏截图",
   "act.window": "活动窗口截图",
@@ -102,5 +109,6 @@
   "error.nowhere": "服务器在此地址不接收截图。",
   "error.large": "截图过大，服务器无法接收。",
   "error.code": "服务器返回错误 {code}。",
-  "error.silent": "服务器没有响应。（{reason}）"
+  "error.silent": "服务器没有响应。（{reason}）",
+  "error.update": "无法检查更新：{reason}"
 }

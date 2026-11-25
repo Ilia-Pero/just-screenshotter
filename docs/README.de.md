@@ -20,12 +20,12 @@ Drücken Sie Print Screen, wählen Sie einen Bereich, zeichnen Sie darauf und ko
 ## Was es kann
 
 - Nimmt alle Bildschirme auf und öffnet den Editor darüber.
-- Zeichnet mit Stift, Linie, Pfeil, Rahmen, Marker und Text in acht Farben.
+- Zeichnet mit Stift, Linie, Pfeil, Rahmen, Oval, Marker und Text in acht Farben.
 - Ändert bereits Gezeichnetes: Ein Klick wählt eine Markierung, dann ziehen Sie sie oder ihre Enden, ändern Stärke und Farbe, tippen den Text neu oder löschen sie.
 - Kopiert das Bild, speichert es als PNG oder lädt es auf [Ihren eigenen Server](../server/README.md) und kopiert den Link.
 - Nimmt den Bereich als Video mit Ton auf: MP4 unter Windows, MOV unter macOS, WebM unter Linux. Sie wählen, ob der Ton des Computers und das Mikrofon aufgenommen werden; unter macOS vor Version 13 nur das Mikrofon. Die Schaltfläche „Beenden“, die Tastenkombination oder das Symbol beendet die Aufnahme.
 - Spricht 14 Sprachen. Die Sprache wird in den Einstellungen und im Installationsprogramm für Windows gewählt; bis dahin gilt die Sprache des Systems.
-- Sendet von sich aus nichts: kein Konto, keine Telemetrie, keine Suche nach Updates. Das Netz wird nur genutzt, um ein Bild auf den von Ihnen angegebenen Server zu laden.
+- Sendet von sich aus nichts: kein Konto, keine Telemetrie. Das Netz wird nur genutzt, um ein Bild auf den von Ihnen angegebenen Server zu laden und um nach einer neuen Version zu suchen, wenn Sie in den Einstellungen auf die Schaltfläche klicken.
 
 ## Tasten und Maus
 
@@ -53,9 +53,13 @@ Unter macOS ⌘ statt Strg.
 
 Ein Klick wählt eine Markierung bei jedem Werkzeug. Ein Doppelklick oder Enter ändert einen Text. Das Mausrad ändert die Stärke.
 
+In einem Text beginnt Enter eine neue Zeile; ein Klick an eine andere Stelle oder Esc beendet den Text. Das Mausrad ändert die Größe der Buchstaben. Das System unterstreicht Fehler im Russischen und Englischen, die rechte Maustaste bietet Korrekturen an. Mit Umschalt wird der Rahmen ein Quadrat und das Oval ein Kreis.
+
 Auch der Rest steht in den Einstellungen: was mit dem Video aufgenommen wird, der Ordner, die Sprache, das Hochladen und der Start mit dem System, der an ist, bis Sie ihn ausschalten. Die Einstellungen öffnet das Menü des Symbols oder der Start des Programms mit `--settings`. Auch ein zweiter Start ohne das macht einen Screenshot.
 
-## Die Firefox-Erweiterung
+## Die Browser-Erweiterung
+
+Für Firefox und für Browser auf Basis von Chromium: Chrome, Yandex Browser, Edge, Opera.
 
 Nimmt den sichtbaren Teil einer Seite oder die ganze Seite auf und öffnet denselben Editor in einem neuen Tab: auswählen, zeichnen, kopieren, speichern. Die Tasten sind Alt+Umschalt+S und Alt+Umschalt+P. Sie sieht eine Seite nur an, wenn Sie es wollen, sendet nichts und merkt sich nur die Sprache. Video nimmt sie nicht auf, und ein Bild ist höchstens 32.000 Pixel hoch.
 
@@ -83,6 +87,7 @@ Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher versch
 | macOS 10.13+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm mit dem Ton des Computers auf. Von Hand hat es noch niemand ausprobiert. |
 | Ubuntu 24.04+ | Lässt sich bauen und besteht die Tests; auf einer Maschine bei GitHub lässt es sich installieren, startet und nimmt den Bildschirm auf. Auf einem virtuellen X11-Bildschirm von Ubuntu 26.04 funktionieren Tasten, Auswahl, Speichern und Video; unter Wayland ist es nicht geprüft. Von Hand hat es noch niemand ausprobiert. Unter Wayland legen Sie die Tastenkombination in den Tastatureinstellungen fest: Der Befehl ist `just-screenshotter`. |
 | Firefox 128+ | Funktioniert in Firefox 161, ohne Fenster geprüft. Von Mozilla noch nicht signiert und muss nach einem Neustart von Firefox erneut geladen werden. |
+| Chrome, Yandex Browser, Edge, Opera | Funktioniert in Edge 158, ohne Fenster geprüft. Die anderen sind nicht geprüft; nötig ist Chromium 120 oder neuer. |
 
 ## Installation
 
@@ -92,6 +97,7 @@ Das Video nimmt ein eigener Prozess auf, der am Ende samt seinem Speicher versch
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Ziehen Sie das Programm in „Programme“ und öffnen Sie es. Wenn macOS es ablehnt, öffnen Sie die Systemeinstellungen, „Datenschutz und Sicherheit“, und klicken Sie auf „Dennoch öffnen“. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
 | Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Öffnen Sie `about:debugging`, „Dieser Firefox“, „Temporäres Add-on laden“, und wählen Sie die Datei. Nach einem Neustart von Firefox laden Sie sie erneut. |
+| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Entpacken Sie sie, öffnen Sie `chrome://extensions`, schalten Sie den „Entwicklermodus“ ein, klicken Sie auf „Entpackte Erweiterung laden“ und wählen Sie den Ordner; löschen Sie ihn nicht. Yandex Browser vertraut nur Katalogen und kann die Erweiterung ausschalten. |
 
 GitHub baut diese Dateien aus dem Code dieses Repositorys, installiert jede, startet das Programm und veröffentlicht sie erst dann. Sie haben keine bezahlte Signatur, deshalb warnen Windows und macOS beim ersten Start.
 

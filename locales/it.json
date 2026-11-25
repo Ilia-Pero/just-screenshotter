@@ -8,7 +8,8 @@
   "pencil": "Matita",
   "line": "Linea",
   "arrow": "Freccia",
-  "frame": "Riquadro",
+  "frame": "Cornice, quadrato con Maiusc",
+  "oval": "Ovale, cerchio con Maiusc",
   "marker": "Evidenziatore",
   "text": "Testo",
   "color": "Colore",
@@ -70,6 +71,12 @@
   "settings.folder": "Cartella per screenshot e video",
   "settings.change": "Cambia…",
   "settings.program": "Programma",
+  "update.check": "Cerca aggiornamenti",
+  "update.checking": "Ricerca in corso…",
+  "update.latest": "Questa è l’ultima versione.",
+  "update.found": "È uscita la versione {version}.",
+  "update.get": "Scarica",
+  "update.news": "Novità",
   "act.area": "Screenshot di un’area",
   "act.screen": "Screenshot di tutto lo schermo",
   "act.window": "Screenshot della finestra attiva",
@@ -102,5 +109,6 @@
   "error.nowhere": "Il server non accetta schermate a questo indirizzo.",
   "error.large": "La schermata è troppo grande per il server.",
   "error.code": "Il server ha risposto con l’errore {code}.",
-  "error.silent": "Il server non risponde. ({reason})"
+  "error.silent": "Il server non risponde. ({reason})",
+  "error.update": "Impossibile cercare aggiornamenti: {reason}"
 }

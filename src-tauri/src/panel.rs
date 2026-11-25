@@ -5,11 +5,13 @@ use std::thread;
 
 use screenshotter_mouse::available;
 use screenshotter_phrase::Phrase;
+use screenshotter_release::Latest;
 use screenshotter_store::{Failure, Listened, Trigger, Triggers};
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Manager, State, WebviewUrl, WebviewWindowBuilder};
 use tauri_plugin_autostart::ManagerExt;
 use tauri_plugin_dialog::DialogExt;
+use tauri_plugin_opener::OpenerExt;
 
 use crate::act::Act;
 use crate::commands::Listens;
@@ -45,6 +47,18 @@ pub fn open(app: &AppHandle) {
         }
     });
 }
+
+/// The page of the program on GitHub.
+const HOME: &str = env!("CARGO_PKG_REPOSITORY");
+
+/// The installer for this system.
+const INSTALLER: &str = if cfg!(target_os = "windows") {
+    "just-screenshotter-windows.exe"
+} else if cfg!(target_os = "macos") {
+    "just-screenshotter-macos.dmg"
+} else {
+    "just-screenshotter-ubuntu.deb"
+};
 
 /// An action and what starts it.
 #[derive(Serialize)]
@@ -239,4 +253,48 @@ pub fn folder(app: AppHandle) -> Result<(), String> {
 #[tauri::command]
 pub fn uploading(app: AppHandle) {
     tray::appoint(&app);
+}
+
+/// The latest release.
+#[derive(Serialize)]
+pub struct Release {
+    version: String,
+    /// Whether it is newer than this program.
+    newer: bool,
+}
+
+/// Looks for a newer version. The program does this only when a person asks.
+#[tauri::command(async)]
+pub fn update(app: AppHandle) -> Result<Release, String> {
+    released(&app).map_err(|failure| {
+        Phrase::new("error.update")
+            .with("reason", failure)
+            .to_string()
+    })
+}
+
+fn released(app: &AppHandle) -> Result<Release, Failure> {
+    let latest = Latest::new(HOME).version()?;
+    Ok(Release {
+        version: latest.to_string(),
+        newer: latest > app.package_info().version.to_string().parse()?,
+    })
+}
+
+/// Downloads the installer of the latest release with the browser.
+#[tauri::command]
+pub fn download(app: AppHandle) -> Result<(), String> {
+    browse(&app, Latest::new(HOME).file(INSTALLER))
+}
+
+/// Shows what is new in the latest release.
+#[tauri::command]
+pub fn news(app: AppHandle) -> Result<(), String> {
+    browse(&app, Latest::new(HOME).page())
+}
+
+fn browse(app: &AppHandle, url: String) -> Result<(), String> {
+    app.opener()
+        .open_url(url, None::<&str>)
+        .map_err(|failure| failure.to_string())
 }

@@ -20,12 +20,12 @@ Press Print Screen, select an area, draw on it, then copy, save or upload the pi
 ## What it does
 
 - Takes a screenshot of all monitors and opens the editor over them.
-- Draws with a pencil, a line, an arrow, a frame, a marker and text in eight colors.
+- Draws with a pencil, a line, an arrow, a frame, an oval, a marker and text in eight colors.
 - Changes what is already drawn: a click picks a mark, and then you drag it or its ends, set its thickness and color, type its text anew or delete it.
 - Copies the picture, saves it as PNG, or uploads it to [your own server](server/README.md) and copies the link.
 - Records the area as video with sound: MP4 on Windows, MOV on macOS, WebM on Linux. You choose whether to record the sound of the computer and the microphone; on macOS before 13, only the microphone. The button Stop, the shortcut or the icon in the tray ends the recording.
 - Speaks 14 languages. The language is chosen in the settings and in the installer for Windows; until then it is the language of the system.
-- Sends nothing anywhere by itself: there is no account, no telemetry and no update check. It uses the network only to upload a picture to the server you have set.
+- Sends nothing anywhere by itself: there is no account and no telemetry. It uses the network only to upload a picture to the server you have set, and to look for a newer version when you press the button in the settings.
 
 ## Keys and mouse
 
@@ -53,9 +53,13 @@ On macOS, ⌘ takes the place of Ctrl.
 
 A click picks a mark with any tool. A double click or Enter changes a text. The mouse wheel changes the thickness.
 
+In a text, Enter begins a new line; a click elsewhere or Esc ends the text. The wheel changes the size of the letters. The system underlines mistakes in Russian and English, and the right button of the mouse offers corrections. With Shift, a frame becomes a square and an oval becomes a circle.
+
 The rest is in the settings too: what to record with video, the folder, the language, uploading and starting with the system, which is on until you turn it off. The settings are opened by the menu of the tray icon or by starting the program with `--settings`. Starting it for the second time without that also takes a screenshot.
 
-## The Firefox extension
+## The browser extension
+
+For Firefox and for browsers based on Chromium: Chrome, Yandex Browser, Edge, Opera.
 
 Takes a picture of the visible part of a page or of the whole page and opens the same editor in a new tab: select, draw, copy, save. The keys are Alt+Shift+S and Alt+Shift+P. It looks at a page only when you ask it to, sends nothing anywhere and remembers only the language. It does not record video, and a picture is no taller than 32,000 pixels.
 
@@ -83,6 +87,7 @@ Video is recorded by a separate process, which is gone with all its memory when 
 | macOS 10.13+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen with the sound of the computer. Nobody has tried it by hand yet. |
 | Ubuntu 24.04+ | Builds, passes the tests; on a machine at GitHub it installs, starts and records the screen. On a virtual X11 screen of Ubuntu 26.04 the keys, selecting, saving and video work; it has not been checked on Wayland. Nobody has tried it by hand yet. On Wayland, assign the shortcut in the keyboard settings: the command is `just-screenshotter`. |
 | Firefox 128+ | Works in Firefox 161, checked without a window. Not signed by Mozilla yet, so it has to be loaded again after Firefox is restarted. |
+| Chrome, Yandex Browser, Edge, Opera | Works in Edge 158, checked without a window. The others have not been checked; they need Chromium 120 or newer. |
 
 ## Install
 
@@ -92,6 +97,7 @@ Video is recorded by a separate process, which is gone with all its memory when 
 | macOS 10.13+ | [just-screenshotter-macos.dmg](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-macos.dmg) | Drag the program into Applications and open it. When macOS refuses, open System Settings, “Privacy & Security”, and press “Open Anyway”. |
 | Ubuntu 24.04+ | [just-screenshotter-ubuntu.deb](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-ubuntu.deb) | `sudo apt install ./just-screenshotter-ubuntu.deb` |
 | Firefox 128+ | [just-screenshotter-firefox.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-firefox.zip) | Open `about:debugging`, “This Firefox”, “Load Temporary Add-on”, and choose the file. After Firefox is restarted, load it again. |
+| Chrome, Yandex Browser, Edge, Opera | [just-screenshotter-chrome.zip](https://github.com/Ilia-Pero/just-screenshotter/releases/latest/download/just-screenshotter-chrome.zip) | Unpack it, open `chrome://extensions`, turn on “Developer mode”, press “Load unpacked” and choose the folder; the folder has to stay. Yandex Browser trusts only catalogs and may turn the extension off. |
 
 GitHub builds these files from the code of this repository, installs each of them and starts the program, and only then publishes them. They have no paid signature, so Windows and macOS warn at the first start.
 

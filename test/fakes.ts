@@ -3,7 +3,7 @@ import { Ink } from '../src/ink.ts';
 import { Point } from '../src/point.ts';
 import { Session } from '../src/session.ts';
 import type { Ruler } from '../src/ruler.ts';
-import type { Typing } from '../src/shape.ts';
+import type { Typing, Written } from '../src/shape.ts';
 import type { Shot } from '../src/shot.ts';
 import { Sketch } from '../src/sketch.ts';
 import type { Tool } from '../src/tool.ts';
@@ -42,8 +42,23 @@ export class Script implements Typing {
     this.text = text;
   }
 
-  words(): Promise<string> {
-    return Promise.resolve(this.text);
+  words(_: Point, pen: Ink): Promise<Written> {
+    return Promise.resolve({ text: this.text, ink: pen });
+  }
+}
+
+/** A text whose letters a person has made larger or smaller while typing. */
+export class Sized implements Typing {
+  private readonly text: string;
+  private readonly size: number;
+
+  constructor(text: string, size: number) {
+    this.text = text;
+    this.size = size;
+  }
+
+  words(_: Point, pen: Ink): Promise<Written> {
+    return Promise.resolve({ text: this.text, ink: pen.thick(this.size) });
   }
 }
 
@@ -66,7 +81,7 @@ export function fresh(tool: Tool): Session {
 
 /** The session after the mouse is dragged from one point to another. */
 export function dragged(session: Session, from: Point, to: Point, text: string): Promise<Session> {
-  return session.press(from).moved(to).ended(new Script(text));
+  return session.press(from).moved(to, false).ended(new Script(text));
 }
 
 /** A session over a sheet of 100 by 80, where the area from (10, 10) to (60, 40) is selected. */

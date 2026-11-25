@@ -7,8 +7,11 @@ import { Nothing } from './shape.ts';
 
 /** One movement of the mouse, from pressing the button to releasing it. */
 export interface Gesture {
-  /** The same movement, continued to the point. */
-  moved(to: Point): Gesture;
+  /**
+   * The same movement, continued to the point. even tells whether what is drawn should have equal
+   * sides.
+   */
+  moved(to: Point, even: boolean): Gesture;
   /** The session as it looks in the middle of the movement. */
   now(): Session;
   paint(ctx: CanvasRenderingContext2D): void;
@@ -138,8 +141,8 @@ export class Drawing implements Gesture {
     this.draft = draft;
   }
 
-  moved(to: Point): Gesture {
-    return new Drawing(this.session, this.draft.extended(to));
+  moved(to: Point, even: boolean): Gesture {
+    return new Drawing(this.session, this.draft.extended(to, even));
   }
 
   now(): Session {
@@ -172,8 +175,8 @@ export class Touching implements Gesture {
     this.reach = reach;
   }
 
-  moved(to: Point): Gesture {
-    return this.from.distance(to) > this.reach ? this.otherwise.moved(to) : this;
+  moved(to: Point, even: boolean): Gesture {
+    return this.from.distance(to) > this.reach ? this.otherwise.moved(to, even) : this;
   }
 
   now(): Session {
@@ -224,23 +227,25 @@ export class Pulling implements Gesture {
   private readonly handle: number;
   private readonly from: Point;
   private readonly to: Point;
+  private readonly even: boolean;
 
-  constructor(session: Session, handle: number, from: Point, to: Point) {
+  constructor(session: Session, handle: number, from: Point, to: Point, even: boolean) {
     this.session = session;
     this.handle = handle;
     this.from = from;
     this.to = to;
+    this.even = even;
   }
 
-  moved(to: Point): Gesture {
-    return new Pulling(this.session, this.handle, this.from, to);
+  moved(to: Point, even: boolean): Gesture {
+    return new Pulling(this.session, this.handle, this.from, to, even);
   }
 
   /** A click on a handle without a movement changes nothing. */
   now(): Session {
     return this.from.distance(this.to) < 1
       ? this.session
-      : this.session.pulled(this.handle, this.to);
+      : this.session.pulled(this.handle, this.to, this.even);
   }
 
   paint(ctx: CanvasRenderingContext2D): void {

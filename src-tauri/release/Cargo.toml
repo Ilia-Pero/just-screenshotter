@@ -1,0 +1,13 @@
+[package]
+name = "screenshotter-release"
+version = "0.1.0"
+edition = "2021"
+description = "What the latest release of the program is"
+license = "MIT"
+publish = false
+
+[dependencies]
+ureq = { version = "3", default-features = false, features = ["rustls"] }
+
+[lints]
+workspace = true

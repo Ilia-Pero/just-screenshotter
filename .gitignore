@@ -5,5 +5,6 @@ src-tauri/licenses.txt
 web/*.js
 extension/web/*.js
 extension/web/style.css
+extension/packed/
 *.map
 __pycache__/

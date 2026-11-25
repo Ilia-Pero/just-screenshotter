@@ -1,6 +1,6 @@
 import './bridge.ts';
 import type { Bridge } from './bridge.ts';
-import type { Cabinet, Chosen, State } from './cabinet.ts';
+import type { Cabinet, Chosen, Release, State } from './cabinet.ts';
 import type { Tongue } from './desk.ts';
 import { Room } from './room.ts';
 import type { Words } from './words.ts';
@@ -55,6 +55,18 @@ class Shelf implements Cabinet {
 
   speak(code: string): Promise<Words> {
     return this.bridge.invoke<Words>('speak', { code });
+  }
+
+  update(): Promise<Release> {
+    return this.bridge.invoke<Release>('update');
+  }
+
+  download(): Promise<void> {
+    return this.bridge.invoke<void>('download');
+  }
+
+  news(): Promise<void> {
+    return this.bridge.invoke<void>('news');
   }
 }
 

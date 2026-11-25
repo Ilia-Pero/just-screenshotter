@@ -8,7 +8,8 @@
   "pencil": "Stift",
   "line": "Linie",
   "arrow": "Pfeil",
-  "frame": "Rahmen",
+  "frame": "Rahmen, mit Umschalt ein Quadrat",
+  "oval": "Oval, mit Umschalt ein Kreis",
   "marker": "Textmarker",
   "text": "Text",
   "color": "Farbe",
@@ -70,6 +71,12 @@
   "settings.folder": "Ordner für Screenshots und Videos",
   "settings.change": "Ändern…",
   "settings.program": "Programm",
+  "update.check": "Nach Updates suchen",
+  "update.checking": "Suche läuft…",
+  "update.latest": "Das ist die neueste Version.",
+  "update.found": "Version {version} ist erschienen.",
+  "update.get": "Herunterladen",
+  "update.news": "Was ist neu",
   "act.area": "Screenshot eines Bereichs",
   "act.screen": "Screenshot des ganzen Bildschirms",
   "act.window": "Screenshot des aktiven Fensters",
@@ -102,5 +109,6 @@
   "error.nowhere": "Der Server nimmt unter dieser Adresse keine Screenshots an.",
   "error.large": "Der Screenshot ist zu groß für den Server.",
   "error.code": "Der Server meldet den Fehler {code}.",
-  "error.silent": "Der Server antwortet nicht. ({reason})"
+  "error.silent": "Der Server antwortet nicht. ({reason})",
+  "error.update": "Die Suche nach Updates ist fehlgeschlagen: {reason}"
 }

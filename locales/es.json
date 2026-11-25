@@ -8,7 +8,8 @@
   "pencil": "Lápiz",
   "line": "Línea",
   "arrow": "Flecha",
-  "frame": "Marco",
+  "frame": "Marco, cuadrado con Mayús",
+  "oval": "Óvalo, círculo con Mayús",
   "marker": "Marcador",
   "text": "Texto",
   "color": "Color",
@@ -70,6 +71,12 @@
   "settings.folder": "Carpeta para capturas y vídeo",
   "settings.change": "Cambiar…",
   "settings.program": "Programa",
+  "update.check": "Buscar actualizaciones",
+  "update.checking": "Buscando…",
+  "update.latest": "Esta es la última versión.",
+  "update.found": "Ha salido la versión {version}.",
+  "update.get": "Descargar",
+  "update.news": "Novedades",
   "act.area": "Captura de un área",
   "act.screen": "Captura de toda la pantalla",
   "act.window": "Captura de la ventana activa",
@@ -102,5 +109,6 @@
   "error.nowhere": "El servidor no acepta capturas en esta dirección.",
   "error.large": "La captura es demasiado grande para el servidor.",
   "error.code": "El servidor ha respondido con el error {code}.",
-  "error.silent": "El servidor no responde. ({reason})"
+  "error.silent": "El servidor no responde. ({reason})",
+  "error.update": "No se pudo buscar actualizaciones: {reason}"
 }

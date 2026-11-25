@@ -26,6 +26,7 @@ tauri-build = { version = "2", features = [] }
 chrono = { version = "0.4", default-features = false, features = ["clock"] }
 screenshotter-capture = { path = "capture" }
 screenshotter-film = { path = "film" }
+screenshotter-mouse = { path = "mouse" }
 screenshotter-phrase = { path = "phrase" }
 screenshotter-store = { path = "store" }
 screenshotter-upload = { path = "upload" }

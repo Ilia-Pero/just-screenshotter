@@ -2204,6 +2204,7 @@ dependencies = [
  "clipboard-win",
  "screenshotter-capture",
  "screenshotter-film",
+ "screenshotter-mouse",
  "screenshotter-phrase",
  "screenshotter-store",
  "screenshotter-upload",

@@ -1,7 +1,7 @@
 //! A rectangular area of the desktop.
 
 /// A rectangle on the desktop, in physical pixels.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct Patch {
     pub left: i32,
     pub top: i32,
@@ -36,6 +36,25 @@ impl Patch {
             top: i32::try_from(top).unwrap_or(i32::MAX),
             width: span(left, across(self.right())),
             height: span(top, down(self.bottom())),
+        }
+    }
+
+    /// The part of this area that lies on the monitor, counting from the corner of the monitor.
+    /// The patch is blank if there is no such part.
+    #[must_use]
+    pub fn within(&self, monitor: &Patch) -> Patch {
+        let left = self.left.max(monitor.left);
+        let top = self.top.max(monitor.top);
+        let width = span(i64::from(left), self.right().min(monitor.right()));
+        let height = span(i64::from(top), self.bottom().min(monitor.bottom()));
+        if width == 0 || height == 0 {
+            return Patch::default();
+        }
+        Patch {
+            left: left - monitor.left,
+            top: top - monitor.top,
+            width,
+            height,
         }
     }
 
@@ -112,6 +131,52 @@ mod tests {
                 width: 5120,
                 height: 2880
             }
+        );
+    }
+
+    /// A window that begins on the left monitor and ends on the right one.
+    const WINDOW: Patch = Patch {
+        left: -100,
+        top: 50,
+        width: 400,
+        height: 300,
+    };
+
+    #[test]
+    fn is_cut_by_the_right_edge_of_a_monitor() {
+        assert_eq!(
+            WINDOW.within(&LEFT),
+            Patch {
+                left: 1820,
+                top: 50,
+                width: 100,
+                height: 300
+            }
+        );
+    }
+
+    #[test]
+    fn is_cut_by_the_left_edge_of_a_monitor() {
+        assert_eq!(
+            WINDOW.within(&RIGHT),
+            Patch {
+                left: 0,
+                top: 50,
+                width: 300,
+                height: 300
+            }
+        );
+    }
+
+    #[test]
+    fn is_blank_on_a_monitor_it_does_not_touch() {
+        assert_eq!(
+            Patch {
+                left: 5000,
+                ..WINDOW
+            }
+            .within(&RIGHT),
+            Patch::default()
         );
     }
 

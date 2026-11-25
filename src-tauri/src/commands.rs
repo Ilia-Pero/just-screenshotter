@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 use tauri::ipc::{InvokeBody, Request, Response};
 use tauri::{AppHandle, Manager, State, WebviewWindow};
 
-use crate::album::Album;
+use crate::album::{Album, Opening};
 use crate::studio::{Progress, Studio, KIND};
 use crate::{clipboard, files, stage, tell, tray};
 
@@ -38,6 +38,12 @@ fn picture(request: &Request<'_>) -> Result<Vec<u8>, String> {
 #[tauri::command(async)]
 pub fn shot(window: WebviewWindow, album: State<'_, Album>) -> Result<Response, String> {
     album.take(window.label()).map(Response::new)
+}
+
+/// What the window begins with.
+#[tauri::command]
+pub fn opening(window: WebviewWindow, album: State<'_, Album>) -> Opening {
+    album.opening(window.label())
 }
 
 /// Shows the editor: it calls this command when the screenshot is already drawn.
@@ -97,19 +103,25 @@ pub struct Listens {
     voice: bool,
 }
 
+impl Listens {
+    /// What was chosen, as far as this system can do it.
+    pub fn to(chosen: Listened) -> Self {
+        let hears = Native.hears();
+        Self {
+            hears,
+            sound: hears && chosen.sound,
+            voice: chosen.voice,
+        }
+    }
+}
+
 /// What to offer before filming.
 #[tauri::command]
 pub fn listens(app: AppHandle) -> Result<Listens, String> {
-    let ears = files::settings(&app)
+    files::settings(&app)
         .and_then(|file| file.read())
-        .map_err(|failure| failure.to_string())?
-        .ears;
-    let hears = Native.hears();
-    Ok(Listens {
-        hears,
-        sound: hears && ears.sound,
-        voice: ears.voice,
-    })
+        .map(|settings| Listens::to(settings.ears))
+        .map_err(|failure| failure.to_string())
 }
 
 /// What a person wants to film.

@@ -1,60 +1,69 @@
-//! The key that takes a screenshot.
+//! Keys that start actions.
 
-use screenshotter_phrase::Phrase;
-use screenshotter_store::Failure;
+use screenshotter_store::{Trigger, Triggers};
 use tauri::AppHandle;
-use tauri_plugin_global_shortcut::GlobalShortcutExt;
+use tauri_plugin_global_shortcut::{GlobalShortcutExt, ShortcutState};
 
-/// Keys offered in the menu: the spelling of Tauri and the title for a person.
+use crate::act::Act;
+
+/// What starts actions until a person chooses.
 #[cfg(target_os = "macos")]
-pub const CHOICES: &[(&str, &str)] = &[
-    ("Cmd+Shift+9", "⌘⇧9"),
-    ("Cmd+Shift+2", "⌘⇧2"),
-    ("Ctrl+Shift+S", "⌃⇧S"),
-    ("F9", "F9"),
-];
+pub fn initial() -> Triggers {
+    Triggers {
+        area: Trigger::key("Cmd+Shift+9"),
+        film: Trigger::key("Cmd+Shift+8"),
+        ..Triggers::default()
+    }
+}
 
-/// Keys offered in the menu: the spelling of Tauri and the title for a person.
+/// What starts actions until a person chooses.
 #[cfg(not(target_os = "macos"))]
-pub const CHOICES: &[(&str, &str)] = &[
-    ("PrintScreen", "Print Screen"),
-    ("Ctrl+PrintScreen", "Ctrl + Print Screen"),
-    ("Shift+PrintScreen", "Shift + Print Screen"),
-    ("Ctrl+Shift+S", "Ctrl + Shift + S"),
-    ("Ctrl+Shift+X", "Ctrl + Shift + X"),
-    ("F9", "F9"),
-];
+pub fn initial() -> Triggers {
+    Triggers {
+        area: Trigger::key("PrintScreen"),
+        screen: Trigger::key("Shift+PrintScreen"),
+        window: Trigger::key("Alt+PrintScreen"),
+        film: Trigger::key("Ctrl+Shift+PrintScreen"),
+    }
+}
 
-/// The key until another one is chosen.
-pub const INITIAL: &str = CHOICES[0].0;
-
-/// Whether the program can assign the key by itself. It cannot on Wayland.
+/// Whether the program can assign keys by itself. It cannot on Wayland.
 ///
 /// @todo #1 On Wayland a person assigns the key in the system settings: the program takes
-///  a screenshot when it is started for the second time. Assign the key from the program
+///  a screenshot when it is started for the second time. Assign the keys from the program
 ///  through the portal `org.freedesktop.portal.GlobalShortcuts` where there is one.
 pub fn assignable() -> bool {
     !(cfg!(target_os = "linux") && std::env::var_os("WAYLAND_DISPLAY").is_some())
 }
 
-/// The title of the key for a person.
-pub fn title(hotkey: &str) -> &str {
-    CHOICES
-        .iter()
-        .find(|(code, _)| *code == hotkey)
-        .map_or(hotkey, |(_, title)| title)
+/// Assigns the keys instead of the old ones. Returns the actions whose keys are taken by other
+/// programs.
+pub fn assign(app: &AppHandle, triggers: &Triggers) -> Vec<Act> {
+    release(app);
+    if !assignable() {
+        return Vec::new();
+    }
+    let shortcuts = app.global_shortcut();
+    Act::ALL
+        .into_iter()
+        .zip(triggers.all())
+        .filter(|(act, trigger)| act.possible() && !trigger.key.is_empty())
+        .filter(|(act, trigger)| {
+            let act = *act;
+            shortcuts
+                .on_shortcut(trigger.key.as_str(), move |app, _shortcut, event| {
+                    if event.state() == ShortcutState::Pressed {
+                        act.start(app);
+                    }
+                })
+                .is_err()
+        })
+        .map(|(act, _)| act)
+        .collect()
 }
 
-/// Assigns the key instead of the old one. If it is taken, the old one comes back.
-pub fn replace(app: &AppHandle, before: &str, after: &str) -> Result<(), Failure> {
-    let shortcuts = app.global_shortcut();
-    shortcuts.unregister_all()?;
-    if shortcuts.register(after).is_ok() {
-        return Ok(());
-    }
-    shortcuts.register(before)?;
-    Err(Phrase::new("error.kept")
-        .with("key", title(after))
-        .with("kept", title(before))
-        .into())
+/// Lets the keys go.
+pub fn release(app: &AppHandle) {
+    // A key that cannot be let go belongs to somebody else already.
+    let _ = app.global_shortcut().unregister_all();
 }

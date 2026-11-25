@@ -19,6 +19,22 @@ impl Trigger {
             ..Self::default()
         }
     }
+
+    /// The key for a person. macOS writes held keys with signs and without pluses.
+    #[must_use]
+    pub fn title(&self, signs: bool) -> String {
+        let names = self.key.split('+').map(|part| match (part, signs) {
+            ("PrintScreen", _) => "Print Screen",
+            ("Cmd", true) => "⌘",
+            ("Shift", true) => "⇧",
+            ("Ctrl", true) => "⌃",
+            ("Alt", true) => "⌥",
+            (part, _) => part,
+        });
+        names
+            .collect::<Vec<_>>()
+            .join(if signs { "" } else { " + " })
+    }
 }
 
 /// What starts each action.
@@ -65,6 +81,24 @@ mod tests {
             mouse: buttons.to_owned(),
             ..Trigger::default()
         }
+    }
+
+    #[test]
+    fn has_a_title_with_pluses() {
+        assert_eq!(
+            Trigger::key("Ctrl+Shift+PrintScreen").title(false),
+            "Ctrl + Shift + Print Screen"
+        );
+    }
+
+    #[test]
+    fn has_a_title_with_signs() {
+        assert_eq!(Trigger::key("Cmd+Shift+9").title(true), "⌘⇧9");
+    }
+
+    #[test]
+    fn has_no_title_without_a_key() {
+        assert_eq!(Trigger::default().title(false), "");
     }
 
     #[test]
